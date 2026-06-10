@@ -3,22 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolão Copa 2026</title>
+<title>Bolão Copa do Mundo NEXA 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --green:#00c853;--gold:#ffd600;--silver:#b0bec5;--bronze:#ff7043;
-  --bg:#060c06;--surface:#0d140d;--surface2:#141f14;--surface3:#1a281a;
-  --border:rgba(0,200,83,.10);--border2:rgba(0,200,83,.22);--border3:rgba(0,200,83,.40);
-  --text:#e0efe0;--muted:#4a6b4d;--muted2:#7a9e7d;--red:#ff4444;
-}
+:root{--green:#00c853;--gold:#ffd600;--silver:#b0bec5;--bronze:#ff7043;--bg:#060c06;--surface:#0d140d;--surface2:#141f14;--surface3:#1a281a;--border:rgba(0,200,83,.10);--border2:rgba(0,200,83,.22);--border3:rgba(0,200,83,.40);--text:#e0efe0;--muted:#4a6b4d;--muted2:#7a9e7d;--red:#ff4444}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,83,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,83,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
 body::after{content:'';position:fixed;top:0;left:0;right:0;height:400px;background:radial-gradient(ellipse 80% 300px at 50% -100px,rgba(0,200,83,.07),transparent);pointer-events:none;z-index:0}
-.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px 80px}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px 60px}
 header{padding:44px 0 28px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border2);margin-bottom:40px;flex-wrap:wrap;gap:16px}
-.hd-left h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,9vw,80px);line-height:.88;letter-spacing:3px;color:var(--green);text-shadow:0 0 60px rgba(0,200,83,.25),0 0 120px rgba(0,200,83,.1)}
+.hd-left h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,68px);line-height:.9;letter-spacing:2px;color:var(--green);text-shadow:0 0 60px rgba(0,200,83,.25),0 0 120px rgba(0,200,83,.1)}
 .hd-left h1 em{color:var(--gold);font-style:normal}
 .hd-left p{margin-top:10px;color:var(--muted2);font-size:12px;letter-spacing:2px;text-transform:uppercase}
 .stamp{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:100px;padding:9px 18px;font-size:12px;font-family:'DM Mono',monospace;color:var(--muted2);white-space:nowrap}
@@ -37,41 +32,36 @@ header{padding:44px 0 28px;display:flex;align-items:flex-end;justify-content:spa
 .pcard.p3{border-color:rgba(255,112,67,.25);background:linear-gradient(135deg,#0d140d,#1a0f0a)}
 .pcard.plast{border-color:rgba(255,68,68,.15)}
 .medal{font-family:'Bebas Neue',sans-serif;font-size:34px;min-width:46px;text-align:center;line-height:1}
-.p1 .medal{color:var(--gold);text-shadow:0 0 20px rgba(255,214,0,.6)}
-.p2 .medal{color:var(--silver)}
-.p3 .medal{color:var(--bronze)}
-.medal.num{font-size:22px;color:var(--muted)}
+.p1 .medal{color:var(--gold);text-shadow:0 0 20px rgba(255,214,0,.6)}.p2 .medal{color:var(--silver)}.p3 .medal{color:var(--bronze)}.medal.num{font-size:22px;color:var(--muted)}
 .pinfo{flex:1;min-width:0}
 .pname{font-size:16px;font-weight:600;display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ia-tag{font-size:9px;font-family:'DM Mono',monospace;background:rgba(0,200,83,.12);color:var(--green);border:1px solid rgba(0,200,83,.3);padding:2px 6px;border-radius:4px;letter-spacing:1px;flex-shrink:0}
 .pstats{display:flex;gap:14px;margin-top:7px;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace}
-.pstats span{display:flex;flex-direction:column;gap:1px}
-.pstats b{color:var(--text);font-size:13px;font-weight:500}
+.pstats span{display:flex;flex-direction:column;gap:1px}.pstats b{color:var(--text);font-size:13px;font-weight:500}
 .ppts{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--green);line-height:1;min-width:62px;text-align:right}
 .ppts small{font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted2);font-weight:400;display:block;text-align:right;letter-spacing:1px}
+.camp-banner{background:linear-gradient(135deg,var(--surface),#1a1500);border:1px solid rgba(255,214,0,.3);border-radius:14px;padding:16px 24px;margin-bottom:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.camp-banner h3{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold);margin-right:4px}
+.camp-chips{display:flex;gap:8px;flex-wrap:wrap}
+.camp-chip{background:rgba(255,214,0,.08);border:1px solid rgba(255,214,0,.25);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'DM Mono',monospace;color:var(--gold)}
+.camp-chip span{color:var(--muted2);margin-right:4px}
 .tabs-wrap{margin-bottom:20px}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content}
 .tab{padding:6px 15px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--muted2);transition:all .18s;font-family:'DM Sans',sans-serif}
-.tab.on{background:var(--surface3);color:var(--green);border-color:var(--border2)}
-.tab:hover:not(.on){color:var(--text)}
+.tab.on{background:var(--surface3);color:var(--green);border-color:var(--border2)}.tab:hover:not(.on){color:var(--text)}
 .games{display:flex;flex-direction:column;gap:6px}
 .grow{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s}
-.grow:hover{border-color:var(--border2)}
-.grow.played{border-color:rgba(0,200,83,.18)}
-.grow.expanded{border-color:var(--border3)}
+.grow:hover{border-color:var(--border2)}.grow.played{border-color:rgba(0,200,83,.18)}.grow.expanded{border-color:var(--border3)}
 .gmain{display:grid;grid-template-columns:72px 1fr 90px 1fr 90px;align-items:center;gap:10px;padding:13px 16px;cursor:pointer}
-.gnum{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6}
-.gdate{font-size:10px;color:var(--muted)}
-.team{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
-.team.r{justify-content:flex-end;flex-direction:row-reverse}
+.gnum{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6}.gdate{font-size:10px;color:var(--muted)}
+.team{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500}.team.r{justify-content:flex-end;flex-direction:row-reverse}
 .flag{width:22px;height:15px;object-fit:contain;border-radius:2px;flex-shrink:0}
 .score{display:flex;align-items:center;justify-content:center;gap:4px;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--green);text-align:center}
 .score.tbd{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted2);flex-direction:column;gap:2px}
 .score .sep{color:var(--muted);font-size:20px;line-height:1}
 .gmeta{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .phase{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-align:right;white-space:nowrap}
-.arrow{font-size:11px;color:var(--muted2);transition:transform .2s;flex-shrink:0}
-.grow.expanded .arrow{transform:rotate(180deg)}
+.arrow{font-size:11px;color:var(--muted2);transition:transform .2s;flex-shrink:0}.grow.expanded .arrow{transform:rotate(180deg)}
 .gpalpites{display:none;padding:14px 16px 16px;border-top:1px solid var(--border);background:var(--surface2)}
 .grow.expanded .gpalpites{display:block}
 .palpites-label{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:10px}
@@ -79,30 +69,11 @@ header{padding:44px 0 28px;display:flex;align-items:flex-end;justify-content:spa
 .chip{background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
 .chip .cn{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:3px}
 .chip .cv{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text)}
-.chip.hit{border-color:rgba(0,200,83,.4);background:rgba(0,200,83,.07)}
-.chip.hit .cv{color:var(--green)}
-.chip.miss{border-color:rgba(255,68,68,.18)}
-.chip.miss .cv{color:var(--muted2)}
-.chip.exact{border-color:var(--gold);background:rgba(255,214,0,.07)}
-.chip.exact .cv{color:var(--gold)}
+.chip.hit{border-color:rgba(0,200,83,.4);background:rgba(0,200,83,.07)}.chip.hit .cv{color:var(--green)}
+.chip.miss{border-color:rgba(255,68,68,.18)}.chip.miss .cv{color:var(--muted2)}
+.chip.exact{border-color:var(--gold);background:rgba(255,214,0,.07)}.chip.exact .cv{color:var(--gold)}
 .chip .badge{font-size:8px;font-family:'DM Mono',monospace;font-weight:500;margin-top:3px;letter-spacing:1px}
-.chip.exact .badge{color:var(--gold)}
-.chip.hit .badge{color:var(--green)}
-.bbar{position:fixed;bottom:0;left:0;right:0;background:rgba(6,12,6,.92);backdrop-filter:blur(12px);border-top:1px solid var(--border2);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;z-index:100;font-size:12px;color:var(--muted2);font-family:'DM Mono',monospace;gap:12px;flex-wrap:wrap}
-.bbar button{background:var(--surface2);border:1px solid var(--border2);color:var(--green);padding:5px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;transition:all .18s}
-.bbar button:hover{background:rgba(0,200,83,.12)}
-.reg-box{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:20px 24px;margin-bottom:40px}
-.reg-box h3{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--muted2);margin-bottom:14px}
-.reg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.reg-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;gap:10px;align-items:center}
-.reg-pts{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);min-width:36px;text-align:center}
-.reg-txt{font-size:12px;color:var(--muted2);line-height:1.5}
-.reg-txt strong{color:var(--text);display:block;font-size:13px}
-.camp-banner{background:linear-gradient(135deg,var(--surface),#1a1500);border:1px solid rgba(255,214,0,.3);border-radius:14px;padding:16px 24px;margin-bottom:28px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.camp-banner h3{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold);margin-right:8px}
-.camp-chips{display:flex;gap:8px;flex-wrap:wrap}
-.camp-chip{background:rgba(255,214,0,.08);border:1px solid rgba(255,214,0,.25);border-radius:8px;padding:6px 12px;font-size:12px;font-family:'DM Mono',monospace;color:var(--gold)}
-.camp-chip span{color:var(--muted2);margin-right:4px}
+.chip.exact .badge{color:var(--gold)}.chip.hit .badge{color:var(--green)}
 @media(max-width:600px){.gmain{grid-template-columns:60px 1fr 78px 1fr 60px;gap:6px;padding:11px 12px}.team{font-size:11px}.score{font-size:22px}.ranking-grid{grid-template-columns:1fr}.ppts{font-size:34px}}
 </style>
 </head>
@@ -110,26 +81,20 @@ header{padding:44px 0 28px;display:flex;align-items:flex-end;justify-content:spa
 <div class="wrap">
   <header>
     <div class="hd-left">
-      <h1>BOLÃO<br><em>COPA 26</em></h1>
+      <h1>BOLÃO COPA DO<br>MUNDO <em>NEXA 2026</em></h1>
       <p>Copa do Mundo · 8 participantes + IA</p>
     </div>
     <div class="stamp">
       <div class="dot"></div>
-      <span id="stampTxt">Atualizado em 09/06/2026</span>
+      <span id="stampTxt">Atualizado em 10/06/2026</span>
     </div>
   </header>
   <div id="app"></div>
 </div>
 
-<div class="bbar">
-  <span id="lastup">Dados carregados · atualize via Claude quando quiser</span>
-  <button onclick="scrollTo(0,0)">↑ Topo</button>
-</div>
-
 <script>
-// ── DADOS EMBUTIDOS (gerados em 09/06/2026) ──────────────────────────────
 const DATA = {
-  ultima_atualizacao: "09/06/2026",
+  ultima_atualizacao: "10/06/2026",
   ranking: [
     {pos:1,nome:"Junin",   pontos:0,cravadas:0,corretos:0,fase_grupos:0,mata_mata:0},
     {pos:2,nome:"Binho",   pontos:0,cravadas:0,corretos:0,fase_grupos:0,mata_mata:0},
@@ -141,18 +106,12 @@ const DATA = {
     {pos:8,nome:"Rapha",   pontos:0,cravadas:0,corretos:0,fase_grupos:0,mata_mata:0},
     {pos:9,nome:"IA",      pontos:0,cravadas:0,corretos:0,fase_grupos:0,mata_mata:0}
   ],
-  campeoes: [
-    {nome:"Junin",palpite:"Portugal"},
-    {nome:"Yruam",palpite:"Espanha"},
-    {nome:"Matheus",palpite:"Brasil"},
-    {nome:"Jean",palpite:"França"},
-    {nome:"Binho",palpite:"Argentina"},
-    {nome:"Carlos",palpite:"Espanha"},
-    {nome:"IA",palpite:"França"},
-    {nome:"Rodrigo",palpite:"Brasil"},
-    {nome:"Rapha",palpite:"Holanda"}
+  campeoes:[
+    {nome:"Junin",palpite:"Portugal"},{nome:"Yruam",palpite:"Espanha"},{nome:"Matheus",palpite:"Brasil"},
+    {nome:"Jean",palpite:"França"},{nome:"Binho",palpite:"Argentina"},{nome:"Carlos",palpite:"Espanha"},
+    {nome:"IA",palpite:"França"},{nome:"Rodrigo",palpite:"Brasil"},{nome:"Rapha",palpite:"Holanda"}
   ],
-  jogos: [
+  jogos:[
     {num:1,data:"11/06",hora:"16h",time1:"México",time2:"África do Sul",gols1:null,gols2:null,rodada:"1ª rodada",
      palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:0}]},
     {num:2,data:"11/06",hora:"23h",time1:"Coréia do Sul",time2:"Tchéquia",gols1:null,gols2:null,rodada:"1ª rodada",
@@ -225,18 +184,30 @@ const DATA = {
      palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:1},{nome:"IA",g1:2,g2:1}]},
     {num:36,data:"21/06",hora:"01h",time1:"Tunísia",time2:"Japão",gols1:null,gols2:null,rodada:"2ª rodada",
      palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:1,g2:2},{nome:"Yruam",g1:0,g2:1},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:1,g2:3},{nome:"IA",g1:0,g2:3}]},
-    {num:37,data:"21/06",hora:"13h",time1:"Espanha",time2:"Arábia Saudita",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:38,data:"21/06",hora:"16h",time1:"Bélgica",time2:"Irã",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:39,data:"21/06",hora:"19h",time1:"Uruguai",time2:"Cabo Verde",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:40,data:"21/06",hora:"22h",time1:"Nova Zelândia",time2:"Egito",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:41,data:"22/06",hora:"14h",time1:"Argentina",time2:"Áustria",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:42,data:"22/06",hora:"18h",time1:"França",time2:"Iraque",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:43,data:"22/06",hora:"21h",time1:"Noruega",time2:"Senegal",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:44,data:"23/06",hora:"00h",time1:"Jordânia",time2:"Argélia",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:45,data:"23/06",hora:"14h",time1:"Portugal",time2:"Uzbequistão",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:46,data:"23/06",hora:"17h",time1:"Inglaterra",time2:"Gana",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:47,data:"23/06",hora:"20h",time1:"Panamá",time2:"Croácia",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
-    {num:48,data:"23/06",hora:"23h",time1:"Colômbia",time2:"RD Congo",gols1:null,gols2:null,rodada:"2ª rodada",palpites:[]},
+    {num:37,data:"21/06",hora:"13h",time1:"Espanha",time2:"Arábia Saudita",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:4,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:38,data:"21/06",hora:"16h",time1:"Bélgica",time2:"Irã",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:39,data:"21/06",hora:"19h",time1:"Uruguai",time2:"Cabo Verde",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:40,data:"21/06",hora:"22h",time1:"Nova Zelândia",time2:"Egito",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:1},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:1,g2:2}]},
+    {num:41,data:"22/06",hora:"14h",time1:"Argentina",time2:"Áustria",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:42,data:"22/06",hora:"18h",time1:"França",time2:"Iraque",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:43,data:"22/06",hora:"21h",time1:"Noruega",time2:"Senegal",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:1}]},
+    {num:44,data:"23/06",hora:"00h",time1:"Jordânia",time2:"Argélia",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:1,g2:1}]},
+    {num:45,data:"23/06",hora:"14h",time1:"Portugal",time2:"Uzbequistão",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:46,data:"23/06",hora:"17h",time1:"Inglaterra",time2:"Gana",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
+    {num:47,data:"23/06",hora:"20h",time1:"Panamá",time2:"Croácia",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
+    {num:48,data:"23/06",hora:"23h",time1:"Colômbia",time2:"RD Congo",gols1:null,gols2:null,rodada:"2ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:1}]},
     {num:49,data:"24/06",hora:"16h",time1:"Suíça",time2:"Canadá",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[]},
     {num:50,data:"24/06",hora:"16h",time1:"Bósnia",time2:"Catar",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[]},
     {num:51,data:"24/06",hora:"19h",time1:"Marrocos",time2:"Haiti",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[]},
@@ -394,18 +365,20 @@ function renderJogos(){
 
 function renderGame(j){
   const played=j.gols1!=null&&j.gols2!=null;
-  const hasPal=j.palpites?.length>0;
+  // CORREÇÃO: mostra seta para QUALQUER jogo que tenha palpites, independente da rodada
+  const hasPal=Array.isArray(j.palpites)&&j.palpites.length>0;
   const isExp=expanded.has(j.num);
   const score=played
     ?`<div class="score">${j.gols1}<span class="sep">×</span>${j.gols2}</div>`
     :`<div class="score tbd"><span>${j.hora}</span></div>`;
-  const time1Display=j.time1==='?'?'A definir':j.time1;
-  const time2Display=j.time2==='?'?'A definir':j.time2;
+  const t1=j.time1==='?'?'A definir':j.time1;
+  const t2=j.time2==='?'?'A definir':j.time2;
+
   let phtml='';
   if(hasPal){
     phtml=`<div class="gpalpites"><div class="palpites-label">PALPITES</div><div class="chips">
     ${j.palpites.map(p=>{
-      if(p.g1==null&&p.g2==null)return'';
+      if(p.g1==null||p.g2==null)return'';
       let cls='',badge='';
       if(played){
         const ex=p.g1===j.gols1&&p.g2===j.gols2;
@@ -419,12 +392,13 @@ function renderGame(j){
     }).filter(Boolean).join('')}
     </div></div>`;
   }
+
   return`<div class="grow ${played?'played':''} ${isExp?'expanded':''}" id="g${j.num}">
-    <div class="gmain" onclick="toggleGame(${j.num})">
+    <div class="gmain" onclick="${hasPal?`toggleGame(${j.num})`:'void(0)'}">
       <div><div class="gnum">#${j.num}</div><div class="gdate">${j.data}</div></div>
-      <div class="team">${flag(j.time1)}<span>${esc(time1Display)}</span></div>
+      <div class="team">${flag(j.time1)}<span>${esc(t1)}</span></div>
       ${score}
-      <div class="team r"><span>${esc(time2Display)}</span>${flag(j.time2)}</div>
+      <div class="team r"><span>${esc(t2)}</span>${flag(j.time2)}</div>
       <div class="gmeta"><div class="phase">${esc(j.rodada)}</div>${hasPal?'<div class="arrow">▼</div>':''}</div>
     </div>${phtml}</div>`;
 }
