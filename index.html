@@ -130,9 +130,9 @@ table.datatable tr:hover td{background:rgba(142,205,240,.04)}
   <header>
     <div class="hd-left">
       <h1>BOLÃO COPA DO<br>MUNDO <em>NEXA 2026</em></h1>
-      <p>Copa do Mundo · 8 participantes + IA · 21 jogos disputados</p>
+      <p>Copa do Mundo · 8 participantes + IA · 24 jogos disputados</p>
     </div>
-    <div class="stamp"><div class="dot"></div><span>Atualizado em 17/06/2026, 08:00</span></div>
+    <div class="stamp"><div class="dot"></div><span>Atualizado em 18/06/2026, 07:53</span></div>
   </header>
   <div id="app"></div>
 </div>
@@ -142,15 +142,15 @@ const PARTICIPANTES = ['Junin','Binho','Carlos','Jean','Matheus','Yruam','Rodrig
 
 const DATA = {
   ranking: [
-    {nome:"Rodrigo", pontos:52, cravadas:2, corretos:11, fase_grupos:52, mata_mata:0},
-    {nome:"Jean",    pontos:49, cravadas:3, corretos:10, fase_grupos:49, mata_mata:0},
-    {nome:"Rapha",   pontos:44, cravadas:1, corretos:9,  fase_grupos:44, mata_mata:0},
-    {nome:"Matheus", pontos:43, cravadas:0, corretos:9,  fase_grupos:43, mata_mata:0},
-    {nome:"Yruam",   pontos:42, cravadas:1, corretos:9,  fase_grupos:42, mata_mata:0},
-    {nome:"Carlos",  pontos:41, cravadas:1, corretos:9,  fase_grupos:41, mata_mata:0},
-    {nome:"Junin",   pontos:40, cravadas:1, corretos:9,  fase_grupos:40, mata_mata:0},
-    {nome:"Binho",   pontos:40, cravadas:1, corretos:9,  fase_grupos:40, mata_mata:0},
-    {nome:"IA",      pontos:39, cravadas:2, corretos:8,  fase_grupos:39, mata_mata:0}
+    {nome:"Jean",    pontos:61, cravadas:3, corretos:13, fase_grupos:61, mata_mata:0},
+    {nome:"Rodrigo", pontos:60, cravadas:2, corretos:13, fase_grupos:60, mata_mata:0},
+    {nome:"Rapha",   pontos:55, cravadas:1, corretos:12, fase_grupos:55, mata_mata:0},
+    {nome:"Matheus", pontos:55, cravadas:0, corretos:12, fase_grupos:55, mata_mata:0},
+    {nome:"Junin",   pontos:52, cravadas:1, corretos:12, fase_grupos:52, mata_mata:0},
+    {nome:"Yruam",   pontos:50, cravadas:1, corretos:11, fase_grupos:50, mata_mata:0},
+    {nome:"Binho",   pontos:48, cravadas:1, corretos:11, fase_grupos:48, mata_mata:0},
+    {nome:"Carlos",  pontos:47, cravadas:1, corretos:10, fase_grupos:47, mata_mata:0},
+    {nome:"IA",      pontos:46, cravadas:2, corretos:10, fase_grupos:46, mata_mata:0}
   ],
   campeoes:[
     {nome:"Junin",palpite:"Portugal"},{nome:"Yruam",palpite:"Espanha"},{nome:"Matheus",palpite:"Brasil"},
@@ -168,15 +168,15 @@ const DATA = {
   ],
   // Aproveitamento dos palpites (empate vs não-empate)
   aproveitamento: [
-    {nome:"Rodrigo", empate_pct:22, naoempate_pct:78, pts_empate:19, pts_naoempate:33, coeficiente:6.94},
-    {nome:"Jean",    empate_pct:13, naoempate_pct:88, pts_empate:12, pts_naoempate:37, coeficiente:4.17},
-    {nome:"Rapha",   empate_pct:22, naoempate_pct:78, pts_empate:11, pts_naoempate:33, coeficiente:8.33},
-    {nome:"Matheus", empate_pct:13, naoempate_pct:88, pts_empate:2,  pts_naoempate:41, coeficiente:1.39},
-    {nome:"Yruam",   empate_pct:22, naoempate_pct:78, pts_empate:1,  pts_naoempate:41, coeficiente:4.17},
-    {nome:"Carlos",  empate_pct:8,  naoempate_pct:92, pts_empate:5,  pts_naoempate:36, coeficiente:1.39},
-    {nome:"Junin",   empate_pct:15, naoempate_pct:85, pts_empate:4,  pts_naoempate:36, coeficiente:4.17},
-    {nome:"Binho",   empate_pct:6,  naoempate_pct:94, pts_empate:1,  pts_naoempate:39, coeficiente:1.39},
-    {nome:"IA",      empate_pct:7,  naoempate_pct:93, pts_empate:1,  pts_naoempate:38, coeficiente:13.89},
+    {nome:"Jean",    empate_pct:13, naoempate_pct:88, pts_empate:12, pts_naoempate:49, coeficiente:4.17},
+    {nome:"Rodrigo", empate_pct:22, naoempate_pct:78, pts_empate:20, pts_naoempate:40, coeficiente:6.94},
+    {nome:"Rapha",   empate_pct:22, naoempate_pct:78, pts_empate:11, pts_naoempate:44, coeficiente:8.33},
+    {nome:"Matheus", empate_pct:13, naoempate_pct:88, pts_empate:2,  pts_naoempate:53, coeficiente:1.39},
+    {nome:"Junin",   empate_pct:15, naoempate_pct:85, pts_empate:4,  pts_naoempate:48, coeficiente:4.17},
+    {nome:"Yruam",   empate_pct:22, naoempate_pct:78, pts_empate:2,  pts_naoempate:48, coeficiente:4.17},
+    {nome:"Binho",   empate_pct:6,  naoempate_pct:94, pts_empate:1,  pts_naoempate:47, coeficiente:1.39},
+    {nome:"Carlos",  empate_pct:8,  naoempate_pct:92, pts_empate:5,  pts_naoempate:42, coeficiente:1.39},
+    {nome:"IA",      empate_pct:7,  naoempate_pct:93, pts_empate:1,  pts_naoempate:45, coeficiente:13.89},
   ],
   jogos:[
     {num:1,data:"11/06",hora:"16h",time1:"México",time2:"África do Sul",gols1:2,gols2:0,rodada:"1ª rodada",
@@ -221,11 +221,11 @@ const DATA = {
      palpites:[{nome:"Junin",g1:0,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:1,g2:2}]},
     {num:21,data:"17/06",hora:"14h",time1:"Portugal",time2:"RD Congo",gols1:1,gols2:1,rodada:"1ª rodada",
      palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:4,g2:0},{nome:"Carlos",g1:5,g2:0},{nome:"Jean",g1:3,g2:1},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:4,g2:0},{nome:"Rapha",g1:5,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:22,data:"17/06",hora:"17h",time1:"Inglaterra",time2:"Croácia",gols1:null,gols2:null,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:3,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:1,g2:0},{nome:"IA",g1:2,g2:1}]},
-    {num:23,data:"17/06",hora:"20h",time1:"Gana",time2:"Panamá",gols1:null,gols2:null,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:3,g2:1},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:0,g2:2}]},
-    {num:24,data:"17/06",hora:"23h",time1:"Uzbequistão",time2:"Colômbia",gols1:null,gols2:null,rodada:"1ª rodada",
+    {num:22,data:"17/06",hora:"17h",time1:"Inglaterra",time2:"Croácia",gols1:4,gols2:2,rodada:"1ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:3,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:1,g2:0},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:3,g2:0}]},
+    {num:23,data:"17/06",hora:"20h",time1:"Gana",time2:"Panamá",gols1:1,gols2:0,rodada:"1ª rodada",
+     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:3,g2:1},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
+    {num:24,data:"17/06",hora:"23h",time1:"Uzbequistão",time2:"Colômbia",gols1:1,gols2:3,rodada:"1ª rodada",
      palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:3},{nome:"Matheus",g1:0,g2:3},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:3},{nome:"IA",g1:1,g2:2}]},
     {num:25,data:"18/06",hora:"13h",time1:"Tchéquia",time2:"África do Sul",gols1:null,gols2:null,rodada:"2ª rodada",
      palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:1,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:0},{nome:"Rodrigo",g1:0,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:3,g2:0}]},
