@@ -1,6 +1,7 @@
 const DEFAULT_RANKING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m/pub?output=csv';
 const GE_COPA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/';
 const GE_ARTILHARIA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/noticia/2026/06/12/copa-do-mundo-2026-veja-ranking-de-artilheiros-e-garcons.ghtml';
+const GE_BRASIL_URL = 'https://ge.globo.com/futebol/selecao-brasileira/';
 
 async function fetchText(url) {
   if (!url) return null;
@@ -54,7 +55,7 @@ function extractArtilharia(html) {
   return m ? m[1].slice(0, 1800) : null;
 }
 
-function extractNoticias(html) {
+function extractNoticias(html, limit = 8, filtro = null) {
   const items = [];
   const seen = new Set();
   const page = String(html || '');
@@ -62,10 +63,11 @@ function extractNoticias(html) {
   // 1) Padrão mais comum: links de matéria dentro da página da Copa no ge.
   const anchorRegex = /<a\b[^>]*href=["']([^"']*\/futebol\/copa-do-mundo\/noticia\/[^"']+\.ghtml(?:\?[^"']*)?)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let match;
-  while ((match = anchorRegex.exec(page)) && items.length < 8) {
+  while ((match = anchorRegex.exec(page)) && items.length < Math.max(limit * 2, 8)) {
     const url = normalizeUrl(decodeEntities(match[1]).split('?')[0]);
     const title = cleanTitle(match[2]);
-    if (!title || title.length < 28 || /mostrar mais|image|foto|vídeo/i.test(title)) continue;
+    if (!title || title.length < 24 || /mostrar mais|image|foto|vídeo/i.test(title)) continue;
+    if (filtro && !filtro(title, url)) continue;
     const key = `${title.toLowerCase()}|${url}`;
     if (seen.has(key)) continue;
     seen.add(key);
@@ -73,7 +75,7 @@ function extractNoticias(html) {
   }
 
   // 2) Fallback para metadados JSON/Next/Globo quando os anchors chegam sem texto útil.
-  if (items.length < 4) {
+  if (items.length < Math.min(4, limit)) {
     const urlRegex = /https:\/\/ge\.globo\.com\/futebol\/copa-do-mundo\/noticia\/[^"\\]+?\.ghtml/gi;
     const titleAroundRegex = /"(?:headline|title)"\s*:\s*"([^"]{28,180})"/gi;
     const urls = [...page.matchAll(urlRegex)].map(m => m[1].replace(/\\\//g, '/'));
@@ -81,7 +83,8 @@ function extractNoticias(html) {
     for (let i = 0; i < Math.min(urls.length, titles.length) && items.length < 8; i++) {
       const title = cleanTitle(titles[i]);
       const url = normalizeUrl(urls[i]);
-      if (!title || !/copa|brasil|sele[cç][aã]o|mundial|grupo|jogo|gol|fifa/i.test(title)) continue;
+      if (!title || !/copa|brasil|sele[cç][aã]o|mundial|grupo|jogo|gol|fifa|haiti|neymar|ancelotti/i.test(title)) continue;
+      if (filtro && !filtro(title, url)) continue;
       const key = `${title.toLowerCase()}|${url}`;
       if (seen.has(key)) continue;
       seen.add(key);
@@ -89,7 +92,7 @@ function extractNoticias(html) {
     }
   }
 
-  return items.slice(0, 6);
+  return items.slice(0, limit);
 }
 
 module.exports = async function handler(req, res) {
@@ -102,12 +105,16 @@ module.exports = async function handler(req, res) {
     jogos: process.env.CSV_JOGOS_URL || '',
     palpites: process.env.CSV_PALPITES_URL || '',
     campeoes: process.env.CSV_CAMPEOES_URL || '',
+    pontuacao: process.env.CSV_PONTUACAO_URL || process.env.CSV_PONTOS_JOGOS_URL || '',
+    desempenhoDia: process.env.CSV_DESEMPENHO_DIA_URL || '',
+    desempenhoRodada: process.env.CSV_DESEMPENHO_RODADA_URL || '',
     noticias: process.env.GE_COPA_URL || GE_COPA_URL,
+    noticiasBrasil: process.env.GE_BRASIL_URL || GE_BRASIL_URL,
     artilharia: process.env.GE_ARTILHARIA_URL || GE_ARTILHARIA_URL
   };
 
   const csvs = {};
-  for (const key of ['ranking', 'jogos', 'palpites', 'campeoes']) {
+  for (const key of ['ranking', 'jogos', 'palpites', 'campeoes', 'pontuacao', 'desempenhoDia', 'desempenhoRodada']) {
     const url = urls[key];
     if (!url) continue;
     try { csvs[key] = await fetchText(url); }
@@ -119,8 +126,14 @@ module.exports = async function handler(req, res) {
   catch (err) { warnings.push(`ge artilharia: ${err.message}`); }
 
   let noticias = [];
-  try { noticias = extractNoticias(await fetchText(urls.noticias)); }
+  try { noticias = extractNoticias(await fetchText(urls.noticias), 8); }
   catch (err) { warnings.push(`ge notícias: ${err.message}`); }
+
+  let noticiasBrasil = [];
+  try {
+    const brasilHtml = await fetchText(urls.noticiasBrasil);
+    noticiasBrasil = extractNoticias(brasilHtml, 4, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
+  } catch (err) { warnings.push(`ge notícias brasil: ${err.message}`); }
 
   res.status(200).json({
     ok: Object.keys(csvs).length > 0,
@@ -130,6 +143,7 @@ module.exports = async function handler(req, res) {
     csvs,
     artilhariaTexto,
     noticias,
+    noticiasBrasil,
     warnings
   });
 };
