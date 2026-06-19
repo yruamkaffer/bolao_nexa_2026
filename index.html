@@ -43,7 +43,7 @@ header{padding:42px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line
 </div>
 <div class="tools"><button class="btn primary" id="refreshBtn">Atualizar dados agora</button><button class="btn" id="shareBtn">Compartilhar link</button></div>
 <div id="app"><div class="empty">Carregando dados da planilha...</div></div>
-<footer class="footer">Feito por Yruam Käffer + ChatGPT Plus para alegria da rapaziada &lt;3 · versão limpa sem cache agressivo</footer>
+<footer class="footer">Feito por Yruam Käffer + ChatGPT Plus para alegria da rapaziada &lt;3 · versão GViz CSV sem cache</footer>
 </div>
 <script>
 (() => {
@@ -52,8 +52,10 @@ header{padding:42px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line
 if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(()=>{});
 if ('caches' in window) caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(()=>{});
 
-const SHEET_ID = '2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m';
-const pub = gid => `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=${gid}&single=true&output=csv`;
+const SHEET_ID = '1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM';
+// Usa GViz CSV por gid: atualiza muito melhor que o link /pub publicado.
+// O parâmetro _t impede cache do navegador/Google/Vercel.
+const pub = gid => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}&_t=${Date.now()}`;
 const DIRECT_URLS = {
   ranking: pub(0),
   jogos: pub(920522404),
@@ -243,7 +245,7 @@ function computeStats(){
   return {games,goals,avg:games.length?(goals/games.length).toFixed(2):'0',leader:rank[0],vice:rank[1],common,maxGame,bestAtk,topLast,mostPointsGame,withOfficialPoints:officialPts.length};
 }
 
-async function fetchText(url){ const r=await fetch(url+(url.includes('?')?'&':'?')+'_t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(`${r.status} ${url}`); return await r.text(); }
+async function fetchText(url){ const r=await fetch(url+(url.includes('_t=')?'':((url.includes('?')?'&':'?')+'_t='+Date.now())),{cache:'no-store',headers:{'Accept':'text/csv,text/plain,*/*'}}); if(!r.ok) throw new Error(`${r.status} ${url}`); return await r.text(); }
 async function loadData(){
   $('#syncStatus').textContent='sincronizando...'; $('#dataSource').textContent='buscando CSVs';
   state.warnings=[]; state.debug={}; state.loadedAt=new Date().toISOString();
