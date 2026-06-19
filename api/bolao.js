@@ -1,5 +1,6 @@
-const SHEET_ID = '2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m';
-const pub = gid => `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=${gid}&single=true&output=csv`;
+const SHEET_ID = '1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM';
+// GViz CSV consulta a planilha pública pelo ID original e costuma atualizar bem mais rápido que /pub.
+const pub = gid => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
 const DEFAULT_URLS = {
   ranking: pub(0),
   jogos: pub(920522404),
@@ -12,20 +13,22 @@ const GE_COPA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/';
 const GE_BRASIL_URL = 'https://ge.globo.com/futebol/selecao-brasileira/';
 const GE_NEYMAR_URL = 'https://ge.globo.com/atletas/neymar/';
 function withTimeout(ms=8000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return{signal:c.signal,done:()=>clearTimeout(t)}}
-async function fetchText(url, timeout=8000){ if(!url)return null; const t=withTimeout(timeout); try{ const r=await fetch(url,{signal:t.signal,headers:{'user-agent':'Mozilla/5.0 BolaoNexa/clean','accept':'text/csv,text/html,*/*'}}); if(!r.ok) throw new Error(`${r.status} ${url}`); return await r.text(); } finally {t.done();} }
+async function fetchText(url, timeout=8000){ if(!url)return null; const t=withTimeout(timeout); try{ const finalUrl = url + (url.includes('?') ? '&' : '?') + '_t=' + Date.now();
+ const r=await fetch(finalUrl,{signal:t.signal,headers:{'user-agent':'Mozilla/5.0 BolaoNexa/clean','accept':'text/csv,text/html,*/*'}}); if(!r.ok) throw new Error(`${r.status} ${url}`); return await r.text(); } finally {t.done();} }
 function strip(html){return String(html||'').replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim()}
 function normUrl(u){ if(!u)return''; if(u.startsWith('//'))return 'https:'+u; if(u.startsWith('/'))return 'https://ge.globo.com'+u; return u; }
 function extractNoticias(html, limit=8, filtro=null){ const out=[], seen=new Set(); const re=/<a\b[^>]*href=["']([^"']*\/noticia\/[^"']+\.ghtml(?:\?[^"']*)?)["'][^>]*>([\s\S]*?)<\/a>/gi; let m; while((m=re.exec(String(html||'')))&&out.length<limit*3){ const url=normUrl(m[1]).split('?')[0]; const titulo=strip(m[2]).replace(/\s+\|\s+ge$/i,'').trim(); if(!titulo||titulo.length<24||/mostrar mais|image|foto/i.test(titulo))continue; if(filtro&&!filtro(titulo,url))continue; const key=(titulo+'|'+url).toLowerCase(); if(seen.has(key))continue; seen.add(key); out.push({titulo,url,fonte:'ge'}); } return out.slice(0,limit); }
 module.exports = async function handler(req,res){
   res.setHeader('Access-Control-Allow-Origin','*');
-  res.setHeader('Cache-Control', req.query?.fresh ? 'no-store' : 's-maxage=45, stale-while-revalidate=90');
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+  const useEnvCsv = process.env.FORCE_ENV_CSV === '1';
   const urls={
-    ranking: process.env.CSV_RANKING_URL || DEFAULT_URLS.ranking,
-    jogos: process.env.CSV_JOGOS_URL || DEFAULT_URLS.jogos,
-    palpites: process.env.CSV_PALPITES_URL || DEFAULT_URLS.palpites,
-    campeoes: process.env.CSV_CAMPEOES_URL || DEFAULT_URLS.campeoes,
-    desempenhoDia: process.env.CSV_DESEMPENHO_DIA_URL || DEFAULT_URLS.desempenhoDia,
-    desempenhoRodada: process.env.CSV_DESEMPENHO_RODADA_URL || DEFAULT_URLS.desempenhoRodada,
+    ranking: useEnvCsv && process.env.CSV_RANKING_URL ? process.env.CSV_RANKING_URL : DEFAULT_URLS.ranking,
+    jogos: useEnvCsv && process.env.CSV_JOGOS_URL ? process.env.CSV_JOGOS_URL : DEFAULT_URLS.jogos,
+    palpites: useEnvCsv && process.env.CSV_PALPITES_URL ? process.env.CSV_PALPITES_URL : DEFAULT_URLS.palpites,
+    campeoes: useEnvCsv && process.env.CSV_CAMPEOES_URL ? process.env.CSV_CAMPEOES_URL : DEFAULT_URLS.campeoes,
+    desempenhoDia: useEnvCsv && process.env.CSV_DESEMPENHO_DIA_URL ? process.env.CSV_DESEMPENHO_DIA_URL : DEFAULT_URLS.desempenhoDia,
+    desempenhoRodada: useEnvCsv && process.env.CSV_DESEMPENHO_RODADA_URL ? process.env.CSV_DESEMPENHO_RODADA_URL : DEFAULT_URLS.desempenhoRodada,
     noticias: process.env.GE_COPA_URL || GE_COPA_URL,
     noticiasBrasil: process.env.GE_BRASIL_URL || GE_BRASIL_URL,
     noticiasNeymar: process.env.GE_NEYMAR_URL || GE_NEYMAR_URL
