@@ -71,3 +71,31 @@ Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. A
 
 - O HTML destaca o último jogo com resultado preenchido antes da classificação.
 - Os palpites dos jogos mostram cravada/acerto de resultado e pontos por participante. Quando houver coluna/aba de pontos publicada, o painel usa a pontuação oficial da planilha; quando não houver, mostra uma prévia simples e marcada como “prévia”.
+
+## Instalação no celular como app
+
+Esta versão já está preparada como PWA. Depois que o projeto estiver publicado no Vercel com HTTPS, o pessoal do bolão pode instalar assim:
+
+### Android / Chrome
+1. Abrir o link do bolão no Chrome.
+2. Tocar no bloco **Leve o bolão pro celular**.
+3. Tocar em **Instalar como app** ou no menu **⋮ → Adicionar à tela inicial**.
+4. O ícone **Bolão NEXA** aparecerá na tela inicial.
+
+### iPhone / Safari
+1. Abrir o link do bolão no Safari.
+2. Tocar no botão de compartilhar.
+3. Escolher **Adicionar à Tela de Início**.
+4. Confirmar o nome **Bolão NEXA**.
+
+Arquivos PWA incluídos:
+
+```txt
+manifest.webmanifest
+service-worker.js
+icons/icon-192.png
+icons/icon-512.png
+icons/maskable-512.png
+```
+
+Observação: a instalação como app só funciona corretamente quando o site está hospedado em HTTPS, como no Vercel.

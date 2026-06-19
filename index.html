@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bolão Copa do Mundo NEXA 2026</title>
+<meta name="theme-color" content="#071426">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bolão NEXA">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071426'/%3E%3Cpath d='M18 15h28v7c0 8-5 15-12 17v6h8v6H22v-6h8v-6c-7-2-12-9-12-17v-7z' fill='%23ff7a29'/%3E%3Cpath d='M23 20h18v3c0 6-4 10-9 12-5-2-9-6-9-12v-3z' fill='%238ecdf0'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +45,10 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,78px);line-heigh
 
 .header-side{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;justify-content:flex-end}.wc-logo{display:flex;align-items:center;gap:10px;border:1px solid rgba(255,122,41,.45);background:linear-gradient(135deg,rgba(255,122,41,.14),rgba(13,32,56,.72));border-radius:18px;padding:12px 14px;box-shadow:0 12px 28px rgba(255,122,41,.08)}.wc-logo span{font-size:28px;filter:drop-shadow(0 0 14px rgba(255,122,41,.45))}.wc-logo strong{font-family:'Bebas Neue';font-size:19px;line-height:.9;letter-spacing:1.5px;color:var(--blue2)}.quick-links{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:-8px}.quick-link{padding:14px 16px;text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.quick-link b{font-size:14px}.quick-link small{display:block;color:var(--muted);margin-top:3px}.quick-link span{font-size:20px}.last-scoreboard{margin-top:10px;grid-template-columns:repeat(auto-fit,minmax(128px,1fr))}.last-score-card{padding:11px 12px;border-radius:13px;background:rgba(7,20,38,.48);border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}.last-score-card .who{font-family:'DM Mono';font-size:10px;color:var(--muted)}.last-score-card .pts{font-family:'Bebas Neue';font-size:24px;color:var(--blue);line-height:1}.last-score-card.best{border-color:rgba(255,122,41,.55);background:rgba(255,122,41,.08)}.last-score-card.best .pts{color:var(--orange)}.last-score-card small{display:block;color:var(--muted2);font-size:9px;text-transform:uppercase;letter-spacing:.8px}.curio-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:10px}.curio{padding:14px 15px}.curio .label{font-family:'DM Mono';font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}.curio .value{font-size:17px;font-weight:800;color:#fff;margin-top:6px}.curio .desc{font-size:12px;color:var(--muted);margin-top:4px}.performance-grid{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}.perf-card{padding:14px}.perf-card h3{font-family:'Bebas Neue';letter-spacing:2px;color:var(--blue2);font-size:20px;margin-bottom:10px}.perf-table td.best-day{color:var(--orange);font-weight:800}.palp-points{margin-top:6px;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:3px 7px;font-family:'DM Mono';font-size:10px;color:var(--blue);background:rgba(142,205,240,.06)}.palp-points.official{color:var(--green);border-color:rgba(93,224,166,.42);background:rgba(93,224,166,.07)}.palp-points.zero{color:var(--muted2)}.point-note{font-family:'DM Mono';font-size:9px;color:var(--muted2);margin-top:4px}.team,.team.r{justify-content:center;text-align:center;flex-direction:row}.team .flag{margin:0}.game-main{text-align:center}.chip{text-align:center}.chip .n{text-align:center}.news-grid.more{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.news-split{margin-top:14px}.source-note{color:var(--muted);font-size:12px;line-height:1.5}.footer a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(142,205,240,.25)}
 
-@media(max-width:650px){.header-side{justify-content:flex-start;align-items:flex-start}.wc-logo{padding:10px 12px}.performance-grid{grid-template-columns:1fr}.quick-links{grid-template-columns:1fr}.last-match{grid-template-columns:1fr}.last-link{justify-content:center}.game-main{grid-template-columns:54px minmax(0,1fr) 70px minmax(0,1fr) 38px;padding:12px 10px;gap:6px}.team{font-size:11px;gap:5px}.flag{width:20px}.score{font-size:22px}.ppts{font-size:36px}header{align-items:flex-start}.status{align-items:flex-start}}
+
+.install-card{position:relative;overflow:hidden;border-color:rgba(255,122,41,.42);background:radial-gradient(circle at 12% 0,rgba(255,122,41,.20),transparent 34%),linear-gradient(135deg,rgba(19,51,89,.90),rgba(13,32,56,.98));padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}.install-card:before{content:'';position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--orange),var(--blue),transparent)}.install-card h2{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;color:var(--blue2);line-height:1}.install-card p{color:var(--muted);font-size:13px;line-height:1.5;margin-top:7px}.install-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.app-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(255,122,41,.48);background:rgba(255,122,41,.12);color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;text-decoration:none;cursor:pointer;white-space:nowrap}.app-btn.secondary{border-color:var(--line2);background:rgba(7,20,38,.45);color:var(--blue)}.install-steps{margin-top:10px;display:flex;gap:7px;flex-wrap:wrap}.step-pill{font-family:'DM Mono';font-size:10px;color:var(--muted);border:1px solid var(--line);background:rgba(7,20,38,.38);border-radius:999px;padding:5px 8px}.ios-help{display:none;margin-top:10px;color:var(--muted);font-size:12px}.ios-help.on{display:block}.copy-ok{display:none;color:var(--green);font-family:'DM Mono';font-size:10px;margin-top:8px}.copy-ok.on{display:block}
+
+@media(max-width:650px){.install-card{grid-template-columns:1fr}.install-actions{justify-content:flex-start}.header-side{justify-content:flex-start;align-items:flex-start}.wc-logo{padding:10px 12px}.performance-grid{grid-template-columns:1fr}.quick-links{grid-template-columns:1fr}.last-match{grid-template-columns:1fr}.last-link{justify-content:center}.game-main{grid-template-columns:54px minmax(0,1fr) 70px minmax(0,1fr) 38px;padding:12px 10px;gap:6px}.team{font-size:11px;gap:5px}.flag{width:20px}.score{font-size:22px}.ppts{font-size:36px}header{align-items:flex-start}.status{align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -63,6 +72,7 @@ let DATA=structuredClone(FALLBACK);
 DATA.pontosJogos=DATA.pontosJogos||{}; DATA.desempenhoDia=DATA.desempenhoDia||null; DATA.desempenhoRodada=DATA.desempenhoRodada||null;
 if(DATA.flags) DATA.flags['Panamá']='https://flagcdn.com/pa.svg';
 let remote={ok:false, source:'fallback', updatedAt:null, warnings:[], artilhariaTexto:null, noticias:[], noticiasBrasil:[]};
+let deferredInstallPrompt=null;
 let activeRound='todos', activeStatus='todos', searchTerm='';
 const expanded=new Set();
 const norm=s=>String(s??'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
@@ -315,6 +325,28 @@ function renderNoticias(){
   const card=n=>`<a class="card news-card" href="${esc(n.url||LINKS.ge)}" target="_blank" rel="noopener"><div class="tag">ge · Copa do Mundo</div><h3>${esc(n.titulo||n.title||'Notícia da Copa')}</h3><div class="meta">Abrir matéria ↗</div></a>`;
   return `<section class="section"><div class="stitle">Notícias da Copa</div><div class="grid news-grid more">${news.map(card).join('')}</div><div class="stitle news-split">Brasil na Copa</div><div class="grid news-grid more">${br.map(card).join('')}</div></section>`
 }
+
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true}
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+function installApp(){
+  const ios=document.getElementById('ios-help');
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(()=>{deferredInstallPrompt=null; render()});
+  } else if(isIOS()){
+    ios?.classList.toggle('on');
+  } else {
+    navigator.clipboard?.writeText(location.href).then(()=>{const el=document.getElementById('copy-ok'); if(el){el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),2200)}});
+  }
+}
+function shareApp(){
+  const data={title:'Bolão Copa do Mundo NEXA 2026',text:'Acompanha o bolão da NEXA aqui:',url:location.href};
+  if(navigator.share) navigator.share(data).catch(()=>{}); else navigator.clipboard?.writeText(location.href).then(()=>{const el=document.getElementById('copy-ok'); if(el){el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),2200)}});
+}
+function renderInstallWidget(){
+  const installed=isStandalone();
+  return `<section class="section"><div class="card install-card"><div><h2>📲 Leve o bolão pro celular</h2><p>${installed?'Você já está abrindo como app.':'Instale o bolão na tela inicial e abra igual app, sem precisar ficar procurando o link.'}</p><div class="install-steps"><span class="step-pill">Android: tocar em Instalar</span><span class="step-pill">iPhone: Compartilhar → Adicionar à Tela de Início</span></div><div id="ios-help" class="ios-help">No iPhone: toque no botão de compartilhar do Safari e depois em <b>Adicionar à Tela de Início</b>.</div><div id="copy-ok" class="copy-ok">Link copiado ✓</div></div><div class="install-actions"><button class="app-btn" onclick="installApp()">Instalar como app</button><button class="app-btn secondary" onclick="shareApp()">Compartilhar link</button></div></div></section>`
+}
 function renderLinks(){return `<section class="section"><div class="grid quick-links"><a class="card quick-link" href="${LINKS.sheet}" target="_blank" rel="noopener"><div><b>Planilha oficial do bolão</b><small>Abra os dados completos no Google Sheets</small></div><span>📊</span></a><a class="card quick-link" href="${LINKS.caze}" target="_blank" rel="noopener"><div><b>Assistir jogos ao vivo</b><small>Canal da CazéTV no YouTube</small></div><span>▶️</span></a></div></section>`}
 function renderPerformance(){
   const dia=DATA.desempenhoDia||computedPerformance('dia'); const rodada=DATA.desempenhoRodada||computedPerformance('rodada');
@@ -326,7 +358,11 @@ function filteredGames(){return DATA.jogos.filter(j=>(activeRound==='todos'||j.r
 function renderGames(){return `<section class="section"><div class="stitle">Jogos e Palpites</div><div class="controls"><div class="tabs">${roundButtons().map(r=>`<button class="${activeRound===r?'on':''}" onclick="activeRound='${esc(r)}';render()">${r==='todos'?'Todos':esc(r)}</button>`).join('')}</div><div class="tabs"><button class="${activeStatus==='todos'?'on':''}" onclick="activeStatus='todos';render()">Todos</button><button class="${activeStatus==='disputados'?'on':''}" onclick="activeStatus='disputados';render()">Disputados</button><button class="${activeStatus==='pendentes'?'on':''}" onclick="activeStatus='pendentes';render()">Pendentes</button></div><input class="search" placeholder="Buscar seleção..." value="${esc(searchTerm)}" oninput="searchTerm=this.value;render()"></div><div class="games">${filteredGames().map(renderGame).join('')||'<div class="empty">Nenhum jogo encontrado.</div>'}</div></section>`}
 function renderGame(j){const open=expanded.has(j.num), hasPal=(j.palpites||[]).length>0; return `<article class="game ${played(j)?'played':''} ${open?'open':''}"><div class="game-main" onclick="toggleGame(${j.num})"><div class="gnum">#${j.num}<br>${esc(j.data||'')}</div><div class="team">${flag(j.time1)} ${esc(j.time1==='?'?'A definir':j.time1)}</div><div class="score">${played(j)?`${j.gols1}<span style="color:var(--muted)">×</span>${j.gols2}`:`<small>${esc(j.hora||'a definir')}</small>`}</div><div class="team r">${flag(j.time2)} ${esc(j.time2==='?'?'A definir':j.time2)}</div><div class="arrow">${hasPal?'⌄':'—'}</div></div><div class="palps">${hasPal?`<div class="chips">${j.palpites.map(p=>{const kind=palpiteKind(j,p); const label=kind==='exact'?'cravada':kind==='hit'?'acertou resultado':''; const sc=scorePalpite(j,p); return `<div class="chip ${kind==='exact'?'exact':kind==='hit'?'hit':''}"><div class="n">${esc(p.nome)}</div><div class="v">${p.g1}×${p.g2}</div>${played(j)?`<div class="palp-points ${sc.oficial?'official':''} ${(sc.valor??0)===0?'zero':''}">${scoreText(sc)}</div><div class="point-note">${sc.oficial?'oficial':'prévia'}</div>`:''}${played(j)&&label?`<div class="result-badge ${kind}">${label}</div>`:''}</div>`}).join('')}</div>`:`<div class="empty">${esc(j.palpitesStatus||'Palpites ainda não carregados para este jogo.')}</div>`}</div></article>`}
 function toggleGame(n){expanded.has(n)?expanded.delete(n):expanded.add(n); render()}
-function render(){document.getElementById('app').innerHTML=renderLinks()+renderLastGame()+renderRanking()+renderStats()+renderPerformance()+renderChampions()+renderParticipantsTable()+renderGroups()+renderArtilharia()+renderNoticias()+renderGames()+`<div class="footer">Feito por Yruam Käffer + ChatGPT Plus para alegria da rapaziada &lt;3</div>`}
+function render(){document.getElementById('app').innerHTML=renderLinks()+renderInstallWidget()+renderLastGame()+renderRanking()+renderStats()+renderPerformance()+renderChampions()+renderParticipantsTable()+renderGroups()+renderArtilharia()+renderNoticias()+renderGames()+`<div class="footer">Feito por Yruam Käffer + ChatGPT Plus para alegria da rapaziada &lt;3</div>`}
+
+window.addEventListener('beforeinstallprompt', e=>{e.preventDefault(); deferredInstallPrompt=e; render()});
+window.addEventListener('appinstalled', ()=>{deferredInstallPrompt=null; render()});
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}))}
 loadRemote();
 </script>
 </body>
