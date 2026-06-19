@@ -71,3 +71,12 @@ Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. A
 
 - O HTML destaca o último jogo com resultado preenchido antes da classificação.
 - Os palpites dos jogos mostram cravada/acerto de resultado e pontos por participante. Quando houver coluna/aba de pontos publicada, o painel usa a pontuação oficial da planilha; quando não houver, mostra uma prévia simples e marcada como “prévia”.
+
+
+## Ajustes desta versão
+
+- O botão **Instalar como app** fica visível dentro da página.
+- A logo da Copa 2026 aparece no cabeçalho.
+- O ícone do site usa a imagem indicada.
+- O desempenho por dia e por rodada fica em blocos empilhados, sem tabela lado a lado.
+- A pontuação por jogo e por rodada usa dados oficiais quando você configurar `CSV_PONTUACAO_URL`, `CSV_DESEMPENHO_DIA_URL` e `CSV_DESEMPENHO_RODADA_URL` no Vercel. Sem esses CSVs, o site mostra que está aguardando a planilha oficial em vez de inventar pontuação.
