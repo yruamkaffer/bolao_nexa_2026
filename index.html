@@ -26,23 +26,22 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,78px);line-heigh
 .section{margin:34px 0}.stitle{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--blue2);margin-bottom:16px;display:flex;align-items:center;gap:12px}.stitle:after{content:'';height:1px;background:var(--line);flex:1}
 .grid{display:grid;gap:10px}.ranking-grid{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
 .card{background:linear-gradient(180deg,rgba(19,51,89,.76),rgba(13,32,56,.96));border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.12);overflow:hidden}.card-pad{padding:16px}
-.rank-card{display:flex;gap:14px;align-items:center;padding:16px 18px;position:relative}.rank-card.p1{background:linear-gradient(135deg,rgba(255,122,41,.15),rgba(19,51,89,.65));border-color:rgba(255,122,41,.42)}.rank-card.p2{background:linear-gradient(135deg,rgba(198,234,250,.12),rgba(19,51,89,.65))}.rank-card.p3{background:linear-gradient(135deg,rgba(255,165,100,.10),rgba(19,51,89,.65))}
-.medal{font-family:'Bebas Neue',sans-serif;font-size:34px;min-width:48px;text-align:center;color:var(--orange)}.medal.num{font-size:25px;color:var(--muted2)}.pinfo{flex:1;min-width:0}.pname{font-weight:700;color:#fff;font-size:17px;display:flex;gap:7px;align-items:center}.ia-tag{font-size:9px;font-family:'DM Mono';color:var(--blue);border:1px solid var(--line2);padding:2px 6px;border-radius:5px}
+.rank-card{display:flex;gap:14px;align-items:center;padding:17px 18px;position:relative;min-height:104px}.rank-card:before{content:'';position:absolute;inset:0 0 auto;height:3px;background:transparent}.rank-card.p1{background:radial-gradient(circle at 18% 0,rgba(255,209,102,.18),transparent 36%),linear-gradient(135deg,rgba(255,122,41,.22),rgba(19,51,89,.70));border-color:rgba(255,209,102,.66);box-shadow:0 0 0 1px rgba(255,209,102,.08),0 16px 42px rgba(255,122,41,.13)}.rank-card.p1:before{background:linear-gradient(90deg,var(--yellow),var(--orange))}.rank-card.p2{background:radial-gradient(circle at 18% 0,rgba(198,234,250,.17),transparent 38%),linear-gradient(135deg,rgba(198,234,250,.14),rgba(19,51,89,.68));border-color:rgba(198,234,250,.48)}.rank-card.p2:before{background:linear-gradient(90deg,#d9f3ff,var(--blue))}.rank-card.p3{background:radial-gradient(circle at 18% 0,rgba(255,165,100,.14),transparent 38%),linear-gradient(135deg,rgba(255,165,100,.13),rgba(19,51,89,.68));border-color:rgba(255,165,100,.46)}.rank-card.p3:before{background:linear-gradient(90deg,var(--orange2),rgba(255,165,100,.35))}.rank-card.last{border-color:rgba(255,105,105,.42);background:linear-gradient(135deg,rgba(255,105,105,.09),rgba(13,32,56,.94))}.rank-card.last:before{background:linear-gradient(90deg,rgba(255,105,105,.65),transparent)}.podium-tag{position:absolute;right:14px;top:8px;font-family:'DM Mono';font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(238,246,255,.72)}.move{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;font-family:'DM Mono';font-size:12px;border:1px solid var(--line);color:var(--muted);margin-left:2px}.move.up{color:var(--green);border-color:rgba(93,224,166,.45);background:rgba(93,224,166,.08)}.move.down{color:var(--red);border-color:rgba(255,105,105,.42);background:rgba(255,105,105,.08)}.move.flat{color:var(--muted2);opacity:.7}.medal{font-family:'Bebas Neue',sans-serif;font-size:34px;min-width:48px;text-align:center;color:var(--orange)}.medal.num{font-size:25px;color:var(--muted2)}.pinfo{flex:1;min-width:0}.pname{font-weight:700;color:#fff;font-size:17px;display:flex;gap:7px;align-items:center}.ia-tag{font-size:9px;font-family:'DM Mono';color:var(--blue);border:1px solid var(--line2);padding:2px 6px;border-radius:5px}
 .pstats{display:flex;gap:13px;flex-wrap:wrap;margin-top:8px;color:var(--muted);font-family:'DM Mono';font-size:11px}.pstats b{color:var(--text);font-size:13px}.ppts{font-family:'Bebas Neue';font-size:44px;color:var(--blue);line-height:1;text-align:right;min-width:70px}.ppts small{display:block;font-family:'DM Sans';font-size:10px;color:var(--muted);letter-spacing:1px}
 .stat-grid{grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}.stat{padding:17px}.stat .label{font-family:'DM Mono';font-size:10px;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase}.stat .value{font-family:'Bebas Neue';font-size:34px;color:var(--blue);margin-top:5px}.stat .desc{font-size:12px;color:var(--muted)}
 .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}.tabs{display:flex;gap:5px;flex-wrap:wrap;background:rgba(13,32,56,.82);border:1px solid var(--line);border-radius:12px;padding:5px}button,.search{font-family:'DM Sans';border:1px solid transparent;background:transparent;color:var(--muted);border-radius:9px;padding:8px 13px;font-size:12px;cursor:pointer}button.on{background:var(--navy3);border-color:var(--line2);color:var(--blue)}button:hover{color:var(--text)}.search{cursor:text;background:rgba(7,20,38,.65);border-color:var(--line);min-width:min(100%,260px)}
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:rgba(13,32,56,.84)}table{width:100%;border-collapse:collapse}th{font-family:'DM Mono';font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}td{padding:10px 12px;border-bottom:1px solid rgba(142,205,240,.08);text-align:center;color:var(--muted);font-size:13px}td.name,th.name{text-align:left;color:var(--text);font-weight:600}tr:hover td{background:rgba(142,205,240,.035)}.pts{color:var(--blue);font-weight:700}.good{color:var(--green)}.bad{color:var(--red)}
-.champ-grid{grid-template-columns:repeat(auto-fit,minmax(155px,1fr))}.champ{padding:13px 14px}.champ span{display:block;color:var(--muted);font-size:11px;font-family:'DM Mono';margin-bottom:3px}.champ b{color:var(--orange2)}
+.champ-grid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.champ{padding:14px 15px;position:relative}.champ .who{display:block;color:var(--muted);font-size:11px;font-family:'DM Mono';margin-bottom:7px}.champ .pick{display:flex;align-items:center;gap:8px;color:var(--orange2);font-size:17px;font-weight:800}.champ .label{display:block;margin-top:6px;color:var(--muted2);font-size:10px;text-transform:uppercase;letter-spacing:1px}
 .games{display:flex;flex-direction:column;gap:8px}.game{border:1px solid var(--line);border-radius:14px;background:rgba(13,32,56,.85);overflow:hidden}.game.played{border-color:rgba(255,122,41,.28)}.game-main{display:grid;grid-template-columns:76px minmax(0,1fr) 92px minmax(0,1fr) 74px;gap:10px;align-items:center;padding:13px 15px;cursor:pointer}.gnum{font-family:'DM Mono';font-size:10px;color:var(--muted2);line-height:1.5}.team{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}.team.r{justify-content:flex-end;flex-direction:row-reverse;text-align:right}.flag{width:24px;height:16px;object-fit:contain;border-radius:2px}.score{font-family:'Bebas Neue';font-size:28px;color:var(--orange);text-align:center}.score small{display:block;font-family:'DM Mono';font-size:11px;color:var(--muted)}.arrow{color:var(--muted);font-size:12px;text-align:right}.palps{display:none;border-top:1px solid var(--line);padding:14px 15px;background:rgba(19,51,89,.74)}.game.open .palps{display:block}.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:7px}.chip{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:rgba(7,20,38,.55)}.chip .n{font-family:'DM Mono';font-size:10px;color:var(--muted);margin-bottom:3px}.chip .v{font-family:'Bebas Neue';font-size:21px;letter-spacing:1px}.chip.exact{border-color:var(--orange);background:rgba(255,122,41,.08)}.chip.exact .v{color:var(--orange)}.chip.hit{border-color:rgba(93,224,166,.45);background:rgba(93,224,166,.07)}.chip.hit .v{color:var(--green)}.empty{padding:16px;color:var(--muted);font-size:13px;border:1px dashed var(--line2);border-radius:12px;background:rgba(7,20,38,.35)}
-.group-grid{grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}.group-card{padding:12px}.group-card h3{font-family:'Bebas Neue';letter-spacing:2px;color:var(--orange2);margin-bottom:8px}.mini td,.mini th{padding:7px 7px;font-size:12px}.mini th{font-size:9px}.mini .team-name{display:flex;align-items:center;gap:6px;text-align:left;color:var(--text);font-weight:600}.source-note{font-size:12px;color:var(--muted);line-height:1.6}.source-note a{color:var(--blue)}.news-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.news-card{display:block;text-decoration:none;padding:15px 16px;min-height:118px;transition:transform .18s,border-color .18s}.news-card:hover{transform:translateY(-2px);border-color:var(--line2)}.news-card .tag{font-family:'DM Mono';font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--orange2);margin-bottom:8px}.news-card h3{font-size:15px;line-height:1.35;color:var(--text);margin-bottom:10px}.news-card .meta{font-size:11px;color:var(--muted)}.footer{margin-top:40px;color:var(--muted2);font-size:11px;line-height:1.6;text-align:center}
+.group-grid{grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}.group-card{padding:12px}.group-card h3{font-family:'Bebas Neue';letter-spacing:2px;color:var(--orange2);margin-bottom:8px}.mini td,.mini th{padding:7px 7px;font-size:12px}.mini th{font-size:9px}.mini .team-name{display:flex;align-items:center;gap:6px;text-align:left;color:var(--text);font-weight:600}.source-note{font-size:12px;color:var(--muted);line-height:1.6}.source-note a{color:var(--blue)}.news-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.news-card{display:block;text-decoration:none;padding:15px 16px;min-height:118px;transition:transform .18s,border-color .18s}.news-card:hover{transform:translateY(-2px);border-color:var(--line2)}.news-card .tag{font-family:'DM Mono';font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--orange2);margin-bottom:8px}.news-card h3{font-size:15px;line-height:1.35;color:var(--text);margin-bottom:10px}.news-card .meta{font-size:11px;color:var(--muted)}.footer{margin-top:42px;color:var(--muted2);font-size:12px;line-height:1.7;text-align:center;border-top:1px solid var(--line);padding-top:18px}
 @media(max-width:650px){.game-main{grid-template-columns:54px minmax(0,1fr) 70px minmax(0,1fr) 38px;padding:12px 10px;gap:6px}.team{font-size:11px;gap:5px}.flag{width:20px}.score{font-size:22px}.ppts{font-size:36px}header{align-items:flex-start}.status{align-items:flex-start}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <div><h1>BOLÃO COPA DO<br>MUNDO <em>NEXA 2026</em></h1><p class="subtitle">Painel profissional · dados vivos da planilha</p></div>
-  <div class="status"><div class="pill"><span class="dot"></span><span id="syncStatus">carregando dados...</span></div><div class="pill" id="dataSource">Vercel Hobby · CSV público</div></div>
+  <div><h1>BOLÃO COPA DO<br>MUNDO <em>NEXA 2026</em></h1><p class="subtitle">Painel ao vivo do bolão</p></div>
+  <div class="status"><div class="pill"><span class="dot"></span><span id="syncStatus">sincronizando...</span></div></div>
 </header>
 <div id="app"></div>
 </div>
@@ -63,103 +62,193 @@ function played(j){return j.gols1!==null&&j.gols1!==undefined&&j.gols2!==null&&j
 function sign(a,b){return a>b?1:a<b?2:0}
 function getPalpite(j,nome){return (j.palpites||[]).find(p=>norm(p.nome)===norm(nome))}
 function scorePalpite(j,p){if(!played(j)||!p)return 0; if(p.g1==j.gols1&&p.g2==j.gols2)return 10; if(sign(p.g1,p.g2)===sign(j.gols1,j.gols2))return 4; return 0}
+
 function parseCSV(text){
-  const rows=[];let row=[],cur='',q=false;
-  const src=String(text||'');
-  for(let i=0;i<src.length;i++){const c=src[i],n=src[i+1];
+  const rows=[];let row=[],cur='',q=false;const s=String(text||'');
+  for(let i=0;i<s.length;i++){const c=s[i],n=s[i+1];
     if(c==='"'){if(q&&n==='"'){cur+='"';i++}else q=!q}
-    else if(c===','&&!q){row.push(cur);cur=''}
-    else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&n==='\n')i++;row.push(cur);if(row.some(x=>String(x).trim()!==''))rows.push(row);row=[];cur=''}
+    else if(c===','&&!q){row.push(cur.trim());cur=''}
+    else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&n==='\n')i++;row.push(cur.trim());if(row.some(x=>String(x).trim()!==''))rows.push(row);row=[];cur=''}
     else cur+=c;
   }
-  row.push(cur);if(row.some(x=>String(x).trim()!==''))rows.push(row);return rows;
+  row.push(cur.trim());if(row.some(x=>String(x).trim()!==''))rows.push(row);return rows;
 }
 function headerIndex(headers,names){const hs=headers.map(norm);return hs.findIndex(h=>names.some(n=>h.includes(norm(n))))}
+function headerIndexExact(headers,names){const hs=headers.map(norm);return hs.findIndex(h=>names.some(n=>h===norm(n)))}
 function parseRankingCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return [];
   let headerRow=-1;
-  for(let i=0;i<Math.min(rows.length,25);i++){const joined=norm(rows[i].join(' ')); if((joined.includes('participante')||joined.includes('nome')) && joined.includes('ponto')){headerRow=i;break}}
+  for(let i=0;i<Math.min(rows.length,35);i++){const joined=norm(rows[i].join(' ')); if((joined.includes('participante')||joined.includes('nome')) && (joined.includes('ponto')||joined.includes('pts')||joined.includes('total'))){headerRow=i;break}}
   if(headerRow<0){
-    // fallback: scan rows containing participant names and numbers
     const found=[];
     for(const r of rows){const name=DATA.participantes.find(p=>r.some(c=>norm(c)===norm(p))); if(!name)continue; const nums=r.map(num).filter(n=>n>0); if(nums.length)found.push({nome:name,pontos:Math.max(...nums)})}
     return found.sort((a,b)=>b.pontos-a.pontos).map((r,i)=>({posicao:i+1,...r}));
   }
-  const h=rows[headerRow]; const iNome=headerIndex(h,['participante','nome']); const iPts=headerIndex(h,['pontos','total','pts']); const iCrav=headerIndex(h,['cravada','placar exato']); const iAc=headerIndex(h,['acertos','corretos']);
-  const out=[];
-  for(const r of rows.slice(headerRow+1)){const nome=(r[iNome]||'').trim(); if(!nome || !DATA.participantes.some(p=>norm(p)===norm(nome)))continue; out.push({nome,pontos:num(r[iPts]),cravadas:iCrav>=0?num(r[iCrav]):0,corretos:iAc>=0?num(r[iAc]):0})}
-  return out.sort((a,b)=>b.pontos-a.pontos||b.cravadas-a.cravadas).map((r,i)=>({posicao:i+1,...r}));
-}
-function parseScore(text){const m=String(text??'').match(/(\d+)\s*[xX×-]\s*(\d+)/); return m?{g1:+m[1],g2:+m[2]}:null}
-function parseJogosCSV(csv){
-  const rows=parseCSV(csv); if(!rows.length)return [];
-  let headerRow=rows.findIndex(r=>norm(r.join(' ')).includes('jogo') && (norm(r.join(' ')).includes('time')||norm(r.join(' ')).includes('sele')));
-  if(headerRow<0)return [];
-  const h=rows[headerRow]; const iNum=headerIndex(h,['jogo','num','nº']); const iData=headerIndex(h,['data']); const iHora=headerIndex(h,['hora']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','equipe 1','time a']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','equipe 2','time b']); const iRes=headerIndex(h,['resultado','placar']); const iG1=headerIndex(h,['gols 1','gol 1','g1']); const iG2=headerIndex(h,['gols 2','gol 2','g2']); const iRod=headerIndex(h,['rodada','fase']);
+  const h=rows[headerRow]; const iNome=headerIndex(h,['participante','nome','jogador']); const iPts=headerIndex(h,['pontos','total','pts']); const iCrav=headerIndex(h,['cravada','placar exato']); const iAc=headerIndex(h,['acertos','corretos']); const iPrev=headerIndex(h,['posição anterior','posicao anterior','pos anterior','rank anterior','anterior']); const iMov=headerIndex(h,['movimento','variação','variacao','subiu','desceu']);
   const out=[];
   for(const r of rows.slice(headerRow+1)){
-    const time1=(r[iT1]||'').trim(), time2=(r[iT2]||'').trim(); if(!time1||!time2)continue;
-    let gols1=null,gols2=null; const s=iRes>=0?parseScore(r[iRes]):null; if(s){gols1=s.g1;gols2=s.g2} else if(iG1>=0&&iG2>=0&&r[iG1]!==''&&r[iG2]!==''){gols1=num(r[iG1]);gols2=num(r[iG2])}
-    out.push({num:iNum>=0?num(r[iNum]):out.length+1,data:iData>=0?r[iData]:'',hora:iHora>=0?r[iHora]:'',time1,time2,gols1,gols2,rodada:iRod>=0?r[iRod]:''})
+    const nomeRaw=(r[iNome]||'').trim(); const nome=DATA.participantes.find(p=>norm(p)===norm(nomeRaw))||nomeRaw;
+    if(!nome || !DATA.participantes.some(p=>norm(p)===norm(nome)))continue;
+    const item={nome,pontos:num(r[iPts]),cravadas:iCrav>=0?num(r[iCrav]):0,corretos:iAc>=0?num(r[iAc]):0};
+    if(iPrev>=0 && num(r[iPrev])>0)item.posicaoAnterior=num(r[iPrev]);
+    if(iMov>=0 && String(r[iMov]||'').trim())item.movimentoRaw=String(r[iMov]).trim();
+    out.push(item);
+  }
+  return out.sort((a,b)=>b.pontos-a.pontos||b.cravadas-a.cravadas).map((r,i)=>({posicao:i+1,...r}));
+}
+function parseScore(text){const m=String(text??'').match(/(\d+)\s*(?:[xX×:\-]|a)\s*(\d+)/); return m?{g1:+m[1],g2:+m[2]}:null}
+function participantFromCell(cell){return DATA.participantes.find(p=>norm(cell)===norm(p)||norm(cell).includes(norm(p)))}
+function participantFromRow(row){for(const c of row){const p=participantFromCell(c); if(p)return p} return null}
+function allTeams(){return [...new Set(DATA.jogos.flatMap(j=>[j.time1,j.time2]).filter(t=>t&&t!=='?'))]}
+function canonicalTeam(t){const aliases={'usa':'Estados Unidos','eua':'Estados Unidos','estados unidos da america':'Estados Unidos','coreia do sul':'Coréia do Sul','republica tcheca':'Tchéquia','chequia':'Tchéquia','bosnia e herzegovina':'Bósnia','costa do marfim':'Costa do Marfim','rd congo':'RD Congo','dr congo':'RD Congo','congo':'RD Congo','curacao':'Curaçao'}; const n=norm(t); if(aliases[n])return aliases[n]; return allTeams().find(team=>norm(team)===n)||String(t||'').trim()}
+function extractGameRef(text){
+  const raw=String(text||''); const n=norm(raw); let numj=null; const m=raw.match(/(?:#|jogo\s*)?(\d{1,3})/i); if(m)numj=+m[1];
+  let time1='',time2='';
+  for(const j of DATA.jogos){if(n.includes(norm(j.time1))&&n.includes(norm(j.time2))){time1=j.time1;time2=j.time2;break}}
+  if(!time1){const sx=raw.split(/\s+(?:x|X|×|vs\.?|versus)\s+/); if(sx.length>=2){time1=canonicalTeam(sx[0].replace(/jogo\s*\d+|#\d+/gi,'').trim()); time2=canonicalTeam(sx[1].replace(/\d+h.*$/i,'').trim())}}
+  return {num:numj,time1,time2,raw};
+}
+function findGameByRef(ref){
+  if(!ref)return {game:null,reversed:false};
+  if(ref.num){const byNum=DATA.jogos.find(j=>Number(j.num)===Number(ref.num)); if(byNum)return {game:byNum,reversed:false}}
+  const a=canonicalTeam(ref.time1), b=canonicalTeam(ref.time2);
+  if(a&&b){
+    const direct=DATA.jogos.find(j=>norm(j.time1)===norm(a)&&norm(j.time2)===norm(b)); if(direct)return {game:direct,reversed:false};
+    const rev=DATA.jogos.find(j=>norm(j.time1)===norm(b)&&norm(j.time2)===norm(a)); if(rev)return {game:rev,reversed:true};
+  }
+  if(ref.raw){const parsed=extractGameRef(ref.raw); if((parsed.num||parsed.time1)&&parsed!==ref)return findGameByRef(parsed)}
+  return {game:null,reversed:false};
+}
+function addPalpite(map,ref,nome,score){
+  const found=findGameByRef(ref); if(!found.game||!nome||!score)return;
+  const key=found.game.num || `${norm(found.game.time1)}|${norm(found.game.time2)}`;
+  if(!map.has(key))map.set(key,{num:found.game.num,time1:found.game.time1,time2:found.game.time2,palpites:[]});
+  const sc=found.reversed?{g1:score.g2,g2:score.g1}:score;
+  const row=map.get(key); const existing=row.palpites.find(p=>norm(p.nome)===norm(nome));
+  if(existing){existing.g1=sc.g1;existing.g2=sc.g2}else row.palpites.push({nome,g1:sc.g1,g2:sc.g2,source:'planilha'});
+}
+function parseJogosCSV(csv){
+  const rows=parseCSV(csv); if(!rows.length)return [];
+  let headerRow=rows.findIndex(r=>{const j=norm(r.join(' '));return (j.includes('jogo')||j.includes('data')) && (j.includes('time')||j.includes('sele')||j.includes('mandante'))});
+  if(headerRow<0)return [];
+  const h=rows[headerRow]; const iNum=headerIndex(h,['jogo','num','nº','n°','#']); const iData=headerIndex(h,['data']); const iHora=headerIndex(h,['hora']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1','time a']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2','time b']); const iRes=headerIndex(h,['resultado','placar final','placar','score']); const iG1=headerIndex(h,['gols 1','gol 1','g1']); const iG2=headerIndex(h,['gols 2','gol 2','g2']); const iRod=headerIndex(h,['rodada','fase']);
+  const out=[];
+  for(const r of rows.slice(headerRow+1)){
+    let time1=iT1>=0?canonicalTeam(r[iT1]||''):''; let time2=iT2>=0?canonicalTeam(r[iT2]||''):'';
+    if(!time1||!time2){const ref=extractGameRef(r.join(' ')); time1=time1||ref.time1; time2=time2||ref.time2;}
+    if(!time1||!time2)continue;
+    let gols1=null,gols2=null; const s=iRes>=0?parseScore(r[iRes]):null; if(s){gols1=s.g1;gols2=s.g2} else if(iG1>=0&&iG2>=0&&String(r[iG1]||'').trim()!==''&&String(r[iG2]||'').trim()!==''){gols1=num(r[iG1]);gols2=num(r[iG2])}
+    out.push({num:iNum>=0&&num(r[iNum])?num(r[iNum]):(extractGameRef(r.join(' ')).num||out.length+1),data:iData>=0?r[iData]:'',hora:iHora>=0?r[iHora]:'',time1,time2,gols1,gols2,rodada:iRod>=0?r[iRod]:''})
   }
   return out;
 }
 function parsePalpitesCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return [];
-  const participants=DATA.participantes;
-  let headerRow=rows.findIndex(r=>participants.filter(p=>r.some(c=>norm(c).includes(norm(p)))).length>=3);
-  if(headerRow<0)return [];
-  const h=rows[headerRow]; const pcols=participants.map(p=>[p,h.findIndex(c=>norm(c).includes(norm(p)))||-1]).filter(x=>x[1]>=0);
-  const iNum=headerIndex(h,['jogo','num','nº']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','equipe 1']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','equipe 2']);
-  const out=[];
-  for(const r of rows.slice(headerRow+1)){
-    const numj=iNum>=0?num(r[iNum]):null; const time1=iT1>=0?(r[iT1]||'').trim():''; const time2=iT2>=0?(r[iT2]||'').trim():'';
-    const palpites=[]; for(const [p,idx] of pcols){const sc=parseScore(r[idx]); if(sc)palpites.push({nome:p,g1:sc.g1,g2:sc.g2})}
-    if(palpites.length)out.push({num:numj,time1,time2,palpites});
+  const outMap=new Map(); const participants=DATA.participantes;
+
+  // Formato A: jogos nas linhas e participantes nas colunas.
+  for(let hr=0;hr<Math.min(rows.length,40);hr++){
+    const h=rows[hr]; const pcols=[];
+    participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
+    if(pcols.length<3)continue;
+    const iNum=headerIndex(h,['jogo','num','nº','n°','#']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1','time a']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2','time b']);
+    for(const r of rows.slice(hr+1)){
+      let ref={num:iNum>=0?num(r[iNum]):null,time1:iT1>=0?canonicalTeam(r[iT1]||''):'',time2:iT2>=0?canonicalTeam(r[iT2]||''):'',raw:r.join(' ')};
+      if(!findGameByRef(ref).game)ref=extractGameRef(r.join(' '));
+      for(const [p,idx] of pcols){const sc=parseScore(r[idx]); if(sc)addPalpite(outMap,ref,p,sc)}
+    }
   }
-  return out;
+
+  // Formato B: participante nas linhas e cada coluna é um jogo.
+  for(let hr=0;hr<Math.min(rows.length,40);hr++){
+    const h=rows[hr]; const gameCols=[];
+    h.forEach((cell,idx)=>{const ref=extractGameRef(cell); if(findGameByRef(ref).game)gameCols.push([idx,ref])});
+    if(gameCols.length<3)continue;
+    for(const r of rows.slice(hr+1)){
+      const p=participantFromRow(r); if(!p)continue;
+      for(const [idx,ref] of gameCols){const sc=parseScore(r[idx]); if(sc)addPalpite(outMap,ref,p,sc)}
+    }
+  }
+
+  // Formato C: cada linha contém participante + jogo + palpite.
+  for(let hr=0;hr<Math.min(rows.length,40);hr++){
+    const h=rows[hr]; const joined=norm(h.join(' '));
+    if(!(joined.includes('participante')||joined.includes('nome')||joined.includes('apostador')))continue;
+    if(!(joined.includes('palpite')||joined.includes('aposta')||joined.includes('chute')||joined.includes('placar')))continue;
+    const iNome=headerIndex(h,['participante','nome','apostador']); const iPal=headerIndex(h,['palpite','aposta','chute']); const iNum=headerIndex(h,['jogo','num','nº','n°','#']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2']);
+    for(const r of rows.slice(hr+1)){
+      const p=iNome>=0?(participantFromCell(r[iNome])||participantFromRow(r)):participantFromRow(r); if(!p)continue;
+      const ref={num:iNum>=0?num(r[iNum]):null,time1:iT1>=0?canonicalTeam(r[iT1]||''):'',time2:iT2>=0?canonicalTeam(r[iT2]||''):'',raw:r.join(' ')};
+      let sc=iPal>=0?parseScore(r[iPal]):null; if(!sc){for(const c of r){sc=parseScore(c); if(sc)break}}
+      if(sc)addPalpite(outMap,ref,p,sc);
+    }
+  }
+  return [...outMap.values()].map(row=>({...row,palpites:DATA.participantes.map(p=>row.palpites.find(x=>norm(x.nome)===norm(p))).filter(Boolean)}));
 }
 function parseCampeoesCSV(csv){
-  const rows=parseCSV(csv); const out=[];
-  for(const r of rows){const nome=DATA.participantes.find(p=>r.some(c=>norm(c)===norm(p))); if(!nome)continue; const other=r.find(c=>norm(c)!==norm(nome)&&String(c).trim()&&isNaN(Number(c))); if(other)out.push({nome,palpite:String(other).trim()})}
-  return out;
+  const rows=parseCSV(csv); const outMap=new Map(); const participants=DATA.participantes; const teams=allTeams();
+  const looksTeam=c=>{const n=norm(c); return teams.some(t=>norm(t)===n) || (String(c||'').trim().length>2 && !/participante|nome|campe[aã]o|palpite|pontos|rodada|resultado/i.test(String(c)) && !parseScore(c) && isNaN(Number(String(c).replace(',','.'))))};
+  for(let hr=0;hr<Math.min(rows.length,30);hr++){
+    const h=rows[hr]; const pcols=[]; participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
+    if(pcols.length>=3){for(const r of rows.slice(hr+1)){if(!/campe|vencedor|ganhador|sele[cç][aã]o/i.test(r.join(' ')))continue; for(const [p,idx] of pcols){const v=(r[idx]||'').trim(); if(looksTeam(v))outMap.set(p,canonicalTeam(v));}}}
+  }
+  for(const r of rows){const nome=participantFromRow(r); if(!nome)continue; const cand=r.find(c=>norm(c)!==norm(nome)&&looksTeam(c)); if(cand)outMap.set(nome,canonicalTeam(cand));}
+  return participants.filter(p=>outMap.has(p)).map(nome=>({nome,palpite:outMap.get(nome)}));
 }
 function mergeRemote(payload){
   if(!payload||!payload.csvs)return;
   const csvs=payload.csvs;
   if(csvs.ranking){const r=parseRankingCSV(csvs.ranking); if(r.length>=3)DATA.rankingOficial=r}
-  if(csvs.jogos){const jogos=parseJogosCSV(csvs.jogos); for(const novo of jogos){const old=DATA.jogos.find(j=>j.num&&novo.num&&j.num===novo.num)||(novo.time1&&novo.time2?DATA.jogos.find(j=>norm(j.time1)===norm(novo.time1)&&norm(j.time2)===norm(novo.time2)):null); if(old)Object.assign(old,{data:novo.data||old.data,hora:novo.hora||old.hora,time1:novo.time1||old.time1,time2:novo.time2||old.time2,gols1:novo.gols1,gols2:novo.gols2,rodada:novo.rodada||old.rodada})}}
-  if(csvs.palpites){const palps=parsePalpitesCSV(csvs.palpites); for(const row of palps){const j=DATA.jogos.find(g=>row.num&&g.num===row.num)||DATA.jogos.find(g=>norm(g.time1)===norm(row.time1)&&norm(g.time2)===norm(row.time2)); if(j){j.palpites=row.palpites; delete j.palpitesStatus}}}
+  if(csvs.jogos){const jogos=parseJogosCSV(csvs.jogos); for(const novo of jogos){const found=findGameByRef(novo); const old=found.game; if(old)Object.assign(old,{data:novo.data||old.data,hora:novo.hora||old.hora,time1:novo.time1||old.time1,time2:novo.time2||old.time2,gols1:novo.gols1,gols2:novo.gols2,rodada:novo.rodada||old.rodada})}}
+  if(csvs.palpites){const palps=parsePalpitesCSV(csvs.palpites); for(const row of palps){const found=findGameByRef(row); const j=found.game; if(j&&row.palpites.length){j.palpites=row.palpites; j.palpitesFonte='planilha'; delete j.palpitesStatus}}}
   if(csvs.campeoes){const c=parseCampeoesCSV(csvs.campeoes); if(c.length>=3)DATA.campeoes=c}
   remote={ok:payload.ok!==false,source:payload.source||'api',updatedAt:payload.updatedAt||new Date().toISOString(),warnings:payload.warnings||[],artilhariaTexto:payload.artilhariaTexto||null,noticias:payload.noticias||[]};
 }
 async function loadRemote(){
   try{const r=await fetch('/api/bolao?ts='+Date.now(),{cache:'no-store'}); if(!r.ok)throw new Error('API local indisponível'); mergeRemote(await r.json());}
   catch(e){
-    try{const r=await fetch(CSV_URLS.ranking+'&ts='+Date.now(),{cache:'no-store'}); const text=await r.text(); const rg=parseRankingCSV(text); if(rg.length>=3){DATA.rankingOficial=rg; remote={ok:true,source:'csv-direto',updatedAt:new Date().toISOString(),warnings:['Usando CSV direto; no Vercel, prefira /api/bolao para evitar CORS.']}}}
-    catch(err){remote={ok:false,source:'fallback',updatedAt:null,warnings:['Não foi possível ler o CSV agora. Exibindo snapshot local.']}}
+    try{const r=await fetch(CSV_URLS.ranking+'&ts='+Date.now(),{cache:'no-store'}); const text=await r.text(); const rg=parseRankingCSV(text); if(rg.length>=3){DATA.rankingOficial=rg; remote={ok:true,source:'csv-direto',updatedAt:new Date().toISOString(),warnings:[],artilhariaTexto:null,noticias:[]}}}
+    catch(err){remote={ok:false,source:'fallback',updatedAt:null,warnings:[],artilhariaTexto:null,noticias:[]}}
   }
-  document.getElementById('syncStatus').textContent=remote.ok?'automático ativo':'snapshot local';
-  document.getElementById('dataSource').textContent=remote.ok?'dados da planilha / API':'sem conexão com CSV';
+  const s=document.getElementById('syncStatus'); if(s)s.textContent=remote.ok?'online':'snapshot';
   render();
 }
 function ranking(){return [...(DATA.rankingOficial||[])].sort((a,b)=>b.pontos-a.pontos||b.cravadas-a.cravadas).map((p,i)=>({...p,posicao:i+1}))}
 function stats(nome){const games=DATA.jogos.filter(j=>played(j)&&getPalpite(j,nome)); let pts=0,cr=0,ac=0,emp=0,ptsEmp=0; for(const j of games){const p=getPalpite(j,nome), sc=scorePalpite(j,p); pts+=sc; if(sc===10)cr++; if(sc>0)ac++; if(p&&p.g1===p.g2)emp++; if(j.gols1===j.gols2)ptsEmp+=sc;} return {nome,jogos:games.length,pontosCalc:pts,cravadasCalc:cr,acertosCalc:ac,empatesApostados:emp,ptsEmpate:ptsEmp,aproveitamento:games.length?Math.round(ac/games.length*100):0}}
-function renderRanking(){const s=ranking(); const last=s.at(-1)?.pontos??0; const medals=['🥇','🥈','🥉']; return `<section class="section"><div class="stitle">Classificação do Bolão</div><div class="grid ranking-grid">${s.map((p,i)=>{const st=stats(p.nome); const diff=p.pontos-last; return `<article class="card rank-card ${i<3?'p'+(i+1):''}"><div class="medal ${i>2?'num':''}">${medals[i]||((i+1)+'º')}</div><div class="pinfo"><div class="pname">${esc(p.nome)}${p.nome==='IA'?'<span class="ia-tag">IA</span>':''}</div><div class="pstats"><span><b>${p.cravadas||st.cravadasCalc}</b> cravadas</span><span><b>${p.corretos||st.acertosCalc}</b> acertos</span><span><b>${diff===0?'—':'+'+diff}</b> do lanterna</span></div></div><div class="ppts">${p.pontos}<small>pts</small></div></article>`}).join('')}</div></section>`}
-function renderStats(){const games=DATA.jogos.filter(played), goals=games.reduce((s,j)=>s+j.gols1+j.gols2,0), pending=DATA.jogos.filter(j=>!played(j)).length; const rs=ranking(), leader=rs[0], last=rs.at(-1); const avg=games.length?(goals/games.length).toFixed(2):'0.00'; const allStats=DATA.participantes.map(stats).sort((a,b)=>b.cravadasCalc-a.cravadasCalc||b.acertosCalc-a.acertosCalc); return `<section class="section"><div class="stitle">Painel de Estatísticas</div><div class="grid stat-grid"><div class="card stat"><div class="label">Jogos disputados</div><div class="value">${games.length}</div><div class="desc">${pending} ainda pendentes</div></div><div class="card stat"><div class="label">Gols registrados</div><div class="value">${goals}</div><div class="desc">média ${avg} por jogo</div></div><div class="card stat"><div class="label">Líder</div><div class="value">${esc(leader?.nome||'—')}</div><div class="desc">${leader?.pontos||0} pontos</div></div><div class="card stat"><div class="label">Maior caçador de placar</div><div class="value">${esc(allStats[0]?.nome||'—')}</div><div class="desc">${allStats[0]?.cravadasCalc||0} cravadas calculadas</div></div><div class="card stat"><div class="label">Distância líder-lanterna</div><div class="value">${(leader?.pontos??0)-(last?.pontos??0)}</div><div class="desc">diferença para o último colocado</div></div></div></section>`}
-function renderChampions(){return `<section class="section"><div class="stitle">Palpites de Campeão</div><div class="grid champ-grid">${(DATA.campeoes||[]).map(c=>`<div class="card champ"><span>${esc(c.nome)}</span><b>${esc(c.palpite)}</b></div>`).join('')}</div></section>`}
-function renderParticipantsTable(){const rows=ranking().map(p=>({...p,...stats(p.nome)})); return `<section class="section"><div class="stitle">Raio-X dos Participantes</div><div class="table-wrap"><table><thead><tr><th>Pos.</th><th class="name">Participante</th><th>Pontos</th><th>Dif. lanterna</th><th>Cravadas</th><th>Acertos</th><th>Aproveit.</th><th>Empates apost.</th></tr></thead><tbody>${rows.map(p=>{const last=rows.at(-1)?.pontos||0; return `<tr><td>${p.posicao}º</td><td class="name">${esc(p.nome)}${p.nome==='IA'?' <span class="ia-tag">IA</span>':''}</td><td class="pts">${p.pontos}</td><td>${p.pontos===last?'—':'+'+(p.pontos-last)}</td><td>${p.cravadas||p.cravadasCalc}</td><td>${p.corretos||p.acertosCalc}</td><td>${p.aproveitamento}%</td><td>${p.empatesApostados}</td></tr>`}).join('')}</tbody></table></div></section>`}
+
+let rankMoveCache=null, rankSnapshotQueued=false;
+function getRankMoves(rows){
+  if(rankMoveCache)return rankMoveCache;
+  const moves={}; let stored={positions:{}};
+  try{stored=JSON.parse(localStorage.getItem('bolao-ranking-snapshot')||'{"positions":{}}')}catch(e){}
+  for(const p of rows){
+    let previous=Number(p.posicaoAnterior||0);
+    if(!previous && p.movimentoRaw){const m=String(p.movimentoRaw).match(/-?\d+/); if(m)previous=p.posicao+Number(m[0])*-1}
+    if(!previous)previous=Number(stored.positions?.[norm(p.nome)]||0);
+    moves[p.nome]=previous?previous-p.posicao:0;
+  }
+  rankMoveCache=moves;
+  if(!rankSnapshotQueued){rankSnapshotQueued=true; setTimeout(()=>{try{localStorage.setItem('bolao-ranking-snapshot',JSON.stringify({updatedAt:new Date().toISOString(),positions:Object.fromEntries(rows.map(p=>[norm(p.nome),p.posicao]))}))}catch(e){}},1200)}
+  return moves;
+}
+function moveBadge(v){if(v>0)return `<span class="move up" title="Subiu ${v} posição${v>1?'ões':''}">↑${v}</span>`; if(v<0)return `<span class="move down" title="Desceu ${Math.abs(v)} posição${Math.abs(v)>1?'ões':''}">↓${Math.abs(v)}</span>`; return `<span class="move flat" title="Sem variação">•</span>`}
+function renderRanking(){
+  const s=ranking(); const leader=s[0]?.pontos??0; const moves=getRankMoves(s); const medals=['🥇','🥈','🥉']; const tags=['LÍDER','PÓDIO','PÓDIO'];
+  return `<section class="section"><div class="stitle">Classificação do Bolão</div><div class="grid ranking-grid">${s.map((p,i)=>{const st=stats(p.nome); const diff=leader-p.pontos; const isLast=i===s.length-1; return `<article class="card rank-card ${i<3?'p'+(i+1):''} ${isLast?'last':''}">${i<3?`<div class="podium-tag">${tags[i]}</div>`:''}<div class="medal ${i>2?'num':''}">${medals[i]||((i+1)+'º')}</div><div class="pinfo"><div class="pname">${esc(p.nome)}${p.nome==='IA'?'<span class="ia-tag">IA</span>':''}${moveBadge(moves[p.nome]||0)}</div><div class="pstats"><span><b>${p.cravadas||st.cravadasCalc}</b> cravadas</span><span><b>${p.corretos||st.acertosCalc}</b> acertos</span><span><b>${diff===0?'líder':'-'+diff}</b> do líder</span></div></div><div class="ppts">${p.pontos}<small>pts</small></div></article>`}).join('')}</div></section>`
+}
+function renderStats(){const games=DATA.jogos.filter(played), goals=games.reduce((s,j)=>s+j.gols1+j.gols2,0), pending=DATA.jogos.filter(j=>!played(j)).length; const rs=ranking(), leader=rs[0], last=rs.at(-1); const avg=games.length?(goals/games.length).toFixed(2):'0.00'; const allStats=DATA.participantes.map(stats).sort((a,b)=>b.cravadasCalc-a.cravadasCalc||b.acertosCalc-a.acertosCalc); return `<section class="section"><div class="stitle">Painel de Estatísticas</div><div class="grid stat-grid"><div class="card stat"><div class="label">Jogos disputados</div><div class="value">${games.length}</div><div class="desc">${pending} pendentes</div></div><div class="card stat"><div class="label">Gols registrados</div><div class="value">${goals}</div><div class="desc">média ${avg} por jogo</div></div><div class="card stat"><div class="label">Líder</div><div class="value">${esc(leader?.nome||'—')}</div><div class="desc">${leader?.pontos||0} pontos</div></div><div class="card stat"><div class="label">Mais cravadas</div><div class="value">${esc(allStats[0]?.nome||'—')}</div><div class="desc">${allStats[0]?.cravadasCalc||0} placares exatos</div></div><div class="card stat"><div class="label">Líder x último</div><div class="value">${(leader?.pontos??0)-(last?.pontos??0)}</div><div class="desc">pontos de diferença</div></div></div></section>`}
+function renderChampions(){return `<section class="section"><div class="stitle">Palpites de Campeão</div><div class="grid champ-grid">${(DATA.campeoes||[]).map(c=>`<div class="card champ"><span class="who">${esc(c.nome)}</span><div class="pick">${flag(c.palpite)} <b>${esc(c.palpite||'—')}</b></div><span class="label">palpite campeão</span></div>`).join('')}</div></section>`}
+function renderParticipantsTable(){const rows=ranking().map(p=>({...p,...stats(p.nome)})); const leader=rows[0]?.pontos||0; return `<section class="section"><div class="stitle">Raio-X dos Participantes</div><div class="table-wrap"><table><thead><tr><th>Pos.</th><th class="name">Participante</th><th>Pontos</th><th>Dif. líder</th><th>Cravadas</th><th>Acertos</th><th>Aproveit.</th><th>Empates apost.</th></tr></thead><tbody>${rows.map(p=>{const diff=leader-p.pontos; return `<tr><td>${p.posicao}º</td><td class="name">${esc(p.nome)}${p.nome==='IA'?' <span class="ia-tag">IA</span>':''}</td><td class="pts">${p.pontos}</td><td>${diff===0?'líder':'-'+diff}</td><td>${p.cravadas||p.cravadasCalc}</td><td>${p.corretos||p.acertosCalc}</td><td>${p.aproveitamento}%</td><td>${p.empatesApostados}</td></tr>`}).join('')}</tbody></table></div></section>`}
 function standings(){const out={}; for(const [g,teams] of Object.entries(DATA.grupos||{})){const map=Object.fromEntries(teams.map(t=>[t,{time:t,J:0,V:0,E:0,D:0,GP:0,GC:0,SG:0,Pts:0}])); for(const j of DATA.jogos.filter(played)){if(!map[j.time1]||!map[j.time2])continue; const a=map[j.time1], b=map[j.time2]; a.J++;b.J++;a.GP+=j.gols1;a.GC+=j.gols2;b.GP+=j.gols2;b.GC+=j.gols1; if(j.gols1>j.gols2){a.V++;b.D++;a.Pts+=3} else if(j.gols1<j.gols2){b.V++;a.D++;b.Pts+=3} else {a.E++;b.E++;a.Pts++;b.Pts++} a.SG=a.GP-a.GC;b.SG=b.GP-b.GC;} out[g]=Object.values(map).sort((a,b)=>b.Pts-a.Pts||b.SG-a.SG||b.GP-a.GP||a.time.localeCompare(b.time));} return out}
-function renderGroups(){const st=standings(); return `<section class="section"><div class="stitle">Classificação dos Grupos da Copa</div><div class="grid group-grid">${Object.entries(st).map(([g,rows])=>`<div class="card group-card"><h3>Grupo ${g}</h3><div class="table-wrap"><table class="mini"><thead><tr><th class="name">Seleção</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="team-name">${i+1}. ${flag(r.time)} ${esc(r.time)}</td><td class="pts">${r.Pts}</td><td>${r.J}</td><td>${r.V}</td><td>${r.E}</td><td>${r.D}</td><td class="${r.SG>=0?'good':'bad'}">${r.SG>0?'+'+r.SG:r.SG}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}</div><p class="source-note" style="margin-top:10px">Classificação calculada automaticamente pelos resultados preenchidos na planilha/jogos. Critérios usados: pontos, saldo de gols e gols pró.</p></section>`}
-function renderArtilharia(){const fallback=DATA.artilhariaFallback||[]; const text=remote.artilhariaTexto; return `<section class="section"><div class="stitle">Artilharia da Copa</div><div class="card card-pad">${text?`<p class="source-note">${esc(text).slice(0,900)}...</p>`:`<div class="table-wrap"><table><thead><tr><th>Rank</th><th class="name">Jogador</th><th>Seleção</th><th>Gols</th></tr></thead><tbody>${fallback.map(a=>`<tr><td>${esc(a.ranking)}</td><td class="name">${esc(a.jogador)}</td><td>${esc(a.selecao)}</td><td class="pts">${a.gols}</td></tr>`).join('')}</tbody></table></div>`}<p class="source-note" style="margin-top:10px">Fonte externa de conferência: ge — ranking de artilheiros e garçons.</p></div></section>`}
-function renderNoticias(){const fallback=[{titulo:'Uruguai deve ter De La Cruz e Canobbio para enfrentar Cabo Verde; veja mudanças',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'Rúben Dias rebate críticas por ida à praia e dá bronca na imprensa portuguesa',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'República Tcheca e África do Sul empatam e deixam disputa aberta no Grupo A',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'Yamal diz ter Neymar como ídolo, mas elege Messi como melhor da história',url:'https://ge.globo.com/futebol/copa-do-mundo/'}]; const news=(remote.noticias&&remote.noticias.length?remote.noticias:fallback).slice(0,6); return `<section class="section"><div class="stitle">Notícias da Copa</div><div class="grid news-grid">${news.map(n=>`<a class="card news-card" href="${esc(n.url||'https://ge.globo.com/futebol/copa-do-mundo/')}" target="_blank" rel="noopener"><div class="tag">ge · Copa do Mundo</div><h3>${esc(n.titulo||n.title||'Notícia da Copa')}</h3><div class="meta">Abrir matéria ↗</div></a>`).join('')}</div><p class="source-note" style="margin-top:10px">Manchetes buscadas automaticamente da página da Copa do Mundo no ge via função serverless da Vercel. A atualização respeita cache curto para manter o projeto leve.</p></section>`}
+function renderGroups(){const st=standings(); return `<section class="section"><div class="stitle">Classificação dos Grupos da Copa</div><div class="grid group-grid">${Object.entries(st).map(([g,rows])=>`<div class="card group-card"><h3>Grupo ${g}</h3><div class="table-wrap"><table class="mini"><thead><tr><th class="name">Seleção</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="team-name">${i+1}. ${flag(r.time)} ${esc(r.time)}</td><td class="pts">${r.Pts}</td><td>${r.J}</td><td>${r.V}</td><td>${r.E}</td><td>${r.D}</td><td class="${r.SG>=0?'good':'bad'}">${r.SG>0?'+'+r.SG:r.SG}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}</div></section>`}
+function renderArtilharia(){const fallback=DATA.artilhariaFallback||[]; const text=remote.artilhariaTexto; return `<section class="section"><div class="stitle">Artilharia da Copa</div><div class="card card-pad">${text?`<p class="source-note">${esc(text).slice(0,900)}...</p>`:`<div class="table-wrap"><table><thead><tr><th>Rank</th><th class="name">Jogador</th><th>Seleção</th><th>Gols</th></tr></thead><tbody>${fallback.map(a=>`<tr><td>${esc(a.ranking)}</td><td class="name">${esc(a.jogador)}</td><td>${esc(a.selecao)}</td><td class="pts">${a.gols}</td></tr>`).join('')}</tbody></table></div>`}</div></section>`}
+function renderNoticias(){const fallback=[{titulo:'Uruguai deve ter De La Cruz e Canobbio para enfrentar Cabo Verde; veja mudanças',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'Rúben Dias rebate críticas por ida à praia e dá bronca na imprensa portuguesa',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'República Tcheca e África do Sul empatam e deixam disputa aberta no Grupo A',url:'https://ge.globo.com/futebol/copa-do-mundo/'},{titulo:'Yamal diz ter Neymar como ídolo, mas elege Messi como melhor da história',url:'https://ge.globo.com/futebol/copa-do-mundo/'}]; const news=(remote.noticias&&remote.noticias.length?remote.noticias:fallback).slice(0,6); return `<section class="section"><div class="stitle">Notícias da Copa</div><div class="grid news-grid">${news.map(n=>`<a class="card news-card" href="${esc(n.url||'https://ge.globo.com/futebol/copa-do-mundo/')}" target="_blank" rel="noopener"><div class="tag">ge · Copa do Mundo</div><h3>${esc(n.titulo||n.title||'Notícia da Copa')}</h3><div class="meta">Abrir matéria ↗</div></a>`).join('')}</div></section>`}
 function roundButtons(){return ['todos',...new Set(DATA.jogos.map(j=>j.rodada).filter(Boolean))]}
 function filteredGames(){return DATA.jogos.filter(j=>(activeRound==='todos'||j.rodada===activeRound)&&(activeStatus==='todos'||(activeStatus==='disputados'?played(j):!played(j)))&&(!searchTerm||norm(`${j.time1} ${j.time2} ${j.rodada}`).includes(norm(searchTerm))))}
 function renderGames(){return `<section class="section"><div class="stitle">Jogos e Palpites</div><div class="controls"><div class="tabs">${roundButtons().map(r=>`<button class="${activeRound===r?'on':''}" onclick="activeRound='${esc(r)}';render()">${r==='todos'?'Todos':esc(r)}</button>`).join('')}</div><div class="tabs"><button class="${activeStatus==='todos'?'on':''}" onclick="activeStatus='todos';render()">Todos</button><button class="${activeStatus==='disputados'?'on':''}" onclick="activeStatus='disputados';render()">Disputados</button><button class="${activeStatus==='pendentes'?'on':''}" onclick="activeStatus='pendentes';render()">Pendentes</button></div><input class="search" placeholder="Buscar seleção..." value="${esc(searchTerm)}" oninput="searchTerm=this.value;render()"></div><div class="games">${filteredGames().map(renderGame).join('')||'<div class="empty">Nenhum jogo encontrado.</div>'}</div></section>`}
-function renderGame(j){const open=expanded.has(j.num), hasPal=(j.palpites||[]).length>0; return `<article class="game ${played(j)?'played':''} ${open?'open':''}"><div class="game-main" onclick="toggleGame(${j.num})"><div class="gnum">#${j.num}<br>${esc(j.data||'')}</div><div class="team">${flag(j.time1)} ${esc(j.time1==='?'?'A definir':j.time1)}</div><div class="score">${played(j)?`${j.gols1}<span style="color:var(--muted)">×</span>${j.gols2}`:`<small>${esc(j.hora||'a definir')}</small>`}</div><div class="team r">${flag(j.time2)} ${esc(j.time2==='?'?'A definir':j.time2)}</div><div class="arrow">${hasPal?'⌄':'—'}</div></div><div class="palps">${hasPal?`<div class="chips">${j.palpites.map(p=>{const sc=scorePalpite(j,p); return `<div class="chip ${sc===10?'exact':sc>0?'hit':''}"><div class="n">${esc(p.nome)}</div><div class="v">${p.g1}×${p.g2}</div>${played(j)&&sc>0?`<div class="n">+${sc} pts</div>`:''}</div>`}).join('')}</div>`:`<div class="empty">${esc(j.palpitesStatus||'Palpites não publicados para este jogo.')}</div>`}</div></article>`}
+function renderGame(j){const open=expanded.has(j.num), hasPal=(j.palpites||[]).length>0; return `<article class="game ${played(j)?'played':''} ${open?'open':''}"><div class="game-main" onclick="toggleGame(${j.num})"><div class="gnum">#${j.num}<br>${esc(j.data||'')}</div><div class="team">${flag(j.time1)} ${esc(j.time1==='?'?'A definir':j.time1)}</div><div class="score">${played(j)?`${j.gols1}<span style="color:var(--muted)">×</span>${j.gols2}`:`<small>${esc(j.hora||'a definir')}</small>`}</div><div class="team r">${flag(j.time2)} ${esc(j.time2==='?'?'A definir':j.time2)}</div><div class="arrow">${hasPal?'⌄':'—'}</div></div><div class="palps">${hasPal?`<div class="chips">${j.palpites.map(p=>{const sc=scorePalpite(j,p); return `<div class="chip ${sc===10?'exact':sc>0?'hit':''}"><div class="n">${esc(p.nome)}</div><div class="v">${p.g1}×${p.g2}</div>${played(j)&&sc>0?`<div class="n">+${sc} pts</div>`:''}</div>`}).join('')}</div>`:`<div class="empty">${esc(j.palpitesStatus||'Palpites ainda não carregados para este jogo.')}</div>`}</div></article>`}
 function toggleGame(n){expanded.has(n)?expanded.delete(n):expanded.add(n); render()}
-function renderSourceNote(){return `<section class="section"><div class="card card-pad source-note"><b>Status:</b> ${remote.ok?'dados carregados automaticamente da planilha pública.':'usando snapshot local por falha/ausência do CSV.'} ${remote.warnings?.length?'<br>'+remote.warnings.map(esc).join('<br>'):''}<br>Para atualizar jogos/palpites/campeões automaticamente, publique essas abas como CSV e preencha as URLs no arquivo <code>api/bolao.js</code> ou nas variáveis de ambiente da Vercel. As notícias vêm do ge pela função <code>/api/bolao</code>.</div></section>`}
-function render(){document.getElementById('app').innerHTML=renderSourceNote()+renderRanking()+renderStats()+renderChampions()+renderParticipantsTable()+renderGroups()+renderArtilharia()+renderNoticias()+renderGames()+`<div class="footer">Bolão NEXA 2026 · painel estático com atualização via CSV público · sem API paga</div>`}
+function render(){document.getElementById('app').innerHTML=renderRanking()+renderStats()+renderChampions()+renderParticipantsTable()+renderGroups()+renderArtilharia()+renderNoticias()+renderGames()+`<div class="footer">Feito por Yruam Käffer + ChatGPT Plus para alegria da rapaziada &lt;3</div>`}
 loadRemote();
 </script>
 </body>
