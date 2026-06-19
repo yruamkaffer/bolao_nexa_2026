@@ -61,3 +61,9 @@ Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. A
 - O Google pode aplicar cache no CSV por alguns minutos.
 - O Vercel também tem cache curto na função para evitar excesso de chamadas.
 - Se o ge mudar a estrutura da página, o bloco de notícias pode cair para o fallback local até ajustarmos o parser.
+
+
+## Ajustes finais
+
+- O HTML destaca o último jogo com resultado preenchido antes da classificação.
+- Os palpites dos jogos mostram cravada/acerto de resultado sem presumir pontuação fixa por palpite; a pontuação oficial vem da planilha.
