@@ -19,10 +19,6 @@ Configure em **Project Settings → Environment Variables**:
 - `CSV_JOGOS_URL` — CSV da aba Jogos.
 - `CSV_PALPITES_URL` — CSV da aba Palpites.
 - `CSV_CAMPEOES_URL` — CSV da aba Palpites de Campeão ou aba equivalente.
-- `CSV_PONTUACAO_URL` — opcional; CSV com pontos por jogo/participante, caso essa pontuação esteja em aba separada. Também aceita `CSV_PONTOS_JOGOS_URL`.
-- `CSV_DESEMPENHO_DIA_URL` — opcional; CSV da aba Desempenho por dia.
-- `CSV_DESEMPENHO_RODADA_URL` — opcional; CSV da aba Desempenho por rodada.
-- `GE_BRASIL_URL` — opcional. Padrão: `https://ge.globo.com/futebol/selecao-brasileira/`.
 - `GE_COPA_URL` — opcional. Padrão: `https://ge.globo.com/futebol/copa-do-mundo/`.
 - `GE_ARTILHARIA_URL` — opcional. Padrão: matéria de artilheiros do ge.
 
@@ -35,7 +31,7 @@ Sem as URLs extras, o ranking tenta usar o CSV principal enviado e o restante us
 3. No primeiro seletor, escolha a aba específica, não “Documento inteiro”.
 4. No formato, escolha **Valores separados por vírgula (.csv)**.
 5. Clique em **Publicar** e copie o link.
-6. Repita para `Classificação`, `Jogos`, `Palpites`, `Campeões` e, se existirem, `Pontuação por jogo`, `Desempenho por dia` e `Desempenho por rodada`.
+6. Repita para `Classificação`, `Jogos`, `Palpites` e `Campeões`.
 7. Cole cada link nas variáveis de ambiente do Vercel.
 
 ## Subir no GitHub pelo navegador
@@ -70,32 +66,4 @@ Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. A
 ## Ajustes finais
 
 - O HTML destaca o último jogo com resultado preenchido antes da classificação.
-- Os palpites dos jogos mostram cravada/acerto de resultado e pontos por participante. Quando houver coluna/aba de pontos publicada, o painel usa a pontuação oficial da planilha; quando não houver, mostra uma prévia simples e marcada como “prévia”.
-
-## Instalação no celular como app
-
-Esta versão já está preparada como PWA. Depois que o projeto estiver publicado no Vercel com HTTPS, o pessoal do bolão pode instalar assim:
-
-### Android / Chrome
-1. Abrir o link do bolão no Chrome.
-2. Tocar no bloco **Leve o bolão pro celular**.
-3. Tocar em **Instalar como app** ou no menu **⋮ → Adicionar à tela inicial**.
-4. O ícone **Bolão NEXA** aparecerá na tela inicial.
-
-### iPhone / Safari
-1. Abrir o link do bolão no Safari.
-2. Tocar no botão de compartilhar.
-3. Escolher **Adicionar à Tela de Início**.
-4. Confirmar o nome **Bolão NEXA**.
-
-Arquivos PWA incluídos:
-
-```txt
-manifest.webmanifest
-service-worker.js
-icons/icon-192.png
-icons/icon-512.png
-icons/maskable-512.png
-```
-
-Observação: a instalação como app só funciona corretamente quando o site está hospedado em HTTPS, como no Vercel.
+- Os palpites dos jogos mostram cravada/acerto de resultado sem presumir pontuação fixa por palpite; a pontuação oficial vem da planilha.
