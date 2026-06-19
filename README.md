@@ -80,3 +80,8 @@ Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. A
 - O ícone do site usa a imagem indicada.
 - O desempenho por dia e por rodada fica em blocos empilhados, sem tabela lado a lado.
 - A pontuação por jogo e por rodada usa dados oficiais quando você configurar `CSV_PONTUACAO_URL`, `CSV_DESEMPENHO_DIA_URL` e `CSV_DESEMPENHO_RODADA_URL` no Vercel. Sem esses CSVs, o site mostra que está aguardando a planilha oficial em vez de inventar pontuação.
+
+
+## Central Ney
+
+A seção Central Ney puxa notícias do ge por padrão em `https://ge.globo.com/atletas/neymar/`. Se quiser trocar a fonte, configure a variável opcional `GE_NEYMAR_URL` no Vercel.

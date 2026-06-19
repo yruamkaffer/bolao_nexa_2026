@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bolao-nexa-pwa-v2';
+const CACHE_NAME = 'bolao-nexa-pwa-v4-neymar';
 const APP_SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/maskable-512.png'];
 
 self.addEventListener('install', event => {

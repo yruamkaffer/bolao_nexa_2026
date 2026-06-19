@@ -2,6 +2,7 @@ const DEFAULT_RANKING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSs
 const GE_COPA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/';
 const GE_ARTILHARIA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/noticia/2026/06/12/copa-do-mundo-2026-veja-ranking-de-artilheiros-e-garcons.ghtml';
 const GE_BRASIL_URL = 'https://ge.globo.com/futebol/selecao-brasileira/';
+const GE_NEYMAR_URL = 'https://ge.globo.com/atletas/neymar/';
 
 async function fetchText(url) {
   if (!url) return null;
@@ -61,7 +62,7 @@ function extractNoticias(html, limit = 8, filtro = null) {
   const page = String(html || '');
 
   // 1) Padrão mais comum: links de matéria dentro da página da Copa no ge.
-  const anchorRegex = /<a\b[^>]*href=["']([^"']*\/futebol\/copa-do-mundo\/noticia\/[^"']+\.ghtml(?:\?[^"']*)?)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  const anchorRegex = /<a\b[^>]*href=["']([^"']*(?:ge\.globo\.com)?[^"']*\/noticia\/[^"']+\.ghtml(?:\?[^"']*)?)["'][^>]*>([\s\S]*?)<\/a>/gi;
   let match;
   while ((match = anchorRegex.exec(page)) && items.length < Math.max(limit * 2, 8)) {
     const url = normalizeUrl(decodeEntities(match[1]).split('?')[0]);
@@ -76,7 +77,7 @@ function extractNoticias(html, limit = 8, filtro = null) {
 
   // 2) Fallback para metadados JSON/Next/Globo quando os anchors chegam sem texto útil.
   if (items.length < Math.min(4, limit)) {
-    const urlRegex = /https:\/\/ge\.globo\.com\/futebol\/copa-do-mundo\/noticia\/[^"\\]+?\.ghtml/gi;
+    const urlRegex = /https:\/\/ge\.globo\.com\/[^"\\]+?\/noticia\/[^"\\]+?\.ghtml/gi;
     const titleAroundRegex = /"(?:headline|title)"\s*:\s*"([^"]{28,180})"/gi;
     const urls = [...page.matchAll(urlRegex)].map(m => m[1].replace(/\\\//g, '/'));
     const titles = [...page.matchAll(titleAroundRegex)].map(m => decodeEntities(m[1]).trim());
@@ -110,6 +111,7 @@ module.exports = async function handler(req, res) {
     desempenhoRodada: process.env.CSV_DESEMPENHO_RODADA_URL || '',
     noticias: process.env.GE_COPA_URL || GE_COPA_URL,
     noticiasBrasil: process.env.GE_BRASIL_URL || GE_BRASIL_URL,
+    noticiasNeymar: process.env.GE_NEYMAR_URL || GE_NEYMAR_URL,
     artilharia: process.env.GE_ARTILHARIA_URL || GE_ARTILHARIA_URL
   };
 
@@ -135,6 +137,12 @@ module.exports = async function handler(req, res) {
     noticiasBrasil = extractNoticias(brasilHtml, 4, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
   } catch (err) { warnings.push(`ge notícias brasil: ${err.message}`); }
 
+  let noticiasNeymar = [];
+  try {
+    const neyHtml = await fetchText(urls.noticiasNeymar);
+    noticiasNeymar = extractNoticias(neyHtml, 6, (titulo, url) => /neymar|santos|sele[cç][aã]o|brasil|copa|ney/i.test(titulo + ' ' + url));
+  } catch (err) { warnings.push(`ge notícias neymar: ${err.message}`); }
+
   res.status(200).json({
     ok: Object.keys(csvs).length > 0,
     source: 'vercel-function',
@@ -144,6 +152,7 @@ module.exports = async function handler(req, res) {
     artilhariaTexto,
     noticias,
     noticiasBrasil,
+    noticiasNeymar,
     warnings
   });
 };
