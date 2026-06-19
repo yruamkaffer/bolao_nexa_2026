@@ -6,9 +6,7 @@
 <title>Bolão Copa do Mundo NEXA 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#0a1830;--navy2:#102542;--navy3:#173website-not-real; /* placeholder removed below */
-}
+
 :root{
   --navy:#0a1830;--navy2:#0f2444;--navy3:#16345c;
   --babyblue:#8ecdf0;--babyblue2:#bfe6fb;
@@ -123,6 +121,29 @@ table.datatable tr:hover td{background:rgba(142,205,240,.04)}
   .ranking-grid{grid-template-columns:1fr}.ppts{font-size:34px}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+
+/* NOVOS BLOCOS AUTOMÁTICOS */
+.source-note{margin-top:-26px;margin-bottom:30px;color:var(--muted2);font-size:11px;line-height:1.6;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.source-note a{color:var(--babyblue);text-decoration:none;border-bottom:1px dotted var(--border2)}
+.pcard.me{border-color:rgba(255,122,41,.7);box-shadow:0 0 0 1px rgba(255,122,41,.16) inset}
+.move{font-size:10px;font-family:'DM Mono',monospace}.move.up{color:#68e082}.move.down{color:#ff8a8a}.move.flat{color:var(--muted)}
+.pobs{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:5px}
+.stats-grid.top{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat-card.orange .sval{color:var(--orange)}
+.stat-card .sval.small{font-size:22px;line-height:1.1}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.control-input{background:var(--navy2);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:12px;min-width:210px;outline:none}
+.control-input:focus{border-color:var(--border2)}
+.status-pill{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--navy2);color:var(--muted2);cursor:pointer;font-size:12px}
+.status-pill.on{background:var(--navy3);color:var(--babyblue);border-color:var(--border2)}
+.game-count{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-left:auto}
+.badge-soft{font-size:9px;font-family:'DM Mono',monospace;background:rgba(142,205,240,.10);border:1px solid rgba(142,205,240,.22);border-radius:999px;color:var(--babyblue);padding:3px 7px;white-space:nowrap}
+.badge-warn{background:rgba(255,122,41,.10);border-color:rgba(255,122,41,.28);color:var(--orange2)}
+.footer-note{margin-top:36px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted2);font-size:11px;line-height:1.7}
+.table-mini{font-size:12px}.table-mini td,.table-mini th{padding:7px 10px!important}.align-right{text-align:right!important}.nowrap{white-space:nowrap}.trend-good{color:var(--babyblue)}.trend-hot{color:var(--orange)}
+@media(max-width:600px){.source-note{margin-top:-18px}.game-count{width:100%;margin-left:0}.controls{align-items:stretch}.control-input{width:100%}.status-pill{flex:1}.pstats{gap:10px}.chips{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -130,413 +151,244 @@ table.datatable tr:hover td{background:rgba(142,205,240,.04)}
   <header>
     <div class="hd-left">
       <h1>BOLÃO COPA DO<br>MUNDO <em>NEXA 2026</em></h1>
-      <p>Copa do Mundo · 8 participantes + IA · 24 jogos disputados</p>
+      <p>Copa do Mundo · 8 participantes + IA</p>
     </div>
-    <div class="stamp"><div class="dot"></div><span>Atualizado em 18/06/2026, 07:53</span></div>
+    <div class="stamp"><div class="dot"></div><span>Atualizado</span></div>
   </header>
   <div id="app"></div>
 </div>
-
 <script>
-const PARTICIPANTES = ['Junin','Binho','Carlos','Jean','Matheus','Yruam','Rodrigo','Rapha','IA'];
 
-const DATA = {
-  ranking: [
-    {nome:"Jean",    pontos:61, cravadas:3, corretos:13, fase_grupos:61, mata_mata:0},
-    {nome:"Rodrigo", pontos:60, cravadas:2, corretos:13, fase_grupos:60, mata_mata:0},
-    {nome:"Rapha",   pontos:55, cravadas:1, corretos:12, fase_grupos:55, mata_mata:0},
-    {nome:"Matheus", pontos:55, cravadas:0, corretos:12, fase_grupos:55, mata_mata:0},
-    {nome:"Junin",   pontos:52, cravadas:1, corretos:12, fase_grupos:52, mata_mata:0},
-    {nome:"Yruam",   pontos:50, cravadas:1, corretos:11, fase_grupos:50, mata_mata:0},
-    {nome:"Binho",   pontos:48, cravadas:1, corretos:11, fase_grupos:48, mata_mata:0},
-    {nome:"Carlos",  pontos:47, cravadas:1, corretos:10, fase_grupos:47, mata_mata:0},
-    {nome:"IA",      pontos:46, cravadas:2, corretos:10, fase_grupos:46, mata_mata:0}
-  ],
-  campeoes:[
-    {nome:"Junin",palpite:"Portugal"},{nome:"Yruam",palpite:"Espanha"},{nome:"Matheus",palpite:"Brasil"},
-    {nome:"Jean",palpite:"França"},{nome:"Binho",palpite:"Argentina"},{nome:"Carlos",palpite:"Espanha"},
-    {nome:"IA",palpite:"França"},{nome:"Rodrigo",palpite:"Brasil"},{nome:"Rapha",palpite:"Holanda"}
-  ],
-  desempenho_rodada: [
-    {rodada:"11/06", pts:{Junin:6, Binho:6, Carlos:7,  Jean:7,  Matheus:10, Yruam:7,  Rodrigo:1,  Rapha:5,  IA:7}},
-    {rodada:"12/06", pts:{Junin:4, Binho:2, Carlos:2,  Jean:2,  Matheus:2,  Yruam:4,  Rodrigo:11, Rapha:4,  IA:4}},
-    {rodada:"13/06", pts:{Junin:5, Binho:4, Carlos:5,  Jean:12, Matheus:6,  Yruam:5,  Rodrigo:8,  Rapha:6,  IA:1}},
-    {rodada:"14/06", pts:{Junin:7, Binho:11,Carlos:7,  Jean:10, Matheus:8,  Yruam:8,  Rodrigo:8,  Rapha:11, IA:11}},
-    {rodada:"15/06", pts:{Junin:6, Binho:1, Carlos:5,  Jean:2,  Matheus:2,  Yruam:2,  Rodrigo:8,  Rapha:6,  IA:2}},
-    {rodada:"16/06", pts:{Junin:12,Binho:12,Carlos:12, Jean:12, Matheus:11, Yruam:12, Rodrigo:12, Rapha:8,  IA:14}},
-    {rodada:"17/06", pts:{Junin:0, Binho:4, Carlos:3,  Jean:4,  Matheus:4,  Yruam:4,  Rodrigo:4,  Rapha:4,  IA:0}},
-  ],
-  // Aproveitamento dos palpites (empate vs não-empate)
-  aproveitamento: [
-    {nome:"Jean",    empate_pct:13, naoempate_pct:88, pts_empate:12, pts_naoempate:49, coeficiente:4.17},
-    {nome:"Rodrigo", empate_pct:22, naoempate_pct:78, pts_empate:20, pts_naoempate:40, coeficiente:6.94},
-    {nome:"Rapha",   empate_pct:22, naoempate_pct:78, pts_empate:11, pts_naoempate:44, coeficiente:8.33},
-    {nome:"Matheus", empate_pct:13, naoempate_pct:88, pts_empate:2,  pts_naoempate:53, coeficiente:1.39},
-    {nome:"Junin",   empate_pct:15, naoempate_pct:85, pts_empate:4,  pts_naoempate:48, coeficiente:4.17},
-    {nome:"Yruam",   empate_pct:22, naoempate_pct:78, pts_empate:2,  pts_naoempate:48, coeficiente:4.17},
-    {nome:"Binho",   empate_pct:6,  naoempate_pct:94, pts_empate:1,  pts_naoempate:47, coeficiente:1.39},
-    {nome:"Carlos",  empate_pct:8,  naoempate_pct:92, pts_empate:5,  pts_naoempate:42, coeficiente:1.39},
-    {nome:"IA",      empate_pct:7,  naoempate_pct:93, pts_empate:1,  pts_naoempate:45, coeficiente:13.89},
-  ],
-  jogos:[
-    {num:1,data:"11/06",hora:"16h",time1:"México",time2:"África do Sul",gols1:2,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:0}]},
-    {num:2,data:"11/06",hora:"23h",time1:"Coréia do Sul",time2:"Tchéquia",gols1:2,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:0},{nome:"Binho",g1:0,g2:0},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:0},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:2},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:3,data:"12/06",hora:"16h",time1:"Canadá",time2:"Bósnia",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:0,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:1,g2:0},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:4,data:"12/06",hora:"22h",time1:"Estados Unidos",time2:"Paraguai",gols1:4,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:0,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:0},{nome:"Rodrigo",g1:1,g2:0},{nome:"Rapha",g1:3,g2:2},{nome:"IA",g1:2,g2:0}]},
-    {num:5,data:"13/06",hora:"16h",time1:"Catar",time2:"Suíça",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:1},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:1},{nome:"Rapha",g1:0,g2:1},{nome:"IA",g1:0,g2:2}]},
-    {num:6,data:"13/06",hora:"19h",time1:"Brasil",time2:"Marrocos",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:2},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:3,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:3,g2:1},{nome:"IA",g1:3,g2:1}]},
-    {num:7,data:"13/06",hora:"22h",time1:"Haiti",time2:"Escócia",gols1:0,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:4},{nome:"Carlos",g1:0,g2:3},{nome:"Jean",g1:0,g2:1},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:4},{nome:"IA",g1:4,g2:0}]},
-    {num:8,data:"14/06",hora:"01h",time1:"Austrália",time2:"Turquia",gols1:2,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:3},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:1,g2:3},{nome:"Yruam",g1:1,g2:2},{nome:"Rodrigo",g1:1,g2:3},{nome:"Rapha",g1:1,g2:2},{nome:"IA",g1:1,g2:1}]},
-    {num:9,data:"14/06",hora:"14h",time1:"Alemanha",time2:"Curaçao",gols1:7,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:4,g2:0},{nome:"Binho",g1:4,g2:0},{nome:"Carlos",g1:5,g2:0},{nome:"Jean",g1:5,g2:0},{nome:"Matheus",g1:4,g2:0},{nome:"Yruam",g1:5,g2:0},{nome:"Rodrigo",g1:4,g2:0},{nome:"Rapha",g1:5,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:10,data:"14/06",hora:"17h",time1:"Holanda",time2:"Japão",gols1:2,gols2:2,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:2},{nome:"IA",g1:2,g2:1}]},
-    {num:11,data:"14/06",hora:"20h",time1:"Costa do Marfim",time2:"Equador",gols1:1,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:2},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:12,data:"14/06",hora:"23h",time1:"Suécia",time2:"Tunísia",gols1:5,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:1,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:0,g2:1},{nome:"IA",g1:2,g2:0}]},
-    {num:13,data:"15/06",hora:"13h",time1:"Espanha",time2:"Cabo Verde",gols1:0,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:5,g2:0},{nome:"Carlos",g1:4,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:6,g2:0},{nome:"Rapha",g1:4,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:14,data:"15/06",hora:"16h",time1:"Bélgica",time2:"Egito",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:3,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:15,data:"15/06",hora:"19h",time1:"Arábia Saudita",time2:"Uruguai",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:1,g2:2},{nome:"Matheus",g1:0,g2:3},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:1,g2:3},{nome:"Rapha",g1:1,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:16,data:"15/06",hora:"22h",time1:"Irã",time2:"Nova Zelândia",gols1:2,gols2:2,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:0},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:0,g2:0},{nome:"IA",g1:0,g2:3}]},
-    {num:17,data:"16/06",hora:"16h",time1:"França",time2:"Senegal",gols1:3,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:1,g2:2},{nome:"IA",g1:3,g2:0}]},
-    {num:18,data:"16/06",hora:"19h",time1:"Iraque",time2:"Noruega",gols1:1,gols2:4,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:3},{nome:"Binho",g1:0,g2:4},{nome:"Carlos",g1:0,g2:3},{nome:"Jean",g1:0,g2:3},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:3},{nome:"Rodrigo",g1:0,g2:3},{nome:"Rapha",g1:0,g2:4},{nome:"IA",g1:1,g2:2}]},
-    {num:19,data:"16/06",hora:"22h",time1:"Argentina",time2:"Argélia",gols1:3,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:4,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:1},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:20,data:"17/06",hora:"01h",time1:"Áustria",time2:"Jordânia",gols1:3,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:1,g2:2}]},
-    {num:21,data:"17/06",hora:"14h",time1:"Portugal",time2:"RD Congo",gols1:1,gols2:1,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:4,g2:0},{nome:"Carlos",g1:5,g2:0},{nome:"Jean",g1:3,g2:1},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:4,g2:0},{nome:"Rapha",g1:5,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:22,data:"17/06",hora:"17h",time1:"Inglaterra",time2:"Croácia",gols1:4,gols2:2,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:3,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:1,g2:0},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:3,g2:0}]},
-    {num:23,data:"17/06",hora:"20h",time1:"Gana",time2:"Panamá",gols1:1,gols2:0,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:3,g2:1},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:24,data:"17/06",hora:"23h",time1:"Uzbequistão",time2:"Colômbia",gols1:1,gols2:3,rodada:"1ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:3},{nome:"Matheus",g1:0,g2:3},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:3},{nome:"IA",g1:1,g2:2}]},
-    {num:25,data:"18/06",hora:"13h",time1:"Tchéquia",time2:"África do Sul",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:1,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:0},{nome:"Rodrigo",g1:0,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:26,data:"18/06",hora:"16h",time1:"Suíça",time2:"Bósnia",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:1,g2:0},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:0,g2:1},{nome:"IA",g1:0,g2:3}]},
-    {num:27,data:"18/06",hora:"19h",time1:"Canadá",time2:"Catar",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:1,g2:0},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:1,g2:0}]},
-    {num:28,data:"18/06",hora:"22h",time1:"México",time2:"Coréia do Sul",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:1,g2:0},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:3,g2:1},{nome:"Rapha",g1:2,g2:2},{nome:"IA",g1:1,g2:2}]},
-    {num:29,data:"19/06",hora:"16h",time1:"Estados Unidos",time2:"Austrália",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:30,data:"19/06",hora:"19h",time1:"Escócia",time2:"Marrocos",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:2},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:2,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:3},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:3}]},
-    {num:31,data:"19/06",hora:"21h30",time1:"Brasil",time2:"Haiti",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:4,g2:0},{nome:"Carlos",g1:4,g2:1},{nome:"Jean",g1:4,g2:0},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:4,g2:0},{nome:"Rodrigo",g1:7,g2:0},{nome:"Rapha",g1:5,g2:0},{nome:"IA",g1:1,g2:0}]},
-    {num:32,data:"20/06",hora:"00h",time1:"Turquia",time2:"Paraguai",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:2},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:0},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:33,data:"20/06",hora:"14h",time1:"Holanda",time2:"Suécia",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:2,g2:2},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:1,g2:2}]},
-    {num:34,data:"20/06",hora:"17h",time1:"Alemanha",time2:"Costa do Marfim",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:3,g2:1},{nome:"Jean",g1:3,g2:1},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:35,data:"20/06",hora:"21h",time1:"Equador",time2:"Curaçao",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:1,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:1,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:36,data:"21/06",hora:"01h",time1:"Tunísia",time2:"Japão",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:1,g2:2},{nome:"Yruam",g1:0,g2:1},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:1,g2:3},{nome:"IA",g1:0,g2:3}]},
-    {num:37,data:"21/06",hora:"13h",time1:"Espanha",time2:"Arábia Saudita",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:4,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:38,data:"21/06",hora:"16h",time1:"Bélgica",time2:"Irã",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:39,data:"21/06",hora:"19h",time1:"Uruguai",time2:"Cabo Verde",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:40,data:"21/06",hora:"22h",time1:"Nova Zelândia",time2:"Egito",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:1},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:1,g2:2}]},
-    {num:41,data:"22/06",hora:"14h",time1:"Argentina",time2:"Áustria",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:42,data:"22/06",hora:"18h",time1:"França",time2:"Iraque",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:43,data:"22/06",hora:"21h",time1:"Noruega",time2:"Senegal",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:1}]},
-    {num:44,data:"23/06",hora:"00h",time1:"Jordânia",time2:"Argélia",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:1,g2:1}]},
-    {num:45,data:"23/06",hora:"14h",time1:"Portugal",time2:"Uzbequistão",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:46,data:"23/06",hora:"17h",time1:"Inglaterra",time2:"Gana",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:47,data:"23/06",hora:"20h",time1:"Panamá",time2:"Croácia",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:48,data:"23/06",hora:"23h",time1:"Colômbia",time2:"RD Congo",gols1:null,gols2:null,rodada:"2ª rodada",
-     palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:1}]},
-    {num:49,data:"24/06",hora:"16h",time1:"Suíça",time2:"Canadá",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:50,data:"24/06",hora:"16h",time1:"Bósnia",time2:"Catar",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:51,data:"24/06",hora:"19h",time1:"Marrocos",time2:"Haiti",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:3,g2:0},{nome:"Binho",g1:3,g2:0},{nome:"Carlos",g1:3,g2:0},{nome:"Jean",g1:3,g2:0},{nome:"Matheus",g1:3,g2:0},{nome:"Yruam",g1:3,g2:0},{nome:"Rodrigo",g1:3,g2:0},{nome:"Rapha",g1:3,g2:0},{nome:"IA",g1:3,g2:0}]},
-    {num:52,data:"24/06",hora:"19h",time1:"Escócia",time2:"Brasil",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:53,data:"24/06",hora:"22h",time1:"África do Sul",time2:"Coréia do Sul",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:54,data:"24/06",hora:"22h",time1:"Tchéquia",time2:"México",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:2},{nome:"Binho",g1:1,g2:2},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:1,g2:2},{nome:"Matheus",g1:1,g2:2},{nome:"Yruam",g1:1,g2:2},{nome:"Rodrigo",g1:1,g2:2},{nome:"Rapha",g1:1,g2:2},{nome:"IA",g1:1,g2:2}]},
-    {num:55,data:"25/06",hora:"17h",time1:"Curaçao",time2:"Costa do Marfim",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:0,g2:1},{nome:"Jean",g1:0,g2:1},{nome:"Matheus",g1:0,g2:1},{nome:"Yruam",g1:0,g2:1},{nome:"Rodrigo",g1:0,g2:1},{nome:"Rapha",g1:0,g2:1},{nome:"IA",g1:0,g2:1}]},
-    {num:56,data:"25/06",hora:"17h",time1:"Equador",time2:"Alemanha",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:2},{nome:"Binho",g1:1,g2:2},{nome:"Carlos",g1:1,g2:2},{nome:"Jean",g1:1,g2:2},{nome:"Matheus",g1:1,g2:2},{nome:"Yruam",g1:1,g2:2},{nome:"Rodrigo",g1:1,g2:2},{nome:"Rapha",g1:1,g2:2},{nome:"IA",g1:1,g2:2}]},
-    {num:57,data:"25/06",hora:"20h",time1:"Tunísia",time2:"Holanda",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:58,data:"25/06",hora:"20h",time1:"Japão",time2:"Suécia",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:59,data:"25/06",hora:"23h",time1:"Turquia",time2:"Estados Unidos",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:60,data:"25/06",hora:"23h",time1:"Paraguai",time2:"Austrália",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:61,data:"26/06",hora:"16h",time1:"Noruega",time2:"França",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:1},{nome:"Binho",g1:0,g2:1},{nome:"Carlos",g1:0,g2:1},{nome:"Jean",g1:0,g2:1},{nome:"Matheus",g1:0,g2:1},{nome:"Yruam",g1:0,g2:1},{nome:"Rodrigo",g1:0,g2:1},{nome:"Rapha",g1:0,g2:1},{nome:"IA",g1:0,g2:1}]},
-    {num:62,data:"26/06",hora:"16h",time1:"Senegal",time2:"Iraque",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:0},{nome:"Binho",g1:2,g2:0},{nome:"Carlos",g1:2,g2:0},{nome:"Jean",g1:2,g2:0},{nome:"Matheus",g1:2,g2:0},{nome:"Yruam",g1:2,g2:0},{nome:"Rodrigo",g1:2,g2:0},{nome:"Rapha",g1:2,g2:0},{nome:"IA",g1:2,g2:0}]},
-    {num:63,data:"26/06",hora:"21h",time1:"Cabo Verde",time2:"Arábia Saudita",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:64,data:"26/06",hora:"21h",time1:"Uruguai",time2:"Espanha",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:65,data:"27/06",hora:"00h",time1:"Nova Zelândia",time2:"Bélgica",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:66,data:"27/06",hora:"00h",time1:"Egito",time2:"Irã",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:67,data:"27/06",hora:"18h",time1:"Panamá",time2:"Inglaterra",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    {num:68,data:"27/06",hora:"18h",time1:"Croácia",time2:"Gana",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:2,g2:1},{nome:"Binho",g1:2,g2:1},{nome:"Carlos",g1:2,g2:1},{nome:"Jean",g1:2,g2:1},{nome:"Matheus",g1:2,g2:1},{nome:"Yruam",g1:2,g2:1},{nome:"Rodrigo",g1:2,g2:1},{nome:"Rapha",g1:2,g2:1},{nome:"IA",g1:2,g2:1}]},
-    {num:69,data:"27/06",hora:"20h30",time1:"Colômbia",time2:"Portugal",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:3},{nome:"Binho",g1:0,g2:3},{nome:"Carlos",g1:0,g2:3},{nome:"Jean",g1:0,g2:3},{nome:"Matheus",g1:0,g2:3},{nome:"Yruam",g1:0,g2:3},{nome:"Rodrigo",g1:0,g2:3},{nome:"Rapha",g1:0,g2:3},{nome:"IA",g1:0,g2:3}]},
-    {num:70,data:"27/06",hora:"20h30",time1:"RD Congo",time2:"Uzbequistão",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:71,data:"27/06",hora:"23h",time1:"Argélia",time2:"Áustria",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:1,g2:1},{nome:"Binho",g1:1,g2:1},{nome:"Carlos",g1:1,g2:1},{nome:"Jean",g1:1,g2:1},{nome:"Matheus",g1:1,g2:1},{nome:"Yruam",g1:1,g2:1},{nome:"Rodrigo",g1:1,g2:1},{nome:"Rapha",g1:1,g2:1},{nome:"IA",g1:1,g2:1}]},
-    {num:72,data:"27/06",hora:"23h",time1:"Jordânia",time2:"Argentina",gols1:null,gols2:null,rodada:"3ª rodada",palpites:[{nome:"Junin",g1:0,g2:2},{nome:"Binho",g1:0,g2:2},{nome:"Carlos",g1:0,g2:2},{nome:"Jean",g1:0,g2:2},{nome:"Matheus",g1:0,g2:2},{nome:"Yruam",g1:0,g2:2},{nome:"Rodrigo",g1:0,g2:2},{nome:"Rapha",g1:0,g2:2},{nome:"IA",g1:0,g2:2}]},
-    // 16-avos a final ainda sem palpites
-    {num:73,data:"28/06",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:74,data:"29/06",hora:"14h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:75,data:"29/06",hora:"17h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:76,data:"29/06",hora:"22h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:77,data:"30/06",hora:"14h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:78,data:"30/06",hora:"18h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:79,data:"30/06",hora:"22h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:80,data:"01/07",hora:"13h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:81,data:"01/07",hora:"17h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:82,data:"01/07",hora:"21h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:83,data:"02/07",hora:"18h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:84,data:"02/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:85,data:"03/07",hora:"00h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:86,data:"03/07",hora:"15h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:87,data:"03/07",hora:"19h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:88,data:"03/07",hora:"22h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"16-avos",palpites:[]},
-    {num:89,data:"04/07",hora:"14h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:90,data:"04/07",hora:"18h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:91,data:"05/07",hora:"17h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:92,data:"05/07",hora:"21h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:93,data:"06/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:94,data:"06/07",hora:"21h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:95,data:"07/07",hora:"13h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:96,data:"07/07",hora:"17h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Oitavas",palpites:[]},
-    {num:97,data:"09/07",hora:"17h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Quartas",palpites:[]},
-    {num:98,data:"10/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Quartas",palpites:[]},
-    {num:99,data:"11/07",hora:"18h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Quartas",palpites:[]},
-    {num:100,data:"11/07",hora:"22h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Quartas",palpites:[]},
-    {num:101,data:"14/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Semifinal",palpites:[]},
-    {num:102,data:"15/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Semifinal",palpites:[]},
-    {num:103,data:"18/07",hora:"18h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"3º Lugar",palpites:[]},
-    {num:104,data:"19/07",hora:"16h",time1:"?",time2:"?",gols1:null,gols2:null,rodada:"Final",palpites:[]}
-  ]
-};
-
-const FLAGS={
-  'México':'https://s.sde.globo.com/media/organizations/2022/12/01/Mexico.svg',
-  'África do Sul':'https://s.sde.globo.com/media/organizations/2019/09/09/%C3%81frica_do_Sul.svg',
-  'Coréia do Sul':'https://s.sde.globo.com/media/organizations/2019/09/01/Coreia_do_Sul.svg',
-  'Tchéquia':'https://s.sde.globo.com/media/organizations/2019/09/03/Rep._Tcheca_u3JArFF.svg',
-  'Canadá':'https://s.sde.globo.com/media/organizations/2022/12/01/Canada.svg',
-  'Bósnia':'https://s.sde.globo.com/media/organizations/2019/09/15/B%C3%B3snia.svg',
-  'Catar':'https://s.sde.globo.com/media/organizations/2019/09/06/Catar.svg',
-  'Suíça':'https://s.sde.globo.com/media/organizations/2022/12/01/Suica.svg',
-  'Brasil':'https://s.sde.globo.com/media/organizations/2019/07/16/Brasil_rgYHF6Z.svg',
-  'Marrocos':'https://s.sde.globo.com/media/organizations/2019/09/10/Marrocos.svg',
-  'Haiti':'https://s.sde.globo.com/media/organizations/2019/07/14/Haiti.svg',
-  'Escócia':'https://s.sde.globo.com/media/organizations/2019/09/15/Esc%C3%B3cia.svg',
-  'Estados Unidos':'https://s.sde.globo.com/media/organizations/2019/07/16/Estados_Unidos.svg',
-  'Paraguai':'https://s.sde.globo.com/media/organizations/2019/07/15/Paraguai.svg',
-  'Austrália':'https://s.sde.globo.com/media/organizations/2019/09/02/Australia.svg',
-  'Turquia':'https://s.sde.globo.com/media/organizations/2019/09/03/Turquia_i5NWJC8.svg',
-  'Alemanha':'https://s.sde.globo.com/media/organizations/2019/09/03/Alemanha.svg',
-  'Curaçao':'https://s.sde.globo.com/media/organizations/2019/07/14/Cura%C3%A7ao.svg',
-  'Costa do Marfim':'https://s.sde.globo.com/media/organizations/2019/09/03/Costa_do_Marfim.svg',
-  'Equador':'https://s.sde.globo.com/media/organizations/2019/07/15/Equador.svg',
-  'Holanda':'https://s.sde.globo.com/media/organizations/2019/09/16/Holanda.svg',
-  'Japão':'https://s.sde.globo.com/media/organizations/2019/09/03/Japao.svg',
-  'Suécia':'https://s.sde.globo.com/media/organizations/2019/09/15/Su%C3%A9cia.svg',
-  'Tunísia':'https://s.sde.globo.com/media/organizations/2024/05/02/Tunisia.svg',
-  'Bélgica':'https://s.sde.globo.com/media/organizations/2022/12/01/Belgica.svg',
-  'Egito':'https://s.sde.globo.com/media/organizations/2019/09/08/Egito.svg',
-  'Irã':'https://s.sde.globo.com/media/organizations/2019/09/01/Ir%C3%A3.svg',
-  'Nova Zelândia':'https://s.sde.globo.com/media/organizations/2019/09/01/Nova_Zelandia.svg',
-  'Espanha':'https://s.sde.globo.com/media/organizations/2019/09/03/Espanha.svg',
-  'Cabo Verde':'https://s.sde.globo.com/media/organizations/2019/09/08/Cabo_Verde.svg',
-  'Arábia Saudita':'https://s.sde.globo.com/media/organizations/2022/12/01/Arabia_Saudita.svg',
-  'Uruguai':'https://s.sde.globo.com/media/organizations/2019/07/16/Uruguai.svg',
-  'França':'https://s.sde.globo.com/media/organizations/2022/12/01/Franca.svg',
-  'Senegal':'https://s.sde.globo.com/media/organizations/2019/09/03/Senegal.svg',
-  'Iraque':'https://s.sde.globo.com/media/organizations/2019/09/07/Iraque.svg',
-  'Noruega':'https://s.sde.globo.com/media/organizations/2019/09/15/Noruega.svg',
-  'Argentina':'https://s.sde.globo.com/media/organizations/2019/07/15/Argentina.svg',
-  'Argélia':'https://s.sde.globo.com/media/organizations/2019/09/08/Arg%C3%A9lia.svg',
-  'Áustria':'https://s.sde.globo.com/media/organizations/2019/09/17/%C3%81ustria.svg',
-  'Jordânia':'https://s.sde.globo.com/media/organizations/2019/09/03/Jordania.svg',
-  'Portugal':'https://s.sde.globo.com/media/organizations/2019/09/17/Portugal.svg',
-  'RD Congo':'https://s.sde.globo.com/media/organizations/2019/09/10/RD_Congo.svg',
-  'Uzbequistão':'https://s.sde.globo.com/media/organizations/2019/09/08/Uzbequist%C3%A3o.svg',
-  'Colômbia':'https://s.sde.globo.com/media/organizations/2019/07/14/Colombia.svg',
-  'Inglaterra':'https://s.sde.globo.com/media/organizations/2019/09/13/Inglaterra.svg',
-  'Croácia':'https://s.sde.globo.com/media/organizations/2022/12/01/Croacia.svg',
-  'Gana':'https://s.sde.globo.com/media/organizations/2019/09/08/Gana.svg',
-  'Panamá':'https://s.sde.globo.com/media/organizations/2019/07/15/Panama.svg',
-};
-
+const DATA = {"meta":{"titulo":"Bolão Copa do Mundo NEXA 2026","subtitulo":"Copa do Mundo · 8 participantes + IA","ultimaAtualizacao":"19/06/2026, 13:04","ultimaAtualizacaoTexto":"Última atualização: México 1×0 Coréia do Sul","sheetId":"1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM","fonte":"Planilha do Bolão NEXA"},"participantes":["Junin","Binho","Carlos","Jean","Matheus","Yruam","Rodrigo","Rapha","IA"],"rankingOficial":[{"posicao":1,"nome":"Jean","pontos":73,"cravadas":3,"corretos":16,"fase_grupos":73,"mata_mata":0,"bonus":0,"mov":"▲","obs":"ISENTO"},{"posicao":2,"nome":"Rodrigo","pontos":73,"cravadas":2,"corretos":16,"fase_grupos":73,"mata_mata":0,"bonus":4,"mov":"▼","obs":"R$ 15,00"},{"posicao":3,"nome":"Matheus","pontos":69,"cravadas":1,"corretos":15,"fase_grupos":69,"mata_mata":0,"bonus":2,"mov":"","obs":"R$ 30,00"},{"posicao":4,"nome":"Junin","pontos":60,"cravadas":1,"corretos":14,"fase_grupos":60,"mata_mata":0,"bonus":0,"mov":"","obs":"R$ 45,00"},{"posicao":5,"nome":"Binho","pontos":60,"cravadas":1,"corretos":14,"fase_grupos":60,"mata_mata":0,"bonus":0,"mov":"▲","obs":"R$ 45,00"},{"posicao":6,"nome":"Rapha","pontos":60,"cravadas":1,"corretos":13,"fase_grupos":60,"mata_mata":0,"bonus":0,"mov":"▼","obs":"R$ 45,00"},{"posicao":7,"nome":"Carlos","pontos":56,"cravadas":1,"corretos":12,"fase_grupos":56,"mata_mata":0,"bonus":0,"mov":"","obs":"R$ 45,00"},{"posicao":8,"nome":"Yruam","pontos":53,"cravadas":1,"corretos":11,"fase_grupos":53,"mata_mata":0,"bonus":0,"mov":"","obs":"R$ 50,00"},{"posicao":9,"nome":"IA","pontos":51,"cravadas":2,"corretos":11,"fase_grupos":51,"mata_mata":0,"bonus":0,"mov":"","obs":"R$ 60,00"}],"campeoes":[{"nome":"Junin","palpite":"Portugal"},{"nome":"Yruam","palpite":"Espanha"},{"nome":"Matheus","palpite":"Brasil"},{"nome":"Jean","palpite":"França"},{"nome":"Binho","palpite":"Argentina"},{"nome":"Carlos","palpite":"Espanha"},{"nome":"IA","palpite":"França"},{"nome":"Rodrigo","palpite":"Brasil"},{"nome":"Rapha","palpite":"Holanda"}],"jogos":[{"num":1,"data":"11/06","hora":"16h","time1":"México","time2":"África do Sul","gols1":2,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":2},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":0}]},{"num":2,"data":"11/06","hora":"23h","time1":"Coréia do Sul","time2":"Tchéquia","gols1":2,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":0},{"nome":"Binho","g1":0,"g2":0},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":0},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":2},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":3,"data":"12/06","hora":"16h","time1":"Canadá","time2":"Bósnia","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":0,"g2":1},{"nome":"Carlos","g1":0,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":1,"g2":0},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":4,"data":"12/06","hora":"22h","time1":"Estados Unidos","time2":"Paraguai","gols1":4,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":0,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":0},{"nome":"Rodrigo","g1":1,"g2":0},{"nome":"Rapha","g1":3,"g2":2},{"nome":"IA","g1":2,"g2":0}]},{"num":5,"data":"13/06","hora":"16h","time1":"Catar","time2":"Suíça","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":1},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":1},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":1},{"nome":"Rapha","g1":0,"g2":1},{"nome":"IA","g1":0,"g2":2}]},{"num":6,"data":"13/06","hora":"19h","time1":"Brasil","time2":"Marrocos","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":2},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":3,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":2},{"nome":"Rapha","g1":3,"g2":1},{"nome":"IA","g1":3,"g2":1}]},{"num":7,"data":"13/06","hora":"22h","time1":"Haiti","time2":"Escócia","gols1":0,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":4},{"nome":"Carlos","g1":0,"g2":3},{"nome":"Jean","g1":0,"g2":1},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":4},{"nome":"IA","g1":4,"g2":0}]},{"num":8,"data":"14/06","hora":"01h","time1":"Austrália","time2":"Turquia","gols1":2,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":3},{"nome":"Binho","g1":0,"g2":1},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":1,"g2":3},{"nome":"Yruam","g1":1,"g2":2},{"nome":"Rodrigo","g1":1,"g2":3},{"nome":"Rapha","g1":1,"g2":2},{"nome":"IA","g1":1,"g2":1}]},{"num":9,"data":"14/06","hora":"14h","time1":"Alemanha","time2":"Curaçao","gols1":7,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":4,"g2":0},{"nome":"Binho","g1":4,"g2":0},{"nome":"Carlos","g1":5,"g2":0},{"nome":"Jean","g1":5,"g2":0},{"nome":"Matheus","g1":4,"g2":0},{"nome":"Yruam","g1":5,"g2":0},{"nome":"Rodrigo","g1":4,"g2":0},{"nome":"Rapha","g1":5,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":10,"data":"14/06","hora":"17h","time1":"Holanda","time2":"Japão","gols1":2,"gols2":2,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":2},{"nome":"IA","g1":2,"g2":1}]},{"num":11,"data":"14/06","hora":"20h","time1":"Costa do Marfim","time2":"Equador","gols1":1,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":2},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":12,"data":"14/06","hora":"23h","time1":"Suécia","time2":"Tunísia","gols1":5,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":1,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":0,"g2":1},{"nome":"IA","g1":2,"g2":0}]},{"num":13,"data":"15/06","hora":"13h","time1":"Espanha","time2":"Cabo Verde","gols1":0,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":5,"g2":0},{"nome":"Carlos","g1":4,"g2":0},{"nome":"Jean","g1":3,"g2":0},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":6,"g2":0},{"nome":"Rapha","g1":4,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":14,"data":"15/06","hora":"16h","time1":"Bélgica","time2":"Egito","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":3,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":15,"data":"15/06","hora":"19h","time1":"Arábia Saudita","time2":"Uruguai","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":1},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":1,"g2":2},{"nome":"Matheus","g1":0,"g2":3},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":1,"g2":3},{"nome":"Rapha","g1":1,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":16,"data":"15/06","hora":"22h","time1":"Irã","time2":"Nova Zelândia","gols1":2,"gols2":2,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":0},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":0},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":2},{"nome":"Rapha","g1":0,"g2":0},{"nome":"IA","g1":0,"g2":3}]},{"num":17,"data":"16/06","hora":"16h","time1":"França","time2":"Senegal","gols1":3,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":3,"g2":0},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":1,"g2":2},{"nome":"IA","g1":3,"g2":0}]},{"num":18,"data":"16/06","hora":"19h","time1":"Iraque","time2":"Noruega","gols1":1,"gols2":4,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":3},{"nome":"Binho","g1":0,"g2":4},{"nome":"Carlos","g1":0,"g2":3},{"nome":"Jean","g1":0,"g2":3},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":3},{"nome":"Rodrigo","g1":0,"g2":3},{"nome":"Rapha","g1":0,"g2":4},{"nome":"IA","g1":1,"g2":2}]},{"num":19,"data":"16/06","hora":"22h","time1":"Argentina","time2":"Argélia","gols1":3,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":4,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":3,"g2":1},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":20,"data":"17/06","hora":"01h","time1":"Áustria","time2":"Jordânia","gols1":3,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":1,"g2":2}]},{"num":21,"data":"17/06","hora":"14h","time1":"Portugal","time2":"RD Congo","gols1":1,"gols2":1,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":4,"g2":0},{"nome":"Carlos","g1":5,"g2":0},{"nome":"Jean","g1":3,"g2":1},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":4,"g2":0},{"nome":"Rapha","g1":5,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":22,"data":"17/06","hora":"17h","time1":"Inglaterra","time2":"Croácia","gols1":4,"gols2":2,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":0,"g2":1},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":3,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":1,"g2":0},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":3,"g2":0}]},{"num":23,"data":"17/06","hora":"20h","time1":"Gana","time2":"Panamá","gols1":1,"gols2":0,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":3,"g2":1},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":24,"data":"17/06","hora":"23h","time1":"Uzbequistão","time2":"Colômbia","gols1":1,"gols2":3,"rodada":"1ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":3},{"nome":"Matheus","g1":0,"g2":3},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":3},{"nome":"IA","g1":1,"g2":2}]},{"num":25,"data":"18/06","hora":"13h","time1":"Tchéquia","time2":"África do Sul","gols1":1,"gols2":1,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":1},{"nome":"Binho","g1":1,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":1,"g2":0},{"nome":"Rodrigo","g1":0,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":26,"data":"18/06","hora":"16h","time1":"Suíça","time2":"Bósnia","gols1":4,"gols2":1,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":1,"g2":0},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":0,"g2":1},{"nome":"IA","g1":0,"g2":3}]},{"num":27,"data":"18/06","hora":"19h","time1":"Canadá","time2":"Catar","gols1":6,"gols2":0,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":1,"g2":0},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":1,"g2":0}]},{"num":28,"data":"18/06","hora":"22h","time1":"México","time2":"Coréia do Sul","gols1":1,"gols2":0,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":1,"g2":0},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":3,"g2":1},{"nome":"Rapha","g1":2,"g2":2},{"nome":"IA","g1":1,"g2":2}]},{"num":29,"data":"19/06","hora":"16h","time1":"Estados Unidos","time2":"Austrália","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":30,"data":"19/06","hora":"19h","time1":"Escócia","time2":"Marrocos","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":2},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":2,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":3},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":3}]},{"num":31,"data":"19/06","hora":"21h30","time1":"Brasil","time2":"Haiti","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":4,"g2":0},{"nome":"Carlos","g1":4,"g2":1},{"nome":"Jean","g1":4,"g2":0},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":4,"g2":0},{"nome":"Rodrigo","g1":7,"g2":0},{"nome":"Rapha","g1":5,"g2":0},{"nome":"IA","g1":1,"g2":0}]},{"num":32,"data":"20/06","hora":"00h","time1":"Turquia","time2":"Paraguai","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":2},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":0},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":33,"data":"20/06","hora":"14h","time1":"Holanda","time2":"Suécia","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":2,"g2":2},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":1,"g2":2}]},{"num":34,"data":"20/06","hora":"17h","time1":"Alemanha","time2":"Costa do Marfim","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":3,"g2":1},{"nome":"Jean","g1":3,"g2":1},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":35,"data":"20/06","hora":"21h","time1":"Equador","time2":"Curaçao","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":1,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":36,"data":"21/06","hora":"01h","time1":"Tunísia","time2":"Japão","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":1,"g2":2},{"nome":"Yruam","g1":0,"g2":1},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":1,"g2":3},{"nome":"IA","g1":0,"g2":3}]},{"num":37,"data":"21/06","hora":"13h","time1":"Espanha","time2":"Arábia Saudita","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":3,"g2":0},{"nome":"Jean","g1":3,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":4,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":38,"data":"21/06","hora":"16h","time1":"Bélgica","time2":"Irã","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":39,"data":"21/06","hora":"19h","time1":"Uruguai","time2":"Cabo Verde","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":3,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":40,"data":"21/06","hora":"22h","time1":"Nova Zelândia","time2":"Egito","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":1},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":1,"g2":2}]},{"num":41,"data":"22/06","hora":"14h","time1":"Argentina","time2":"Áustria","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":42,"data":"22/06","hora":"18h","time1":"França","time2":"Iraque","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":3,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":43,"data":"22/06","hora":"21h","time1":"Noruega","time2":"Senegal","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":1}]},{"num":44,"data":"23/06","hora":"00h","time1":"Jordânia","time2":"Argélia","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":1,"g2":1}]},{"num":45,"data":"23/06","hora":"14h","time1":"Portugal","time2":"Uzbequistão","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":3,"g2":0},{"nome":"Jean","g1":3,"g2":0},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":46,"data":"23/06","hora":"17h","time1":"Inglaterra","time2":"Gana","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":47,"data":"23/06","hora":"20h","time1":"Panamá","time2":"Croácia","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":48,"data":"23/06","hora":"23h","time1":"Colômbia","time2":"RD Congo","gols1":null,"gols2":null,"rodada":"2ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":1}]},{"num":49,"data":"24/06","hora":"16h","time1":"Suíça","time2":"Canadá","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":50,"data":"24/06","hora":"16h","time1":"Bósnia","time2":"Catar","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":51,"data":"24/06","hora":"19h","time1":"Marrocos","time2":"Haiti","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":3,"g2":0},{"nome":"Binho","g1":3,"g2":0},{"nome":"Carlos","g1":3,"g2":0},{"nome":"Jean","g1":3,"g2":0},{"nome":"Matheus","g1":3,"g2":0},{"nome":"Yruam","g1":3,"g2":0},{"nome":"Rodrigo","g1":3,"g2":0},{"nome":"Rapha","g1":3,"g2":0},{"nome":"IA","g1":3,"g2":0}]},{"num":52,"data":"24/06","hora":"19h","time1":"Escócia","time2":"Brasil","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":53,"data":"24/06","hora":"22h","time1":"África do Sul","time2":"Coréia do Sul","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":54,"data":"24/06","hora":"22h","time1":"Tchéquia","time2":"México","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":2},{"nome":"Binho","g1":1,"g2":2},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":1,"g2":2},{"nome":"Matheus","g1":1,"g2":2},{"nome":"Yruam","g1":1,"g2":2},{"nome":"Rodrigo","g1":1,"g2":2},{"nome":"Rapha","g1":1,"g2":2},{"nome":"IA","g1":1,"g2":2}]},{"num":55,"data":"25/06","hora":"17h","time1":"Curaçao","time2":"Costa do Marfim","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":1},{"nome":"Binho","g1":0,"g2":1},{"nome":"Carlos","g1":0,"g2":1},{"nome":"Jean","g1":0,"g2":1},{"nome":"Matheus","g1":0,"g2":1},{"nome":"Yruam","g1":0,"g2":1},{"nome":"Rodrigo","g1":0,"g2":1},{"nome":"Rapha","g1":0,"g2":1},{"nome":"IA","g1":0,"g2":1}]},{"num":56,"data":"25/06","hora":"17h","time1":"Equador","time2":"Alemanha","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":2},{"nome":"Binho","g1":1,"g2":2},{"nome":"Carlos","g1":1,"g2":2},{"nome":"Jean","g1":1,"g2":2},{"nome":"Matheus","g1":1,"g2":2},{"nome":"Yruam","g1":1,"g2":2},{"nome":"Rodrigo","g1":1,"g2":2},{"nome":"Rapha","g1":1,"g2":2},{"nome":"IA","g1":1,"g2":2}]},{"num":57,"data":"25/06","hora":"20h","time1":"Tunísia","time2":"Holanda","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":58,"data":"25/06","hora":"20h","time1":"Japão","time2":"Suécia","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":59,"data":"25/06","hora":"23h","time1":"Turquia","time2":"Estados Unidos","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":60,"data":"25/06","hora":"23h","time1":"Paraguai","time2":"Austrália","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":61,"data":"26/06","hora":"16h","time1":"Noruega","time2":"França","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":1},{"nome":"Binho","g1":0,"g2":1},{"nome":"Carlos","g1":0,"g2":1},{"nome":"Jean","g1":0,"g2":1},{"nome":"Matheus","g1":0,"g2":1},{"nome":"Yruam","g1":0,"g2":1},{"nome":"Rodrigo","g1":0,"g2":1},{"nome":"Rapha","g1":0,"g2":1},{"nome":"IA","g1":0,"g2":1}]},{"num":62,"data":"26/06","hora":"16h","time1":"Senegal","time2":"Iraque","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":0},{"nome":"Binho","g1":2,"g2":0},{"nome":"Carlos","g1":2,"g2":0},{"nome":"Jean","g1":2,"g2":0},{"nome":"Matheus","g1":2,"g2":0},{"nome":"Yruam","g1":2,"g2":0},{"nome":"Rodrigo","g1":2,"g2":0},{"nome":"Rapha","g1":2,"g2":0},{"nome":"IA","g1":2,"g2":0}]},{"num":63,"data":"26/06","hora":"21h","time1":"Cabo Verde","time2":"Arábia Saudita","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":64,"data":"26/06","hora":"21h","time1":"Uruguai","time2":"Espanha","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":65,"data":"27/06","hora":"00h","time1":"Nova Zelândia","time2":"Bélgica","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":66,"data":"27/06","hora":"00h","time1":"Egito","time2":"Irã","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":67,"data":"27/06","hora":"18h","time1":"Panamá","time2":"Inglaterra","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":68,"data":"27/06","hora":"18h","time1":"Croácia","time2":"Gana","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":2,"g2":1},{"nome":"Binho","g1":2,"g2":1},{"nome":"Carlos","g1":2,"g2":1},{"nome":"Jean","g1":2,"g2":1},{"nome":"Matheus","g1":2,"g2":1},{"nome":"Yruam","g1":2,"g2":1},{"nome":"Rodrigo","g1":2,"g2":1},{"nome":"Rapha","g1":2,"g2":1},{"nome":"IA","g1":2,"g2":1}]},{"num":69,"data":"27/06","hora":"20h30","time1":"Colômbia","time2":"Portugal","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":3},{"nome":"Binho","g1":0,"g2":3},{"nome":"Carlos","g1":0,"g2":3},{"nome":"Jean","g1":0,"g2":3},{"nome":"Matheus","g1":0,"g2":3},{"nome":"Yruam","g1":0,"g2":3},{"nome":"Rodrigo","g1":0,"g2":3},{"nome":"Rapha","g1":0,"g2":3},{"nome":"IA","g1":0,"g2":3}]},{"num":70,"data":"27/06","hora":"20h30","time1":"RD Congo","time2":"Uzbequistão","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":71,"data":"27/06","hora":"23h","time1":"Argélia","time2":"Áustria","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":1,"g2":1},{"nome":"Binho","g1":1,"g2":1},{"nome":"Carlos","g1":1,"g2":1},{"nome":"Jean","g1":1,"g2":1},{"nome":"Matheus","g1":1,"g2":1},{"nome":"Yruam","g1":1,"g2":1},{"nome":"Rodrigo","g1":1,"g2":1},{"nome":"Rapha","g1":1,"g2":1},{"nome":"IA","g1":1,"g2":1}]},{"num":72,"data":"27/06","hora":"23h","time1":"Jordânia","time2":"Argentina","gols1":null,"gols2":null,"rodada":"3ª rodada","palpites":[{"nome":"Junin","g1":0,"g2":2},{"nome":"Binho","g1":0,"g2":2},{"nome":"Carlos","g1":0,"g2":2},{"nome":"Jean","g1":0,"g2":2},{"nome":"Matheus","g1":0,"g2":2},{"nome":"Yruam","g1":0,"g2":2},{"nome":"Rodrigo","g1":0,"g2":2},{"nome":"Rapha","g1":0,"g2":2},{"nome":"IA","g1":0,"g2":2}]},{"num":73,"data":"28/06","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":74,"data":"29/06","hora":"14h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":75,"data":"29/06","hora":"17h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":76,"data":"29/06","hora":"22h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":77,"data":"30/06","hora":"14h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":78,"data":"30/06","hora":"18h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":79,"data":"30/06","hora":"22h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":80,"data":"01/07","hora":"13h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":81,"data":"01/07","hora":"17h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":82,"data":"01/07","hora":"21h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":83,"data":"02/07","hora":"18h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":84,"data":"02/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":85,"data":"03/07","hora":"00h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":86,"data":"03/07","hora":"15h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":87,"data":"03/07","hora":"19h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":88,"data":"03/07","hora":"22h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"16-avos","palpites":[]},{"num":89,"data":"04/07","hora":"14h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":90,"data":"04/07","hora":"18h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":91,"data":"05/07","hora":"17h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":92,"data":"05/07","hora":"21h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":93,"data":"06/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":94,"data":"06/07","hora":"21h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":95,"data":"07/07","hora":"13h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":96,"data":"07/07","hora":"17h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Oitavas","palpites":[]},{"num":97,"data":"09/07","hora":"17h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Quartas","palpites":[]},{"num":98,"data":"10/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Quartas","palpites":[]},{"num":99,"data":"11/07","hora":"18h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Quartas","palpites":[]},{"num":100,"data":"11/07","hora":"22h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Quartas","palpites":[]},{"num":101,"data":"14/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Semifinal","palpites":[]},{"num":102,"data":"15/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Semifinal","palpites":[]},{"num":103,"data":"18/07","hora":"18h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"3º Lugar","palpites":[]},{"num":104,"data":"19/07","hora":"16h","time1":"?","time2":"?","gols1":null,"gols2":null,"rodada":"Final","palpites":[]}],"flags":{"México":"https://s.sde.globo.com/media/organizations/2022/12/01/Mexico.svg","África do Sul":"https://s.sde.globo.com/media/organizations/2019/09/09/%C3%81frica_do_Sul.svg","Coréia do Sul":"https://s.sde.globo.com/media/organizations/2019/09/01/Coreia_do_Sul.svg","Tchéquia":"https://s.sde.globo.com/media/organizations/2019/09/03/Rep._Tcheca_u3JArFF.svg","Canadá":"https://s.sde.globo.com/media/organizations/2022/12/01/Canada.svg","Bósnia":"https://s.sde.globo.com/media/organizations/2019/09/15/B%C3%B3snia.svg","Catar":"https://s.sde.globo.com/media/organizations/2019/09/06/Catar.svg","Suíça":"https://s.sde.globo.com/media/organizations/2022/12/01/Suica.svg","Brasil":"https://s.sde.globo.com/media/organizations/2019/07/16/Brasil_rgYHF6Z.svg","Marrocos":"https://s.sde.globo.com/media/organizations/2019/09/10/Marrocos.svg","Haiti":"https://s.sde.globo.com/media/organizations/2019/07/14/Haiti.svg","Escócia":"https://s.sde.globo.com/media/organizations/2019/09/15/Esc%C3%B3cia.svg","Estados Unidos":"https://s.sde.globo.com/media/organizations/2019/07/16/Estados_Unidos.svg","Paraguai":"https://s.sde.globo.com/media/organizations/2019/07/15/Paraguai.svg","Austrália":"https://s.sde.globo.com/media/organizations/2019/09/02/Australia.svg","Turquia":"https://s.sde.globo.com/media/organizations/2019/09/03/Turquia_i5NWJC8.svg","Alemanha":"https://s.sde.globo.com/media/organizations/2019/09/03/Alemanha.svg","Curaçao":"https://s.sde.globo.com/media/organizations/2019/07/14/Cura%C3%A7ao.svg","Costa do Marfim":"https://s.sde.globo.com/media/organizations/2019/09/03/Costa_do_Marfim.svg","Equador":"https://s.sde.globo.com/media/organizations/2019/07/15/Equador.svg","Holanda":"https://s.sde.globo.com/media/organizations/2019/09/16/Holanda.svg","Japão":"https://s.sde.globo.com/media/organizations/2019/09/03/Japao.svg","Suécia":"https://s.sde.globo.com/media/organizations/2019/09/15/Su%C3%A9cia.svg","Tunísia":"https://s.sde.globo.com/media/organizations/2024/05/02/Tunisia.svg","Bélgica":"https://s.sde.globo.com/media/organizations/2022/12/01/Belgica.svg","Egito":"https://s.sde.globo.com/media/organizations/2019/09/08/Egito.svg","Irã":"https://s.sde.globo.com/media/organizations/2019/09/01/Ir%C3%A3.svg","Nova Zelândia":"https://s.sde.globo.com/media/organizations/2019/09/01/Nova_Zelandia.svg","Espanha":"https://s.sde.globo.com/media/organizations/2019/09/03/Espanha.svg","Cabo Verde":"https://s.sde.globo.com/media/organizations/2019/09/08/Cabo_Verde.svg","Arábia Saudita":"https://s.sde.globo.com/media/organizations/2022/12/01/Arabia_Saudita.svg","Uruguai":"https://s.sde.globo.com/media/organizations/2019/07/16/Uruguai.svg","França":"https://s.sde.globo.com/media/organizations/2022/12/01/Franca.svg","Senegal":"https://s.sde.globo.com/media/organizations/2019/09/03/Senegal.svg","Iraque":"https://s.sde.globo.com/media/organizations/2019/09/07/Iraque.svg","Noruega":"https://s.sde.globo.com/media/organizations/2019/09/15/Noruega.svg","Argentina":"https://s.sde.globo.com/media/organizations/2019/07/15/Argentina.svg","Argélia":"https://s.sde.globo.com/media/organizations/2019/09/08/Arg%C3%A9lia.svg","Áustria":"https://s.sde.globo.com/media/organizations/2019/09/17/%C3%81ustria.svg","Jordânia":"https://s.sde.globo.com/media/organizations/2019/09/03/Jordania.svg","Portugal":"https://s.sde.globo.com/media/organizations/2019/09/17/Portugal.svg","RD Congo":"https://s.sde.globo.com/media/organizations/2019/09/10/RD_Congo.svg","Uzbequistão":"https://s.sde.globo.com/media/organizations/2019/09/08/Uzbequist%C3%A3o.svg","Colômbia":"https://s.sde.globo.com/media/organizations/2019/07/14/Colombia.svg","Inglaterra":"https://s.sde.globo.com/media/organizations/2019/09/13/Inglaterra.svg","Croácia":"https://s.sde.globo.com/media/organizations/2022/12/01/Croacia.svg","Gana":"https://s.sde.globo.com/media/organizations/2019/09/08/Gana.svg","Panamá":"https://s.sde.globo.com/media/organizations/2019/07/15/Panama.svg"},"config":{"minhaLinha":"Yruam","mostrarRankingOficial":true,"regraCalculada":{"observacao":"O ranking oficial exibido vem da planilha. As estatísticas de acertos/cravadas são recalculadas a partir dos jogos preenchidos no HTML."}}};
 let activeTab='todos';
+let activeStatus='todos';
+let searchTerm='';
 const expanded=new Set();
-function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function flag(t){return FLAGS[t]?`<img class="flag" src="${FLAGS[t]}" alt="${esc(t)}" loading="lazy" onerror="this.style.display='none'">`:''}
 
-// ── RANKING ──
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function flag(t){return DATA.flags[t]?`<img class="flag" src="${DATA.flags[t]}" alt="${esc(t)}" loading="lazy" onerror="this.style.display='none'">`:''}
+function isPlayed(j){return j.gols1!==null && j.gols1!==undefined && j.gols2!==null && j.gols2!==undefined}
+function resultSign(a,b){return a>b?1:a<b?2:0}
+function getPalpite(j,nome){return (j.palpites||[]).find(p=>p.nome===nome)}
+function campeaoDe(nome){return (DATA.campeoes||[]).find(c=>c.nome===nome)?.palpite || '—'}
+function pct(v,total){return total ? Math.round(v/total*100) : 0}
+function playedGames(){return DATA.jogos.filter(isPlayed)}
+function pendingGames(){return DATA.jogos.filter(j=>!isPlayed(j))}
+function official(nome){return DATA.rankingOficial.find(r=>r.nome===nome)}
+
+function statsParticipante(nome){
+  const jogosDisputados = playedGames().filter(j=>getPalpite(j,nome));
+  const todosPalpites = DATA.jogos.filter(j=>getPalpite(j,nome));
+  let cravadas=0, corretos=0, empatesApostados=0, acertosEmpate=0, acertosVencedor=0, golsPalpitados=0;
+  for(const j of DATA.jogos){
+    const p=getPalpite(j,nome);
+    if(!p || p.g1==null || p.g2==null) continue;
+    golsPalpitados += p.g1 + p.g2;
+    if(p.g1===p.g2) empatesApostados++;
+    if(!isPlayed(j)) continue;
+    const exact = p.g1===j.gols1 && p.g2===j.gols2;
+    const hit = resultSign(p.g1,p.g2)===resultSign(j.gols1,j.gols2);
+    if(exact) cravadas++;
+    if(hit){
+      corretos++;
+      if(j.gols1===j.gols2) acertosEmpate++; else acertosVencedor++;
+    }
+  }
+  const of=official(nome)||{};
+  return {
+    nome,
+    pontos: of.pontos ?? 0,
+    posicao: of.posicao ?? 99,
+    fase_grupos: of.fase_grupos ?? 0,
+    mata_mata: of.mata_mata ?? 0,
+    bonus: of.bonus ?? 0,
+    mov: of.mov || '',
+    obs: of.obs || '',
+    cravadas: of.cravadas ?? cravadas,
+    corretos: of.corretos ?? corretos,
+    cravadasCalc: cravadas,
+    corretosCalc: corretos,
+    jogados: jogosDisputados.length,
+    palpitesTotal: todosPalpites.length,
+    aproveitamento: pct(of.corretos ?? corretos, jogosDisputados.length),
+    empatesApostados,
+    empatesPct: pct(empatesApostados, todosPalpites.length),
+    acertosEmpate,
+    acertosVencedor,
+    mediaGolsPalpite: todosPalpites.length ? (golsPalpitados/todosPalpites.length) : 0,
+    campeao: campeaoDe(nome)
+  };
+}
+
+function allStats(){return DATA.participantes.map(statsParticipante).sort((a,b)=>a.posicao-b.posicao)}
+function leader(){return allStats()[0]}
+function me(){return allStats().find(p=>p.nome===DATA.config.minhaLinha)}
+function lastPlayedGame(){return [...playedGames()].sort((a,b)=>a.num-b.num).at(-1)}
+function nextGame(){return pendingGames().sort((a,b)=>a.num-b.num)[0]}
+
+function renderHeaderInfo(){
+  const played=playedGames().length;
+  const total=DATA.jogos.length;
+  const headerP=document.querySelector('.hd-left p');
+  const stamp=document.querySelector('.stamp span');
+  if(headerP) headerP.textContent = `${DATA.meta.subtitulo} · ${played} de ${total} jogos disputados`;
+  if(stamp) stamp.textContent = `Atualizado em ${DATA.meta.ultimaAtualizacao}`;
+}
+
+function renderSourceNote(){
+  const last=lastPlayedGame();
+  const next=nextGame();
+  return `<div class="source-note">
+    <span class="badge-soft badge-warn">${esc(DATA.meta.ultimaAtualizacaoTexto)}</span>
+    ${last?`<span>Último jogo no HTML: <strong>${esc(last.time1)} ${last.gols1}×${last.gols2} ${esc(last.time2)}</strong></span>`:''}
+    ${next?`<span>Próximo: <strong>#${next.num} ${esc(next.time1)} × ${esc(next.time2)} · ${next.data} ${next.hora}</strong></span>`:''}
+    <a href="https://docs.google.com/spreadsheets/d/${DATA.meta.sheetId}/edit" target="_blank" rel="noopener">abrir planilha</a>
+  </div>`;
+}
+
 function renderRanking(){
-  const s=[...DATA.ranking].sort((a,b)=>b.pontos-a.pontos||b.cravadas-a.cravadas);
+  const s=allStats();
+  const max=s[0]?.pontos||0;
   const medals=['🥇','🥈','🥉'],pcls=['p1','p2','p3'];
-  return`<div class="ranking-wrap"><div class="stitle">Classificação</div><div class="ranking-grid">
-  ${s.map((p,i)=>{
-    const pc=pcls[i]||(i===s.length-1?'plast':'');
-    const med=medals[i]?`<div class="medal">${medals[i]}</div>`:`<div class="medal num">${i+1}º</div>`;
-    return`<div class="pcard ${pc}">${med}<div class="pinfo">
-      <div class="pname">${esc(p.nome)}${p.nome==='IA'?'<span class="ia-tag">IA</span>':''}</div>
-      <div class="pstats">
-        <span><b>${p.cravadas}</b>cravadas</span>
-        <span><b>${p.corretos}</b>acertos</span>
-        <span><b>${p.fase_grupos}</b>grupos</span>
-        <span><b>${p.mata_mata}</b>mata-mata</span>
-      </div></div>
-      <div class="ppts">${p.pontos}<small>pts</small></div></div>`;
-  }).join('')}
+  return `<div class="ranking-wrap"><div class="stitle">Classificação oficial</div><div class="ranking-grid">
+    ${s.map((p,i)=>{
+      const pc=(pcls[i]||(i===s.length-1?'plast':'')) + (p.nome===DATA.config.minhaLinha?' me':'');
+      const med=medals[i]?`<div class="medal">${medals[i]}</div>`:`<div class="medal num">${p.posicao}º</div>`;
+      const moveCls=p.mov==='▲'?'up':p.mov==='▼'?'down':'flat';
+      const gap=max-p.pontos;
+      return `<div class="pcard ${pc}">${med}<div class="pinfo">
+        <div class="pname">${esc(p.nome)}${p.nome==='IA'?'<span class="ia-tag">IA</span>':''} ${p.mov?`<span class="move ${moveCls}">${p.mov}</span>`:''}</div>
+        <div class="pstats">
+          <span><b>${p.cravadas}</b>cravadas</span>
+          <span><b>${p.corretos}</b>acertos</span>
+          <span><b>${p.aproveitamento}%</b>aprov.</span>
+          <span><b>${gap?`-${gap}`:'líder'}</b>dif.</span>
+        </div>
+        ${p.obs?`<div class="pobs">${esc(p.obs)} · campeão: ${esc(p.campeao)}</div>`:''}
+      </div><div class="ppts">${p.pontos}<small>pts</small></div></div>`;
+    }).join('')}
   </div></div>`;
 }
 
-// ── CAMPEÕES ──
+function renderStatsGerais(){
+  const played=playedGames();
+  const totalGols=played.reduce((s,j)=>s+j.gols1+j.gols2,0);
+  const totalCravadas=allStats().reduce((s,p)=>s+p.cravadas,0);
+  const totalAcertos=allStats().reduce((s,p)=>s+p.corretos,0);
+  const l=leader(); const m=me(); const gap=l&&m?l.pontos-m.pontos:0;
+  const biggest = [...played].sort((a,b)=>(b.gols1+b.gols2)-(a.gols1+a.gols2))[0];
+  return `<div class="stats-wrap"><div class="stitle">Painel rápido</div><div class="stats-grid top">
+    <div class="stat-card"><div class="slabel">JOGOS DISPUTADOS</div><div class="sval">${played.length}/${DATA.jogos.length}</div><div class="sdesc">${pendingGames().length} pendentes</div></div>
+    <div class="stat-card"><div class="slabel">TOTAL DE GOLS</div><div class="sval">${totalGols}</div><div class="sdesc">média ${(totalGols/Math.max(played.length,1)).toFixed(2)} por jogo</div></div>
+    <div class="stat-card orange"><div class="slabel">LÍDER</div><div class="sval small">${esc(l?.nome||'—')}</div><div class="sdesc">${l?.pontos||0} pontos</div></div>
+    <div class="stat-card"><div class="slabel">YRUAM ATÉ O LÍDER</div><div class="sval">${gap?`-${gap}`:'0'}</div><div class="sdesc">${m?.posicao||'—'}º lugar</div></div>
+    <div class="stat-card"><div class="slabel">CRAVADAS</div><div class="sval">${totalCravadas}</div><div class="sdesc">placares exatos</div></div>
+    <div class="stat-card"><div class="slabel">ACERTOS</div><div class="sval">${totalAcertos}</div><div class="sdesc">resultado vencedor/empate</div></div>
+    <div class="stat-card"><div class="slabel">JOGO COM MAIS GOLS</div><div class="sval small">${biggest?`${biggest.gols1+biggest.gols2} gols`:'—'}</div><div class="sdesc">${biggest?`${esc(biggest.time1)} ${biggest.gols1}×${biggest.gols2} ${esc(biggest.time2)}`:'—'}</div></div>
+  </div></div>`;
+}
+
 function renderCampeoes(){
-  return`<div class="camp-banner">
-    <h3>🏆 Palpites de Campeão</h3>
-    <div class="camp-chips">
-      ${DATA.campeoes.map(c=>`<div class="camp-chip"><span>${esc(c.nome)}:</span>${esc(c.palpite)}</div>`).join('')}
-    </div>
+  return `<div class="camp-banner"><h3>🏆 Palpites de Campeão</h3><div class="camp-chips">
+    ${DATA.campeoes.map(c=>`<div class="camp-chip"><span>${esc(c.nome)}:</span>${esc(c.palpite)}</div>`).join('')}
+  </div></div>`;
+}
+
+function renderTabelaParticipantes(){
+  const s=allStats(); const max=s[0]?.pontos||0;
+  return `<div class="table-wrap"><div class="stitle">Estatísticas por participante</div><div class="table-inner">
+    <table class="datatable table-mini"><thead><tr>
+      <th>Pos.</th><th class="name-col">Participante</th><th>Pontos</th><th>Dif.</th><th>Cravadas</th><th>Acertos</th><th>Aproveit.</th><th>% empates apost.</th><th>Campeão</th>
+    </tr></thead><tbody>
+    ${s.map(p=>`<tr>
+      <td class="nowrap">${p.posicao}º</td>
+      <td class="name-col">${esc(p.nome)}${p.nome==='IA'?' <span class="ia-tag">IA</span>':''}</td>
+      <td class="pts-val">${p.pontos}</td>
+      <td>${max-p.pontos?`-${max-p.pontos}`:'—'}</td>
+      <td class="${p.cravadas>0?'pts-best':'pts-zero'}">${p.cravadas}</td>
+      <td class="pts-val">${p.corretos}/${p.jogados}</td>
+      <td>${p.aproveitamento}%</td>
+      <td>${p.empatesPct}%</td>
+      <td>${esc(p.campeao)}</td>
+    </tr>`).join('')}
+    </tbody></table></div>
+    <div class="note-box">Ranking e pontos são o snapshot oficial da planilha. Acertos, cravadas, aproveitamento e perfil dos palpites são recalculados automaticamente pelos jogos preenchidos neste HTML.</div>
   </div>`;
 }
 
-// ── DESEMPENHO POR RODADA ──
-function renderDesempenho(){
-  const rodadas = DATA.desempenho_rodada;
-  if(!rodadas.length) return '';
-  const allPtsList = rodadas.map(r=>Object.values(r.pts));
-  const maxByRodada = allPtsList.map(vals=>Math.max(...vals));
-  return`<div class="table-wrap">
-    <div class="stitle">Desempenho por Dia</div>
-    <div class="table-inner">
-      <table class="datatable">
-        <thead><tr>
-          <th class="name-col">Participante</th>
-          ${rodadas.map(r=>`<th>${esc(r.rodada)}</th>`).join('')}
-          <th>Total</th>
-        </tr></thead>
-        <tbody>
-        ${PARTICIPANTES.map(nome=>{
-          const total = rodadas.reduce((sum,r)=>sum+(r.pts[nome]||0),0);
-          return`<tr>
-            <td class="name-col">${esc(nome)}${nome==='IA'?' <span style="font-size:9px;color:var(--muted2)">[IA]</span>':''}</td>
-            ${rodadas.map((r,ri)=>{
-              const v=r.pts[nome]||0;
-              const best=v===maxByRodada[ri]&&v>0;
-              return`<td class="${v>0?(best?'pts-best':'pts-val'):'pts-zero'}">${v>0?v:'—'}</td>`;
-            }).join('')}
-            <td class="${total>0?'pts-val':'pts-zero'}" style="border-left:1px solid var(--border2)">${total>0?total:'—'}</td>
-          </tr>`;
-        }).join('')}
-        </tbody>
-      </table>
-    </div>
-  </div>`;
+function renderResumoPorDia(){
+  const mapa=new Map();
+  for(const j of playedGames()){
+    if(!mapa.has(j.data)) mapa.set(j.data,{data:j.data,jogos:0,gols:0,cravadas:0,acertos:0,destaques:{}});
+    const d=mapa.get(j.data); d.jogos++; d.gols+=j.gols1+j.gols2;
+    for(const nome of DATA.participantes){
+      const p=getPalpite(j,nome); if(!p) continue;
+      const exact=p.g1===j.gols1 && p.g2===j.gols2;
+      const hit=resultSign(p.g1,p.g2)===resultSign(j.gols1,j.gols2);
+      if(!d.destaques[nome]) d.destaques[nome]={a:0,c:0};
+      if(hit){d.acertos++; d.destaques[nome].a++;}
+      if(exact){d.cravadas++; d.destaques[nome].c++;}
+    }
+  }
+  const rows=[...mapa.values()].map(d=>{
+    const best=Object.entries(d.destaques).sort((a,b)=>(b[1].a-a[1].a)||(b[1].c-a[1].c))[0];
+    const destaque=best?`${best[0]} (${best[1].a} acertos${best[1].c?`, ${best[1].c} crav.`:''})`:'—';
+    return `<tr><td class="name-col">${d.data}</td><td>${d.jogos}</td><td>${d.gols}</td><td class="pts-val">${d.acertos}</td><td class="pts-best">${d.cravadas||'—'}</td><td class="name-col">${esc(destaque)}</td></tr>`;
+  }).join('');
+  return `<div class="table-wrap"><div class="stitle">Resumo automático por dia</div><div class="table-inner">
+    <table class="datatable table-mini"><thead><tr><th class="name-col">Dia</th><th>Jogos</th><th>Gols</th><th>Acertos totais</th><th>Cravadas</th><th class="name-col">Destaque do dia</th></tr></thead><tbody>${rows}</tbody></table>
+  </div></div>`;
 }
 
-// ── APROVEITAMENTO DOS PALPITES ──
-function renderAproveitamento(){
-  const a = DATA.aproveitamento;
-  const maxCoef = Math.max(...a.map(d=>d.coeficiente));
-  return`<div class="table-wrap">
-    <div class="stitle">Aproveitamento dos Palpites</div>
-    <div class="table-inner">
-      <table class="datatable">
-        <thead><tr>
-          <th class="name-col">Participante</th>
-          <th>% Empates</th>
-          <th>% Não-empate</th>
-          <th>Pts c/ Empate</th>
-          <th>Pts s/ Empate</th>
-          <th>Coef. Exótico</th>
-        </tr></thead>
-        <tbody>
-        ${a.map(d=>{
-          const barW = Math.round(d.coeficiente/maxCoef*100);
-          return`<tr>
-            <td class="name-col">${esc(d.nome)}${d.nome==='IA'?' <span style="font-size:9px;color:var(--muted2)">[IA]</span>':''}</td>
-            <td>${d.empate_pct}%</td>
-            <td>${d.naoempate_pct}%</td>
-            <td class="${d.pts_empate>0?'pts-val':'pts-zero'}">${d.pts_empate}</td>
-            <td class="${d.pts_naoempate>0?'pts-val':'pts-zero'}">${d.pts_naoempate}</td>
-            <td class="bar-cell" style="min-width:100px">
-              <span style="font-family:'DM Mono',monospace;font-size:11px">${d.coeficiente.toFixed(2)}%</span>
-              <div class="bar" style="width:${barW}%"></div>
-            </td>
-          </tr>`;
-        }).join('')}
-        </tbody>
-      </table>
-    </div>
-    <div class="note-box">
-      💡 <strong>% Empates / % Não-empate:</strong> proporção dos palpites de cada participante que apostam em empate vs. resultado com vencedor, ao longo de todos os 104 jogos.<br>
-      💡 <strong>Pts c/ Empate / Pts s/ Empate:</strong> pontos conquistados até agora nos jogos em que o resultado real foi empate vs. quando houve vencedor.<br>
-      💡 <strong>Coeficiente Exótico:</strong> percentual que mede o quão "fora da curva" é o perfil de apostas — quanto maior, mais arriscado/diferente do padrão geral.
-    </div>
-  </div>`;
+function filteredGames(){
+  let list = activeTab==='todos'?DATA.jogos:DATA.jogos.filter(j=>j.rodada===activeTab);
+  if(activeStatus==='disputados') list=list.filter(isPlayed);
+  if(activeStatus==='pendentes') list=list.filter(j=>!isPlayed(j));
+  const q=searchTerm.trim().toLowerCase();
+  if(q){
+    list=list.filter(j=>[j.time1,j.time2,j.rodada,String(j.num),j.data].join(' ').toLowerCase().includes(q) || (j.palpites||[]).some(p=>p.nome.toLowerCase().includes(q)));
+  }
+  return list;
 }
 
-// ── JOGOS ──
 function renderJogos(){
   const rodadas=['todos',...new Set(DATA.jogos.map(j=>j.rodada).filter(Boolean))];
-  const filtered=activeTab==='todos'?DATA.jogos:DATA.jogos.filter(j=>j.rodada===activeTab);
-  return`<div><div class="stitle">Jogos</div>
-  <div class="tabs-wrap"><div class="tabs">
-    ${rodadas.map(r=>`<button class="tab ${activeTab===r?'on':''}" onclick="setTab('${r}')">${r==='todos'?'Todos':r}</button>`).join('')}
-  </div></div>
-  <div class="games">${filtered.map(renderGame).join('')}</div></div>`;
+  const filtered=filteredGames();
+  return `<div><div class="stitle">Jogos e palpites</div>
+    <div class="controls">
+      <input class="control-input" placeholder="Buscar time, participante, nº do jogo..." value="${esc(searchTerm)}" oninput="setSearch(this.value)">
+      ${['todos','disputados','pendentes'].map(s=>`<button class="status-pill ${activeStatus===s?'on':''}" onclick="setStatus('${s}')">${s[0].toUpperCase()+s.slice(1)}</button>`).join('')}
+      <span class="game-count">${filtered.length} jogo(s) exibido(s)</span>
+    </div>
+    <div class="tabs-wrap"><div class="tabs">
+      ${rodadas.map(r=>`<button class="tab ${activeTab===r?'on':''}" onclick="setTab('${r}')">${r==='todos'?'Todos':r}</button>`).join('')}
+    </div></div>
+    <div class="games">${filtered.map(renderGame).join('') || '<div class="note-box">Nenhum jogo encontrado com estes filtros.</div>'}</div>
+  </div>`;
 }
 
 function renderGame(j){
-  const played=j.gols1!=null&&j.gols2!=null;
-  const hasPal=Array.isArray(j.palpites)&&j.palpites.length>0;
-  const isExp=expanded.has(j.num);
-  const score=played
-    ?`<div class="score">${j.gols1}<span class="sep">×</span>${j.gols2}</div>`
-    :`<div class="score tbd"><span>${j.hora}</span></div>`;
-  const t1=j.time1==='?'?'A definir':j.time1;
-  const t2=j.time2==='?'?'A definir':j.time2;
+  const played=isPlayed(j); const hasPal=Array.isArray(j.palpites)&&j.palpites.length>0; const isExp=expanded.has(j.num);
+  const score=played?`<div class="score">${j.gols1}<span class="sep">×</span>${j.gols2}</div>`:`<div class="score tbd"><span>${j.hora}</span></div>`;
+  const t1=j.time1==='?'?'A definir':j.time1; const t2=j.time2==='?'?'A definir':j.time2;
   let phtml='';
   if(hasPal){
     phtml=`<div class="gpalpites"><div class="palpites-label">PALPITES</div><div class="chips">
-    ${j.palpites.map(p=>{
-      if(p.g1==null||p.g2==null)return'';
-      let cls='',badge='';
-      if(played){
-        const ex=p.g1===j.gols1&&p.g2===j.gols2;
-        const rw=j.gols1>j.gols2?1:j.gols2>j.gols1?2:0;
-        const pw=p.g1>p.g2?1:p.g2>p.g1?2:0;
-        if(ex){cls='exact';badge='<div class="badge">CRAVOU! 🎯</div>';}
-        else if(rw===pw){cls='hit';badge='<div class="badge">ACERTOU ✓</div>';}
-        else{cls='miss';}
-      }
-      return`<div class="chip ${cls}"><div class="cn">${esc(p.nome)}</div><div class="cv">${p.g1}×${p.g2}</div>${badge}</div>`;
-    }).filter(Boolean).join('')}
+      ${j.palpites.map(p=>{
+        if(p.g1==null||p.g2==null) return '';
+        let cls='',badge='';
+        if(played){
+          const ex=p.g1===j.gols1&&p.g2===j.gols2;
+          const hit=resultSign(p.g1,p.g2)===resultSign(j.gols1,j.gols2);
+          if(ex){cls='exact'; badge='<div class="badge">CRAVOU! 🎯</div>';}
+          else if(hit){cls='hit'; badge='<div class="badge">ACERTOU ✓</div>';}
+          else{cls='miss';}
+        }
+        return `<div class="chip ${cls}"><div class="cn">${esc(p.nome)}</div><div class="cv">${p.g1}×${p.g2}</div>${badge}</div>`;
+      }).filter(Boolean).join('')}
     </div></div>`;
   }
-  return`<div class="grow ${played?'played':''} ${isExp?'expanded':''}" id="g${j.num}">
+  return `<div class="grow ${played?'played':''} ${isExp?'expanded':''}" id="g${j.num}">
     <div class="gmain" onclick="${hasPal?`toggleGame(${j.num})`:'void(0)'}">
       <div><div class="gnum">#${j.num}</div><div class="gdate">${j.data}</div></div>
       <div class="team">${flag(j.time1)}<span>${esc(t1)}</span></div>
@@ -548,11 +400,15 @@ function renderGame(j){
 
 function toggleGame(n){expanded.has(n)?expanded.delete(n):expanded.add(n);document.getElementById('g'+n)?.classList.toggle('expanded')}
 function setTab(t){activeTab=t;expanded.clear();renderAll()}
+function setStatus(s){activeStatus=s;expanded.clear();renderAll()}
+function setSearch(v){searchTerm=v;expanded.clear();renderAll()}
+function renderFooter(){return `<div class="footer-note">Arquivo simples e estático para Vercel: os dados brutos ficam em <strong>DATA.jogos</strong>, enquanto ranking visual, acertos, cravadas, aproveitamento, resumo por dia e estatísticas gerais são gerados por função. Para atualizar manualmente, basta preencher gols1/gols2 dos jogos finalizados e, quando necessário, atualizar o snapshot do ranking oficial.</div>`}
 function renderAll(){
-  document.getElementById('app').innerHTML=
-    renderRanking()+renderCampeoes()+renderDesempenho()+renderAproveitamento()+renderJogos();
+  renderHeaderInfo();
+  document.getElementById('app').innerHTML = renderSourceNote()+renderRanking()+renderStatsGerais()+renderCampeoes()+renderTabelaParticipantes()+renderResumoPorDia()+renderJogos()+renderFooter();
 }
 renderAll();
+
 </script>
 </body>
 </html>
