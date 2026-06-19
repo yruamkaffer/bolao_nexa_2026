@@ -275,13 +275,62 @@ function parsePontuacaoCSV(csv){
 }
 function parsePerformanceCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return null; const participants=DATA.participantes;
-  for(let hr=0;hr<Math.min(rows.length,35);hr++){
-    const h=rows[hr]; const pcols=[]; participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
-    if(pcols.length<3)continue; const out=[];
-    for(const r of rows.slice(hr+1)){const label=(r.find((c,i)=>i!==pcols[0]?.[1]&&String(c||'').trim()&&!participantFromCell(c)&&parsePts(c)===null)||r[0]||'').trim(); if(!label)continue; const pts={}; for(const [p,idx] of pcols){const v=parsePts(r[idx]); if(v!==null)pts[p]=v;} if(Object.keys(pts).length)out.push({label,pts});}
+  const isLabel=v=>{const t=String(v||'').trim(); if(!t)return false; if(participantFromCell(t))return false; if(/^[-–—xX]+$/.test(t))return false; if(/^R\$/.test(t))return false; return true};
+  const cleanLabel=v=>String(v||'').replace(/\s+/g,' ').trim();
+  const normalizeRows=items=>items.filter(r=>r&&r.label&&r.pts&&Object.keys(r.pts).length).map(r=>({label:cleanLabel(r.label),pts:r.pts}));
+
+  // Formato A: datas/rodadas nas linhas e participantes nas colunas.
+  for(let hr=0;hr<Math.min(rows.length,50);hr++){
+    const h=rows[hr]; const pcols=[];
+    participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
+    if(pcols.length<3)continue;
+    const pidx=new Set(pcols.map(x=>x[1])); const out=[];
+    for(const r of rows.slice(hr+1)){
+      let label='';
+      for(let i=0;i<r.length;i++){
+        if(pidx.has(i))continue;
+        const c=cleanLabel(r[i]);
+        if(!isLabel(c))continue;
+        // Datas tipo 11/06 ou textos tipo 1ª rodada são rótulos válidos, mesmo contendo número.
+        label=c; break;
+      }
+      if(!label)continue;
+      const pts={};
+      for(const [p,idx] of pcols){const v=parsePts(r[idx]); if(v!==null)pts[p]=v;}
+      if(Object.keys(pts).length>=2)out.push({label,pts});
+    }
+    const final=normalizeRows(out);
+    if(final.length)return final;
+  }
+
+  // Formato B: participantes nas linhas e datas/rodadas nas colunas.
+  for(let hr=0;hr<Math.min(rows.length,50);hr++){
+    const h=rows[hr];
+    const labelCols=[];
+    h.forEach((cell,idx)=>{const c=cleanLabel(cell); if(idx>0 && isLabel(c) && !/participante|nome|apostador/i.test(c))labelCols.push([idx,c])});
+    if(labelCols.length<2)continue;
+    const byLabel=Object.fromEntries(labelCols.map(([,label])=>[label,{}]));
+    for(const r of rows.slice(hr+1)){
+      const participant=participantFromRow(r);
+      if(!participant)continue;
+      for(const [idx,label] of labelCols){const v=parsePts(r[idx]); if(v!==null)byLabel[label][participant]=v;}
+    }
+    const out=Object.entries(byLabel).map(([label,pts])=>({label,pts})).filter(x=>Object.keys(x.pts).length>=2);
     if(out.length)return out;
   }
-  return null;
+
+  // Formato C: tabela solta com primeira célula como rótulo e os 9 pontos na sequência.
+  const loose=[];
+  for(const r of rows){
+    const vals=r.map(parsePts).filter(v=>v!==null);
+    if(vals.length < Math.min(5, participants.length))continue;
+    const labelCell=r.find(c=>isLabel(c) && parseScore(c)===null);
+    if(!labelCell)continue;
+    const pts={};
+    vals.slice(0,participants.length).forEach((v,i)=>pts[participants[i]]=v);
+    loose.push({label:cleanLabel(labelCell),pts});
+  }
+  return loose.length?loose:null;
 }
 function mergePointMaps(base, extra){for(const [j,pts] of Object.entries(extra||{})){base[j]=base[j]||{}; Object.assign(base[j],pts)} return base}
 function computedPerformance(tipo){
@@ -300,14 +349,43 @@ function mergeRemote(payload){
   if(csvs.campeoes){const c=parseCampeoesCSV(csvs.campeoes); if(c.length>=3)DATA.campeoes=c}
   remote={ok:payload.ok!==false,source:payload.source||'api',updatedAt:payload.updatedAt||new Date().toISOString(),warnings:payload.warnings||[],artilhariaTexto:payload.artilhariaTexto||null,noticias:payload.noticias||[],noticiasBrasil:payload.noticiasBrasil||[],noticiasNeymar:payload.noticiasNeymar||[]};
 }
+function setSyncStatus(text){const el=document.getElementById('syncStatus'); if(el)el.textContent=text}
+async function loadNewsInBackground(){
+  try{
+    const r=await fetch('/api/bolao?news=1&ts='+Date.now(),{cache:'no-store'});
+    if(!r.ok)return;
+    const payload=await r.json();
+    remote={...remote,artilhariaTexto:payload.artilhariaTexto||remote.artilhariaTexto,noticias:payload.noticias||remote.noticias,noticiasBrasil:payload.noticiasBrasil||remote.noticiasBrasil,noticiasNeymar:payload.noticiasNeymar||remote.noticiasNeymar,warnings:[...(remote.warnings||[]),...(payload.warnings||[])]};
+    safeRender();
+  }catch(e){}
+}
 async function loadRemote(){
-  try{const r=await fetch('/api/bolao?ts='+Date.now(),{cache:'no-store'}); if(!r.ok)throw new Error('API local indisponível'); mergeRemote(await r.json());}
+  setSyncStatus('sincronizando');
+  try{
+    const r=await fetch('/api/bolao?lite=1&fresh=1&ts='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('API local indisponível');
+    mergeRemote(await r.json());
+    setSyncStatus(remote.ok?'online':'snapshot');
+    safeRender();
+    setTimeout(loadNewsInBackground, 250);
+    return;
+  }
   catch(e){
-    try{const r=await fetch(CSV_URLS.ranking+'&ts='+Date.now(),{cache:'no-store'}); const text=await r.text(); const rg=parseRankingCSV(text); if(rg.length>=3){DATA.rankingOficial=rg; remote={ok:true,source:'csv-direto',updatedAt:new Date().toISOString(),warnings:[],artilhariaTexto:null,noticias:[],noticiasBrasil:[],noticiasNeymar:[]}}}
+    try{
+      const r=await fetch(CSV_URLS.ranking+'&ts='+Date.now(),{cache:'no-store'});
+      const text=await r.text(); const rg=parseRankingCSV(text);
+      if(rg.length>=3){DATA.rankingOficial=rg; remote={ok:true,source:'csv-direto',updatedAt:new Date().toISOString(),warnings:[],artilhariaTexto:null,noticias:[],noticiasBrasil:[],noticiasNeymar:[]}}
+    }
     catch(err){remote={ok:false,source:'fallback',updatedAt:null,warnings:[],artilhariaTexto:null,noticias:[],noticiasBrasil:[],noticiasNeymar:[]}}
   }
-  const s=document.getElementById('syncStatus'); if(s)s.textContent=remote.ok?'online':'snapshot';
+  setSyncStatus(remote.ok?'online':'snapshot');
   safeRender();
+}
+async function forceRefresh(){
+  const btn=document.getElementById('refreshBtn');
+  if(btn){btn.disabled=true;btn.textContent='Atualizando...'}
+  try{await loadRemote();}
+  finally{if(btn){btn.disabled=false;btn.textContent='Atualizar dados'}}
 }
 function ranking(){return [...(DATA.rankingOficial||[])].sort((a,b)=>b.pontos-a.pontos||b.cravadas-a.cravadas).map((p,i)=>({...p,posicao:i+1}))}
 function stats(nome){const games=DATA.jogos.filter(j=>played(j)&&getPalpite(j,nome)); let cr=0,ac=0,emp=0,pts=0,ptsOficiais=0; for(const j of games){const p=getPalpite(j,nome), kind=palpiteKind(j,p), sc=scorePalpite(j,p); if(kind==='exact')cr++; if(kind==='exact'||kind==='hit')ac++; if(p&&p.g1===p.g2)emp++; pts+=(sc.valor??0); if(sc.oficial)ptsOficiais+=(sc.valor??0)} return {nome,jogos:games.length,pontosCalc:pts,pontosOficiais:ptsOficiais,cravadasCalc:cr,acertosCalc:ac,empatesApostados:emp,aproveitamento:games.length?Math.round(ac/games.length*100):0}}
@@ -386,7 +464,7 @@ function renderNeymarCentral(){
 }
 
 function renderLinks(){return `<section class="section"><div class="grid quick-links"><a class="card quick-link" href="${LINKS.sheet}" target="_blank" rel="noopener"><div><b>Planilha oficial do bolão</b><small>Abra os dados completos no Google Sheets</small></div><span>📊</span></a><a class="card quick-link" href="${LINKS.caze}" target="_blank" rel="noopener"><div><b>Assistir jogos ao vivo</b><small>Canal da CazéTV no YouTube</small></div><span>▶️</span></a></div></section>`}
-function renderInstallCard(){return `<section class="section" id="instalar"><article class="card install-card"><div><h3>Leve o bolão pro celular</h3><p>Instale na tela inicial e abra o painel como se fosse um app, direto no ranking e nos palpites.</p></div><div class="install-actions"><button class="install-btn" onclick="installPWA()">Instalar como app</button><button class="install-btn secondary" onclick="shareSite()">Compartilhar link</button></div><div id="install-hint" class="install-hint">Android: abra no Chrome e toque em instalar. iPhone: abra no Safari, toque em compartilhar e escolha “Adicionar à Tela de Início”.</div></article></section>`}
+function renderInstallCard(){return `<section class="section" id="instalar"><article class="card install-card"><div><h3>Leve o bolão pro celular</h3><p>Instale na tela inicial e abra o painel como se fosse um app, direto no ranking e nos palpites.</p></div><div class="install-actions"><button class="install-btn" onclick="installPWA()">Instalar como app</button><button class="install-btn secondary" onclick="shareSite()">Compartilhar link</button><button id="refreshBtn" class="install-btn secondary" onclick="forceRefresh()">Atualizar dados</button></div><div id="install-hint" class="install-hint">Android: abra no Chrome e toque em instalar. iPhone: abra no Safari, toque em compartilhar e escolha “Adicionar à Tela de Início”.</div></article></section>`}
 function renderPerformance(){
   const table=(title,rows,env)=>{if(!rows||!rows.length){return `<div class="card perf-card official-needed"><h3>${title}</h3><div class="empty">Pontuação oficial ainda não conectada. Publique a aba correspondente em CSV e configure <b>${env}</b> no Vercel.</div></div>`}
     const limited=(rows||[]).slice(-12); return `<div class="card perf-card"><h3>${title}</h3><div class="perf-list">${limited.map(r=>{const vals=DATA.participantes.map(p=>Number(r.pts?.[p]??0)); const max=Math.max(...vals); return `<div class="perf-row"><div class="perf-label">${esc(r.label)}</div><div class="perf-badges">${DATA.participantes.map(p=>{const v=Number(r.pts?.[p]??0); return `<span class="perf-badge ${v===max&&max>0?'best':''}">${esc(p)} <b>${v||'—'}</b></span>`}).join('')}</div></div>`}).join('')}</div></div>`};
