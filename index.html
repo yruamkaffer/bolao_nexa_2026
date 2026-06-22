@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bolão Copa do Mundo NEXA 2026</title>
+<!-- parser-fix-20260622-1 -->
 <meta name="theme-color" content="#071426">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bolão NEXA">
@@ -184,22 +185,75 @@ function scoreFromPalpiteRow(row, headers, idx, ptIdx, participante){
 }
 function parseJogosCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return [];
-  let headerRow=rows.findIndex(r=>{const j=norm(r.join(' '));return (j.includes('jogo')||j.includes('data')) && (j.includes('time')||j.includes('sele')||j.includes('mandante'))});
+  const strictInt=v=>{const s=String(v??'').trim(); if(!/^[-+]?\d+$/.test(s))return null; const n=Number(s); return Number.isFinite(n)?n:null};
+  const cleanDate=v=>{const s=String(v??'').trim(); const m=s.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/); return m?`${m[1].padStart(2,'0')}/${m[2].padStart(2,'0')}`:s};
+  const cleanHour=v=>String(v??'').trim().replace(/min\b/i,'');
+
+  // Layout real da aba Jogos do Google Sheets do bolão:
+  // Nº | Data | Hora | vazio | Time 1 | Gols 1 | x | Gols 2 | Time 2 | vazio | Rodada ...
+  const sheetRows=[];
+  for(const r of rows){
+    const n=strictInt(r[0]);
+    if(n===null||n<=0)continue;
+    const time1=canonicalTeam(r[4]||'');
+    const time2=canonicalTeam(r[8]||'');
+    const data=cleanDate(r[1]);
+    const hora=cleanHour(r[2]);
+    const rodada=String(r[10]||r[17]||'').trim();
+    if(!data&&!hora&&!time1&&!time2&&!rodada)continue;
+    const g1=strictInt(r[5]);
+    const g2=strictInt(r[7]);
+    sheetRows.push({num:n,data,hora,time1,time2,gols1:g1,gols2:g2,rodada});
+  }
+  if(sheetRows.length>=10)return sheetRows;
+
+  // Fallback genérico para CSVs com cabeçalho tradicional.
+  let headerRow=rows.findIndex(r=>{const j=norm(r.join(' '));return (j.includes('jogo')||j.includes('data')||j.includes('partida')) && (j.includes('time')||j.includes('sele')||j.includes('mandante')||j.includes('partida'))});
   if(headerRow<0)return [];
-  const h=rows[headerRow]; const iNum=headerIndex(h,['jogo','num','nº','n°','#']); const iData=headerIndex(h,['data']); const iHora=headerIndex(h,['hora']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1','time a']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2','time b']); const iRes=headerIndex(h,['resultado','placar final','placar','score']); const iG1=headerIndex(h,['gols 1','gol 1','g1']); const iG2=headerIndex(h,['gols 2','gol 2','g2']); const iRod=headerIndex(h,['rodada','fase']);
+  const h=rows[headerRow]; const iNum=headerIndex(h,['jogo','num','nº','n°','#','partida']); const iData=headerIndex(h,['data']); const iHora=headerIndex(h,['hora']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1','time a']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2','time b']); const iRes=headerIndex(h,['resultado','placar final','placar','score']); const iG1=headerIndex(h,['gols 1','gol 1','g1']); const iG2=headerIndex(h,['gols 2','gol 2','g2']); const iRod=headerIndex(h,['rodada','fase']);
   const out=[];
   for(const r of rows.slice(headerRow+1)){
     let time1=iT1>=0?canonicalTeam(r[iT1]||''):''; let time2=iT2>=0?canonicalTeam(r[iT2]||''):'';
     if(!time1||!time2){const ref=extractGameRef(r.join(' ')); time1=time1||ref.time1; time2=time2||ref.time2;}
-    if(!time1||!time2)continue;
+    if(!time1&&!time2)continue;
     let gols1=null,gols2=null; const s=iRes>=0?parseScore(r[iRes]):null; if(s){gols1=s.g1;gols2=s.g2} else if(iG1>=0&&iG2>=0&&String(r[iG1]||'').trim()!==''&&String(r[iG2]||'').trim()!==''){gols1=num(r[iG1]);gols2=num(r[iG2])}
-    out.push({num:iNum>=0&&num(r[iNum])?num(r[iNum]):(extractGameRef(r.join(' ')).num||out.length+1),data:iData>=0?r[iData]:'',hora:iHora>=0?r[iHora]:'',time1,time2,gols1,gols2,rodada:iRod>=0?r[iRod]:''})
+    out.push({num:iNum>=0&&num(r[iNum])?num(r[iNum]):(extractGameRef(r.join(' ')).num||out.length+1),data:iData>=0?cleanDate(r[iData]):'',hora:iHora>=0?cleanHour(r[iHora]):'',time1,time2,gols1,gols2,rodada:iRod>=0?r[iRod]:''})
   }
   return out;
 }
+
 function parsePalpitesCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return [];
   const outMap=new Map(); const participants=DATA.participantes;
+  const strictInt=v=>{const s=String(v??'').trim(); if(!/^[-+]?\d+$/.test(s))return null; const n=Number(s); return Number.isFinite(n)?n:null};
+  const readSplitScore=(row,g1Idx,g2Idx,ptsIdx)=>{
+    let sc=parseScore(row[g1Idx]);
+    if(!sc){const a=strictInt(row[g1Idx]), b=strictInt(row[g2Idx]); if(a===null||b===null)return null; sc={g1:a,g2:b};}
+    const pts=parsePts(row[ptsIdx]); if(pts!==null)sc.pontos=pts;
+    return sc;
+  };
+
+  // Layout real da aba Palpites:
+  // Nº | Partida | Time 1 | Placar | Time 2 | ... | Junin Palpite | g2 | Pontos | Binho Palpite | g2 | Pontos ...
+  for(let hr=0;hr<Math.min(rows.length,8);hr++){
+    const h=rows[hr]; const pcols=[];
+    h.forEach((cell,idx)=>{
+      const nh=norm(cell);
+      for(const p of participants){
+        if(nh.includes(norm(p)) && nh.includes('palpite')){
+          const ptsIdx=headerLooksPoints(h[idx+2])?idx+2:(headerLooksPoints(h[idx+1])?idx+1:idx+2);
+          const g2Idx=ptsIdx===idx+1?idx:idx+1;
+          pcols.push([p,idx,g2Idx,ptsIdx]);
+        }
+      }
+    });
+    if(pcols.length<3)continue;
+    for(const r of rows.slice(hr+1)){
+      const ref={num:strictInt(r[0]),time1:canonicalTeam(r[2]||''),time2:canonicalTeam(r[4]||''),raw:r.join(' ')};
+      for(const [p,g1Idx,g2Idx,ptsIdx] of pcols){const sc=readSplitScore(r,g1Idx,g2Idx,ptsIdx); if(sc)addPalpite(outMap,ref,p,sc)}
+    }
+    if(outMap.size)return [...outMap.values()].map(row=>({...row,palpites:participants.map(p=>row.palpites.find(x=>norm(x.nome)===norm(p))).filter(Boolean)}));
+  }
 
   // Formato A0: cabeçalho em duas linhas: participante acima, subcolunas Palpite/Pontos abaixo.
   for(let hr=1;hr<Math.min(rows.length,40);hr++){
@@ -261,8 +315,9 @@ function parsePalpitesCSV(csv){
       if(sc)addPalpite(outMap,ref,p,sc);
     }
   }
-  return [...outMap.values()].map(row=>({...row,palpites:DATA.participantes.map(p=>row.palpites.find(x=>norm(x.nome)===norm(p))).filter(Boolean)}));
+  return [...outMap.values()].map(row=>({...row,palpites:participants.map(p=>row.palpites.find(x=>norm(x.nome)===norm(p))).filter(Boolean)}));
 }
+
 function parseCampeoesCSV(csv){
   const rows=parseCSV(csv); const outMap=new Map(); const participants=DATA.participantes; const teams=allTeams();
   const looksTeam=c=>{const n=norm(c); return teams.some(t=>norm(t)===n) || (String(c||'').trim().length>2 && !/participante|nome|campe[aã]o|palpite|pontos|rodada|resultado/i.test(String(c)) && !parseScore(c) && isNaN(Number(String(c).replace(',','.'))))};
@@ -277,6 +332,29 @@ function parseCampeoesCSV(csv){
 function setPoint(map,ref,nome,pts){const found=findGameByRef(ref); const v=parsePts(pts); if(!found.game||!nome||v===null)return; const n=found.game.num; map[n]=map[n]||{}; map[n][nome]=v;}
 function parsePontuacaoCSV(csv){
   const rows=parseCSV(csv); const map={}; if(!rows.length)return map; const participants=DATA.participantes;
+  const strictInt=v=>{const s=String(v??'').trim(); if(!/^[-+]?\d+$/.test(s))return null; const n=Number(s); return Number.isFinite(n)?n:null};
+
+  // Layout real da aba Palpites: cada participante tem g1, g2 e Pontos; usamos apenas a coluna Pontos.
+  for(let hr=0;hr<Math.min(rows.length,8);hr++){
+    const h=rows[hr]; const pcols=[];
+    h.forEach((cell,idx)=>{
+      const nh=norm(cell);
+      for(const p of participants){
+        if(nh.includes(norm(p)) && nh.includes('palpite')){
+          const ptsIdx=headerLooksPoints(h[idx+2])?idx+2:(headerLooksPoints(h[idx+1])?idx+1:-1);
+          if(ptsIdx>=0)pcols.push([p,ptsIdx]);
+        }
+      }
+    });
+    if(pcols.length<3)continue;
+    for(const r of rows.slice(hr+1)){
+      const ref={num:strictInt(r[0]),time1:canonicalTeam(r[2]||''),time2:canonicalTeam(r[4]||''),raw:r.join(' ')};
+      for(const [p,idx] of pcols)setPoint(map,ref,p,r[idx]);
+    }
+    if(Object.keys(map).length)return map;
+  }
+
+  // Fallbacks genéricos.
   for(let hr=0;hr<Math.min(rows.length,40);hr++){
     const h=rows[hr]; const pcols=[]; participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
     if(pcols.length>=3){const iNum=headerIndex(h,['jogo','num','nº','n°','#']); const iT1=headerIndex(h,['time 1','mandante','seleção 1','selecao 1','equipe 1']); const iT2=headerIndex(h,['time 2','visitante','seleção 2','selecao 2','equipe 2']);
@@ -291,8 +369,48 @@ function parsePontuacaoCSV(csv){
   }
   return map;
 }
+
 function parsePerformanceCSV(csv){
   const rows=parseCSV(csv); if(!rows.length)return null; const participants=DATA.participantes;
+
+  // Layout real das abas Desempenho: participantes nas linhas e dias/rodadas nas colunas.
+  // Ex.: colunas C em diante são 11/06, 12/06...; linhas são Junin, Binho, etc.
+  for(let hr=0;hr<Math.min(rows.length,5);hr++){
+    const labelRowCandidate=rows[hr];
+    const next=rows[hr+1]||[];
+    const firstParticipantRow=rows.slice(hr+1,hr+4).findIndex(r=>participantFromCell(r[1])||participantFromCell(r[0]));
+    const startRow=firstParticipantRow>=0?hr+1+firstParticipantRow:-1;
+    if(startRow<0)continue;
+
+    let labelRow=labelRowCandidate;
+    // Na aba por dia, a linha seguinte contém as datas; preferimos as datas em vez do índice 1,2,3...
+    if(next.slice(2).some(c=>/^\d{1,2}\/\d{1,2}/.test(String(c||'').trim())) && !(participantFromCell(next[1])||participantFromCell(next[0]))) labelRow=next;
+
+    const colStart=2;
+    const cols=[];
+    for(let c=colStart;c<labelRow.length;c++){
+      const label=String(labelRow[c]||'').trim();
+      if(!label)continue;
+      if(participantFromCell(label))continue;
+      cols.push([c,label]);
+    }
+    if(cols.length<1)continue;
+
+    const out=[];
+    for(const [c,label] of cols){
+      const pts={};
+      for(const r of rows.slice(startRow)){
+        const p=participantFromCell(r[1])||participantFromCell(r[0]);
+        if(!p)continue;
+        const v=parsePts(r[c]);
+        if(v!==null)pts[p]=v;
+      }
+      if(Object.keys(pts).length)out.push({label,pts});
+    }
+    if(out.length)return out;
+  }
+
+  // Fallback antigo: participantes nas colunas.
   for(let hr=0;hr<Math.min(rows.length,35);hr++){
     const h=rows[hr]; const pcols=[]; participants.forEach(p=>{const idx=h.findIndex(c=>norm(c)===norm(p)||norm(c).includes(norm(p))); if(idx>=0)pcols.push([p,idx])});
     if(pcols.length<3)continue; const out=[];
@@ -301,6 +419,7 @@ function parsePerformanceCSV(csv){
   }
   return null;
 }
+
 function mergePointMaps(base, extra){for(const [j,pts] of Object.entries(extra||{})){base[j]=base[j]||{}; Object.assign(base[j],pts)} return base}
 function computedPerformance(tipo){
   const groups={}; for(const j of DATA.jogos.filter(played)){const label=tipo==='rodada'?(j.rodada||'Sem rodada'):(j.data||'Sem data'); groups[label]=groups[label]||Object.fromEntries(DATA.participantes.map(p=>[p,0])); for(const p of (j.palpites||[])){const sc=scorePalpite(j,p); groups[label][p.nome]+=(sc.valor??0)}}
@@ -419,7 +538,9 @@ async function shareSite(){
   try{await navigator.clipboard.writeText(location.href);alert('Link do bolão copiado!')}catch(e){alert(location.href)}
 }
 
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}))}
+// Limpeza ativa do PWA antigo: remove service workers e caches antigos no navegador.
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(regs=>regs.forEach(reg=>reg.unregister())).catch(()=>{})}
+if('caches' in window){caches.keys().then(keys=>keys.forEach(key=>caches.delete(key))).catch(()=>{})}
 loadRemote();
 </script>
 </body>
