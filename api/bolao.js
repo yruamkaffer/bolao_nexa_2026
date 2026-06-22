@@ -1,14 +1,46 @@
-const DEFAULT_RANKING_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m/pub?output=csv';
+// /api/bolao.js
+// Versão com URLs fixas: não depende de Environment Variables no Vercel.
+
+const SPREADSHEET_ID = '1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM';
+const PUBLISHED_DOC_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m/pub?output=csv';
+
+function sheetCsv(sheetName) {
+  return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+}
+
+// Cada aba agora tem URL fixa dentro do próprio arquivo.
+// Se você renomear uma aba na planilha, altere o nome aqui também.
+const FIXED_CSV_URLS = {
+  ranking: sheetCsv('Classificação'),
+  jogos: sheetCsv('Jogos'),
+  palpites: sheetCsv('Palpites'),
+  campeoes: sheetCsv('Palpites'),
+  // A pontuação oficial por jogo fica junto dos palpites na sua planilha.
+  // Por isso usamos a própria aba Palpites também como fonte de pontuação.
+  pontuacao: sheetCsv('Palpites'),
+  desempenhoRodada: sheetCsv('Desempenho por rodada'),
+  desempenhoDia: sheetCsv('Desempenho por dia'),
+
+  // Mantido como segurança caso o gviz da aba Classificação falhe.
+  rankingFallback: PUBLISHED_DOC_CSV
+};
+
 const GE_COPA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/';
 const GE_ARTILHARIA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/noticia/2026/06/12/copa-do-mundo-2026-veja-ranking-de-artilheiros-e-garcons.ghtml';
 const GE_BRASIL_URL = 'https://ge.globo.com/futebol/selecao-brasileira/';
 
 async function fetchText(url) {
   if (!url) return null;
-  const res = await fetch(url, {
+
+  // Cache-buster para o Google/Vercel não entregar CSV velho.
+  const sep = url.includes('?') ? '&' : '?';
+  const finalUrl = `${url}${sep}_=${Date.now()}`;
+
+  const res = await fetch(finalUrl, {
+    cache: 'no-store',
     headers: {
-      'user-agent': 'Mozilla/5.0 BolaoNexa/1.1 (+https://vercel.app)',
-      'accept': 'text/html,application/xhtml+xml,application/xml,text/csv;q=0.9,*/*;q=0.8'
+      'user-agent': 'Mozilla/5.0 BolaoNexa/1.2 (+https://vercel.app)',
+      'accept': 'text/csv,text/plain,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
     }
   });
   if (!res.ok) throw new Error(`Falha ao buscar ${url}: ${res.status}`);
@@ -97,28 +129,46 @@ function extractNoticias(html, limit = 8, filtro = null) {
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=180, stale-while-revalidate=600');
+
+  // Importantíssimo: não cachear a resposta da API.
+  // O service worker já busca /api em network-first, então isso ajuda o painel a refletir a planilha mais rápido.
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
   const warnings = [];
   const urls = {
-    ranking: process.env.CSV_RANKING_URL || DEFAULT_RANKING_CSV,
-    jogos: process.env.CSV_JOGOS_URL || '',
-    palpites: process.env.CSV_PALPITES_URL || '',
-    campeoes: process.env.CSV_CAMPEOES_URL || '',
-    pontuacao: process.env.CSV_PONTUACAO_URL || process.env.CSV_PONTOS_JOGOS_URL || '',
-    desempenhoDia: process.env.CSV_DESEMPENHO_DIA_URL || '',
-    desempenhoRodada: process.env.CSV_DESEMPENHO_RODADA_URL || '',
-    noticias: process.env.GE_COPA_URL || GE_COPA_URL,
-    noticiasBrasil: process.env.GE_BRASIL_URL || GE_BRASIL_URL,
-    artilharia: process.env.GE_ARTILHARIA_URL || GE_ARTILHARIA_URL
+    ranking: FIXED_CSV_URLS.ranking,
+    jogos: FIXED_CSV_URLS.jogos,
+    palpites: FIXED_CSV_URLS.palpites,
+    campeoes: FIXED_CSV_URLS.campeoes,
+    pontuacao: FIXED_CSV_URLS.pontuacao,
+    desempenhoDia: FIXED_CSV_URLS.desempenhoDia,
+    desempenhoRodada: FIXED_CSV_URLS.desempenhoRodada,
+    noticias: GE_COPA_URL,
+    noticiasBrasil: GE_BRASIL_URL,
+    artilharia: GE_ARTILHARIA_URL
   };
 
   const csvs = {};
   for (const key of ['ranking', 'jogos', 'palpites', 'campeoes', 'pontuacao', 'desempenhoDia', 'desempenhoRodada']) {
     const url = urls[key];
     if (!url) continue;
-    try { csvs[key] = await fetchText(url); }
-    catch (err) { warnings.push(`${key}: ${err.message}`); }
+    try {
+      csvs[key] = await fetchText(url);
+    } catch (err) {
+      warnings.push(`${key}: ${err.message}`);
+
+      // Segurança extra: se a aba Classificação via gviz falhar, tenta o CSV publicado antigo.
+      if (key === 'ranking') {
+        try {
+          csvs.ranking = await fetchText(FIXED_CSV_URLS.rankingFallback);
+          warnings.push('ranking: usado rankingFallback publicado');
+        } catch (fallbackErr) {
+          warnings.push(`rankingFallback: ${fallbackErr.message}`);
+        }
+      }
+    }
   }
 
   let artilhariaTexto = null;
@@ -137,7 +187,7 @@ module.exports = async function handler(req, res) {
 
   res.status(200).json({
     ok: Object.keys(csvs).length > 0,
-    source: 'vercel-function',
+    source: 'fixed-csv-urls',
     updatedAt: new Date().toISOString(),
     urls,
     csvs,
