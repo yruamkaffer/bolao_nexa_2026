@@ -1,16 +1,21 @@
-// Service worker de limpeza: não cacheia nada e remove versões antigas.
+const CACHE_NAME = 'bolao-nexa-final-v6-no-stale';
+
 self.addEventListener('install', event => {
-  self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
 });
+
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-      .then(() => self.registration.unregister())
-      .then(() => self.clients.matchAll())
-      .then(clients => clients.forEach(client => client.navigate(client.url)))
+      .then(() => self.clients.claim())
   );
 });
+
 self.addEventListener('fetch', event => {
-  event.respondWith(fetch(event.request));
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  // Sempre prioriza rede para não travar HTML/API antigos.
+  event.respondWith(fetch(request, { cache: 'no-store' }).catch(() => caches.match(request)));
 });
