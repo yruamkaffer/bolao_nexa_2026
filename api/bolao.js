@@ -26,7 +26,7 @@ const FIXED_CSV_URLS = {
 };
 
 const GE_COPA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/';
-const GE_ARTILHARIA_URL = 'https://ge.globo.com/futebol/copa-do-mundo/noticia/2026/06/12/copa-do-mundo-2026-veja-ranking-de-artilheiros-e-garcons.ghtml';
+const GE_ARTILHARIA_URL = GE_COPA_URL;
 const GE_BRASIL_URL = 'https://ge.globo.com/futebol/selecao-brasileira/';
 
 async function fetchText(url) {
@@ -85,6 +85,84 @@ function extractArtilharia(html) {
   const text = stripHtml(html);
   const m = text.match(/Veja os artilheiros da Copa do Mundo 2026\s*(.*?)\s*Veja os garçons/i);
   return m ? m[1].slice(0, 1800) : null;
+}
+
+function attr(tag, name) {
+  const re = new RegExp(`${name}\\s*=\\s*["']([^"']+)["']`, 'i');
+  const m = String(tag || '').match(re);
+  return m ? decodeEntities(m[1]) : '';
+}
+
+function escapeRegExp(text) {
+  return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function extractArtilhariaTabela(html) {
+  const page = String(html || '');
+  const start = page.search(/Artilharia/i);
+  if (start < 0) return [];
+  const rest = page.slice(start);
+  const endMatch = rest.search(/Mais de Copa|Mostrar mais|agenda/i);
+  const section = endMatch > 0 ? rest.slice(0, endMatch) : rest.slice(0, 90000);
+
+  const imgs = [];
+  const imgRegex = /<img\b[^>]*>/gi;
+  let im;
+  while ((im = imgRegex.exec(section))) {
+    const tag = im[0];
+    const alt = attr(tag, 'alt').replace(/^Image:\s*/i, '').trim();
+    if (!alt || /rexona|publicidade|logo|copa do mundo/i.test(alt)) continue;
+    const src = attr(tag, 'src') || attr(tag, 'data-src') || attr(tag, 'data-original') || attr(tag, 'data-lazy-src');
+    imgs.push({ alt, src: normalizeUrl(src) });
+  }
+
+  const text = stripHtml(section);
+  const roles = [
+    'Atacante','Meio-campo','Volante','Lateral-direito','Lateral-esquerdo',
+    'Zagueiro direito','Zagueiro esquerdo','Zagueiro','Meia','Goleiro'
+  ];
+
+  const rows = [];
+  const seen = new Set();
+
+  for (let i = 0; i < imgs.length - 1; i += 2) {
+    const jogador = imgs[i].alt;
+    const selecao = imgs[i + 1].alt;
+    if (!jogador || !selecao || seen.has(jogador.toLowerCase())) continue;
+
+    const playerRe = new RegExp(`${escapeRegExp(jogador)}\\s+(${roles.map(escapeRegExp).join('|')})\\s+(\\d+)`, 'i');
+    const m = text.match(playerRe);
+    if (!m) continue;
+
+    const gols = Number(m[2]);
+    if (!Number.isFinite(gols)) continue;
+
+    rows.push({
+      ranking: '',
+      jogador,
+      posicao: m[1],
+      selecao,
+      gols,
+      foto: imgs[i].src || '',
+      bandeira: imgs[i + 1].src || '',
+      fonte: 'ge'
+    });
+    seen.add(jogador.toLowerCase());
+  }
+
+  if (!rows.length) return [];
+
+  let lastGoals = null;
+  let rank = 0;
+  for (const row of rows) {
+    if (row.gols !== lastGoals) {
+      rank += 1;
+      lastGoals = row.gols;
+    }
+    row.ranking = `${rank}º`;
+  }
+
+  return rows.slice(0, 40);
 }
 
 function extractNoticias(html, limit = 8, filtro = null) {
@@ -172,7 +250,12 @@ module.exports = async function handler(req, res) {
   }
 
   let artilhariaTexto = null;
-  try { artilhariaTexto = extractArtilharia(await fetchText(urls.artilharia)); }
+  let artilharia = [];
+  try {
+    const artilhariaHtml = await fetchText(urls.artilharia);
+    artilharia = extractArtilhariaTabela(artilhariaHtml);
+    artilhariaTexto = extractArtilharia(artilhariaHtml);
+  }
   catch (err) { warnings.push(`ge artilharia: ${err.message}`); }
 
   let noticias = [];
@@ -180,16 +263,10 @@ module.exports = async function handler(req, res) {
   catch (err) { warnings.push(`ge notícias: ${err.message}`); }
 
   let noticiasBrasil = [];
-  let noticiasNeymar = [];
   try {
     const brasilHtml = await fetchText(urls.noticiasBrasil);
-    noticiasBrasil = extractNoticias(brasilHtml, 6, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
-    noticiasNeymar = extractNoticias(brasilHtml, 4, (titulo, url) => /neymar/i.test(titulo + ' ' + url));
+    noticiasBrasil = extractNoticias(brasilHtml, 4, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
   } catch (err) { warnings.push(`ge notícias brasil: ${err.message}`); }
-
-  if (!noticiasNeymar.length && noticias.length) {
-    noticiasNeymar = noticias.filter(n => /neymar/i.test((n.titulo || '') + ' ' + (n.url || ''))).slice(0, 4);
-  }
 
   res.status(200).json({
     ok: Object.keys(csvs).length > 0,
@@ -198,9 +275,9 @@ module.exports = async function handler(req, res) {
     urls,
     csvs,
     artilhariaTexto,
+    artilharia,
     noticias,
     noticiasBrasil,
-    noticiasNeymar,
     warnings
   });
 };
