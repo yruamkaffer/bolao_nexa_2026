@@ -140,3 +140,8 @@ http://localhost:3000/?debug=1
 ## Observação sobre abas da planilha
 
 Se a planilha pública mudar nomes de abas ou estruturas, ajuste as variáveis de ambiente de nome/GID. A API foi feita para aceitar variações de cabeçalho, mas depende da aba continuar pública.
+
+## Correção Vercel Runtime
+
+Este pacote não define `runtime` em `vercel.json`. A Vercel detecta automaticamente a função Node.js em `api/bolao.js`.
+Caso apareça o erro `Function Runtimes must have a valid version`, confirme que o `vercel.json` não contém `"runtime": "nodejs20.x"`.

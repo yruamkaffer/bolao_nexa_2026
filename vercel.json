@@ -2,7 +2,6 @@
   "version": 2,
   "functions": {
     "api/bolao.js": {
-      "runtime": "nodejs20.x",
       "maxDuration": 15
     }
   },
