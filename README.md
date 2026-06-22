@@ -1,12 +1,11 @@
-# Bolão NEXA 2026 - versão limpa
+# Bolão NEXA 2026 - versão testada
 
-Versão recriada para priorizar atualização automática dos CSVs da planilha.
+Testado antes do envio:
+- node --check no JavaScript do index.html
+- node --check em api/bolao.js
+- simulação local com CSVs de ranking, jogos, palpites, pontos, desempenho por dia e desempenho por rodada.
 
-Arquivos:
+Estrutura Vercel:
 - index.html
-- api/bolao.js
 - vercel.json
-
-Esta versão remove o service worker/cache agressivo das versões anteriores. Ao abrir, ela também tenta desregistrar service workers antigos no navegador.
-
-As URLs CSV padrão já estão no código. Variáveis do Vercel continuam opcionais se você quiser trocar algum link.
+- api/bolao.js

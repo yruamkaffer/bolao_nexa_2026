@@ -49,21 +49,15 @@ header{padding:42px 0 24px;margin-bottom:26px;border-bottom:1px solid var(--line
 (() => {
 'use strict';
 // Remove o service worker das versões antigas. Ele era a principal causa de cache e dados travados no celular.
-if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(()=>{});
+if ('serviceWorker' in navigator && navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(()=>{});
 if ('caches' in window) caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(()=>{});
 
 const SHEET_ID = '1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM';
-// Usa GViz CSV por gid: atualiza muito melhor que o link /pub publicado.
-// O parâmetro _t impede cache do navegador/Google/Vercel.
-const pub = gid => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}&_t=${Date.now()}`;
-const DIRECT_URLS = {
-  ranking: pub(0),
-  jogos: pub(920522404),
-  palpites: pub(47894027),
-  campeoes: pub(509630144),
-  desempenhoDia: pub(2139496193),
-  desempenhoRodada: pub(1006910075)
-};
+const PUB_ID = '2PACX-1vSsInCRk-l_QEpBvknAIq3Aua_gywvZEi9c95ySWDmUipn3ss6ImJxHqgkx9goZeWyjWEw5FekvCC9m';
+const GIDS = {ranking:0,jogos:920522404,palpites:47894027,campeoes:509630144,desempenhoDia:2139496193,desempenhoRodada:1006910075};
+const gviz = gid => `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
+const pubcsv = gid => `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/pub?gid=${gid}&single=true&output=csv`;
+const DIRECT_URLS = Object.fromEntries(Object.entries(GIDS).map(([k,gid]) => [k, [gviz(gid), pubcsv(gid)]]));
 const PARTICIPANTES = ['Junin','Binho','Carlos','Jean','Matheus','Yruam','Rodrigo','Rapha','IA'];
 const GROUPS = {A:['México','África do Sul','Coréia do Sul','Tchéquia'],B:['Canadá','Bósnia','Catar','Suíça'],C:['Brasil','Marrocos','Haiti','Escócia'],D:['Estados Unidos','Paraguai','Austrália','Turquia'],E:['Alemanha','Curaçao','Costa do Marfim','Equador'],F:['Holanda','Japão','Suécia','Tunísia'],G:['Bélgica','Egito','Irã','Nova Zelândia'],H:['Espanha','Cabo Verde','Arábia Saudita','Uruguai'],I:['França','Senegal','Iraque','Noruega'],J:['Argentina','Argélia','Áustria','Jordânia'],K:['Portugal','RD Congo','Uzbequistão','Colômbia'],L:['Inglaterra','Croácia','Gana','Panamá']};
 const TEAMS = Object.values(GROUPS).flat();
@@ -76,7 +70,7 @@ const loose = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'
 const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const parseNum = v => { const s=String(v??'').replace(/\s/g,'').replace(/R\$/gi,'').replace(/%/g,'').replace(/[^0-9,.-]/g,'').replace(',','.'); const n=Number(s); return Number.isFinite(n)?n:null; };
 const intCell = v => /^\s*\d{1,3}\s*$/.test(String(v??'')) ? Number(String(v).trim()) : null;
-const isParticipant = c => PARTICIPANTES.find(p => norm(c)===norm(p) || loose(c).includes(loose(p)));
+const isParticipant = c => { const raw=String(c??'').trim(); const n=norm(raw); const l=loose(raw); const tokens=l.split(/[^a-z0-9]+/).filter(Boolean); return PARTICIPANTES.find(p=>{ const pn=norm(p), pl=loose(p); if(n===pn) return true; if(pn.length<=2) return false; return tokens.includes(pl); }); };
 function flag(team){ const code=FLAG_CODE[team] || FLAG_CODE[team?.replace('Coreia','Coréia')]; if(!code) return ''; return `<img class="flag" src="https://flagcdn.com/w40/${code}.png" alt="${esc(team)}" loading="lazy" onerror="this.remove()">`; }
 function parseCSV(text){
   const rows=[]; let row=[], cur='', q=false; const s=String(text||'').replace(/^\uFEFF/,'');
@@ -191,14 +185,20 @@ function parseCampeoes(csv){
 }
 
 function parseDesempenho(csv, tipo){
-  const rows=parseCSV(csv); const lines=[]; let headers=[];
-  rows.forEach((r,ri)=>{
-    const nameIdx=r.findIndex(c=>isParticipant(c)); if(nameIdx<0) return;
-    const nome=isParticipant(r[nameIdx]); const vals=[];
+  const rows=parseCSV(csv); const lines=[]; const headers=[];
+  const pRows=[];
+  rows.forEach((r,ri)=>{ const nameIdx=r.findIndex(c=>isParticipant(c)); if(nameIdx>=0) pRows.push({r,ri,nameIdx,nome:isParticipant(r[nameIdx])}); });
+  if(!pRows.length) return null;
+  const firstRi=Math.min(...pRows.map(x=>x.ri));
+  pRows.forEach(({r,nameIdx,nome})=>{
+    const vals=[];
     for(let c=nameIdx+1;c<r.length;c++){
       const val=parseNum(r[c]); if(val===null) continue;
       let label='';
-      for(let rr=ri-1;rr>=0 && rr>=ri-5;rr--){ const cand=String(rows[rr][c]||'').trim(); if(cand && !/desempenho/i.test(cand)){ label=cand; break; } }
+      for(let rr=firstRi-1;rr>=0 && rr>=firstRi-8;rr--){
+        const cand=String(rows[rr]?.[c]||'').trim();
+        if(cand && !/desempenho/i.test(cand) && !isParticipant(cand) && (parseNum(cand)===null || /\d{1,2}\/\d{1,2}/.test(cand) || /rodada/i.test(cand))){ label=cand; break; }
+      }
       if(!label) label=tipo==='dia'?`Dia ${vals.length+1}`:`Rodada ${vals.length+1}`;
       vals.push({label,value:val}); if(!headers.includes(label)) headers.push(label);
     }
@@ -253,7 +253,16 @@ async function loadData(){
   try{ const r=await fetch('/api/bolao?fresh=1&_t='+Date.now(),{cache:'no-store'}); if(r.ok){ payload=await r.json(); csvs={...(payload.csvs||{})}; state.noticias=[...(payload.noticias||[]),...(payload.noticiasBrasil||[]),...(payload.noticiasNeymar||[])].filter(Boolean); state.source='api/bolao'; } }
   catch(e){ state.warnings.push('API local não respondeu: '+e.message); }
   // Fallback direto para os CSVs publicados, inclusive quando a API não tiver alguma aba.
-  await Promise.all(Object.entries(DIRECT_URLS).map(async ([key,url])=>{ if(csvs[key]) return; try{ csvs[key]=await fetchText(url); } catch(e){ state.warnings.push(`${key}: ${e.message}`); } }));
+  await Promise.all(Object.entries(DIRECT_URLS).map(async ([key,urls])=>{
+    if(csvs[key]) return;
+    const list = Array.isArray(urls) ? urls : [urls];
+    let lastErr = '';
+    for(const url of list){
+      try{ csvs[key]=await fetchText(url); if(csvs[key]) return; }
+      catch(e){ lastErr = e.message; }
+    }
+    state.warnings.push(`${key}: ${lastErr || 'falha ao carregar CSV direto'}`);
+  }));
   state.csvKeys=Object.keys(csvs).filter(k=>csvs[k]); state.debug.csvKeys=state.csvKeys; state.debug.apiSource=payload?.source||''; state.debug.warnings=state.warnings;
   state.ranking=csvs.ranking?parseRanking(csvs.ranking):[];
   state.jogos=csvs.jogos?parseJogos(csvs.jogos):[];
