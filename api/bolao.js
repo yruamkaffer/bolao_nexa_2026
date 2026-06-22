@@ -180,10 +180,16 @@ module.exports = async function handler(req, res) {
   catch (err) { warnings.push(`ge notícias: ${err.message}`); }
 
   let noticiasBrasil = [];
+  let noticiasNeymar = [];
   try {
     const brasilHtml = await fetchText(urls.noticiasBrasil);
-    noticiasBrasil = extractNoticias(brasilHtml, 4, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
+    noticiasBrasil = extractNoticias(brasilHtml, 6, (titulo, url) => /brasil|sele[cç][aã]o|haiti|neymar|ancelotti|casemiro|endrick/i.test(titulo + ' ' + url));
+    noticiasNeymar = extractNoticias(brasilHtml, 4, (titulo, url) => /neymar/i.test(titulo + ' ' + url));
   } catch (err) { warnings.push(`ge notícias brasil: ${err.message}`); }
+
+  if (!noticiasNeymar.length && noticias.length) {
+    noticiasNeymar = noticias.filter(n => /neymar/i.test((n.titulo || '') + ' ' + (n.url || ''))).slice(0, 4);
+  }
 
   res.status(200).json({
     ok: Object.keys(csvs).length > 0,
@@ -194,6 +200,7 @@ module.exports = async function handler(req, res) {
     artilhariaTexto,
     noticias,
     noticiasBrasil,
+    noticiasNeymar,
     warnings
   });
 };
