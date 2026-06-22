@@ -265,17 +265,13 @@
       return betRes === realRes ? 'hit' : 'miss';
     }
 
-    function renderNewsCards(news){
-      if(!news.length) return '<div class="empty">Notícias indisponíveis no momento. O painel principal continua funcionando.</div>';
-      return `<div class="news-grid">${news.map(n => `<a class="news" href="${escapeHTML(n.link)}" target="_blank" rel="noopener"><b>${escapeHTML(n.titulo)}</b><span>${escapeHTML(n.fonte || 'ge')}</span></a>`).join('')}</div>`;
-    }
-
     function renderNews(title, news){
-      return `<section class="section"><div class="stitle">${escapeHTML(title)}</div>${renderNewsCards(news)}</section>`;
+      if(!news.length) return `<section class="section"><div class="stitle">${escapeHTML(title)}</div><div class="empty">Notícias indisponíveis no momento. O painel principal continua funcionando.</div></section>`;
+      return `<section class="section"><div class="stitle">${escapeHTML(title)}</div><div class="news-grid">${news.map(n => `<a class="news" href="${escapeHTML(n.link)}" target="_blank" rel="noopener"><b>${escapeHTML(n.titulo)}</b><span>${escapeHTML(n.fonte || 'ge')}</span></a>`).join('')}</div></section>`;
     }
 
     function renderNey(central, news){
-      return `<section class="section"><div class="stitle">Central Ney</div><div class="ney"><img class="ney-img" src="${escapeHTML(central.imagem || '')}" alt="Central Ney" loading="lazy" /><div>${renderNewsCards(news)}</div></div><p class="hint" style="margin-top:10px"><a class="button" href="${escapeHTML(central.link || '#')}" target="_blank" rel="noopener">Ver página do Neymar no ge</a></p></section>`;
+      return `<section class="section"><div class="stitle">Central Ney</div><div class="ney"><img class="ney-img" src="${escapeHTML(central.imagem || '')}" alt="Central Ney" loading="lazy" /><div>${renderNews('', news).replace('<section class="section"><div class="stitle"></div>','<div>').replace('</section>','')}</div></div><p class="hint" style="margin-top:10px"><a class="button" href="${escapeHTML(central.link || '#')}" target="_blank" rel="noopener">Ver página do Neymar no ge</a></p></section>`;
     }
 
     function renderDebug(d){
