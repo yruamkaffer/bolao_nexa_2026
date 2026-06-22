@@ -1,147 +1,82 @@
 # Bolão Copa do Mundo NEXA 2026
 
-Projeto final completo para publicar na Vercel.
+Projeto pronto para subir no Vercel Hobby, sem API paga.
 
-## Estrutura
+## O que tem nesta versão
 
-```txt
-index.html
-api/bolao.js
-vercel.json
-manifest.webmanifest
-service-worker.js
-README.md
-icons/
-  icon-192.png
-  icon-512.png
-  maskable-512.png
-```
+- `index.html`: painel do bolão.
+- `api/bolao.js`: função serverless gratuita do Vercel Hobby para buscar CSVs da planilha e notícias do ge.
+- `vercel.json`: configuração simples de cache/rotas.
+- Atualização automática via CSV público do Google Sheets.
+- Bloco de notícias da Copa buscado da página do ge.
+- Artilharia e classificação de grupos no painel.
 
-## Como funciona
+## Variáveis opcionais no Vercel
 
-- O `index.html` consome `/api/bolao`.
-- A API busca as abas públicas do Google Sheets via `gviz` em CSV.
-- Os dados da planilha são sempre buscados com cache busting.
-- A API retorna JSON consolidado para ranking, jogos, palpites, desempenho, campeões, grupos, estatísticas e notícias.
-- O HTML não calcula a pontuação oficial dos palpites. Ele usa a coluna `Pontos` da aba `Palpites`.
-- O service worker não cacheia `/api/bolao`, Google Sheets ou notícias.
+Configure em **Project Settings → Environment Variables**:
 
-## Planilha padrão
+- `CSV_RANKING_URL` — CSV da aba Classificação.
+- `CSV_JOGOS_URL` — CSV da aba Jogos.
+- `CSV_PALPITES_URL` — CSV da aba Palpites.
+- `CSV_CAMPEOES_URL` — CSV da aba Palpites de Campeão ou aba equivalente.
+- `CSV_PONTUACAO_URL` — opcional; CSV com pontos por jogo/participante, caso essa pontuação esteja em aba separada. Também aceita `CSV_PONTOS_JOGOS_URL`.
+- `CSV_DESEMPENHO_DIA_URL` — opcional; CSV da aba Desempenho por dia.
+- `CSV_DESEMPENHO_RODADA_URL` — opcional; CSV da aba Desempenho por rodada.
+- `GE_BRASIL_URL` — opcional. Padrão: `https://ge.globo.com/futebol/selecao-brasileira/`.
+- `GE_COPA_URL` — opcional. Padrão: `https://ge.globo.com/futebol/copa-do-mundo/`.
+- `GE_ARTILHARIA_URL` — opcional. Padrão: matéria de artilheiros do ge.
 
-```txt
-https://docs.google.com/spreadsheets/d/1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM/edit
-```
+Sem as URLs extras, o ranking tenta usar o CSV principal enviado e o restante usa snapshot/fallback local.
 
-A API tenta buscar as abas pelos nomes:
+## Publicar abas do Google Sheets como CSV
 
-- Classificação
-- Jogos
-- Palpites
-- Desempenho por dia
-- Desempenho por rodada
-- Outras pontuações
+1. Abra a planilha.
+2. Vá em **Arquivo → Compartilhar → Publicar na Web**.
+3. No primeiro seletor, escolha a aba específica, não “Documento inteiro”.
+4. No formato, escolha **Valores separados por vírgula (.csv)**.
+5. Clique em **Publicar** e copie o link.
+6. Repita para `Classificação`, `Jogos`, `Palpites`, `Campeões` e, se existirem, `Pontuação por jogo`, `Desempenho por dia` e `Desempenho por rodada`.
+7. Cole cada link nas variáveis de ambiente do Vercel.
 
-## Publicar na Vercel
+## Subir no GitHub pelo navegador
 
-1. Envie todos os arquivos para um repositório GitHub.
-2. Importe o repositório na Vercel.
-3. Use configuração padrão, sem build command.
-4. Publique.
+1. Crie um repositório novo no GitHub.
+2. Extraia este `.zip` no seu computador.
+3. No GitHub, use **Add file → Upload files**.
+4. Arraste `index.html`, `vercel.json`, `README.md` e a pasta `api` inteira.
+5. Clique em **Commit changes**.
 
-Não precisa de `npm install`.
+## Publicar no Vercel
 
-## Variáveis opcionais na Vercel
+1. Entre no Vercel usando sua conta GitHub.
+2. Clique em **Add New → Project**.
+3. Importe o repositório do bolão.
+4. Framework Preset: **Other**.
+5. Build Command: deixe vazio.
+6. Output Directory: deixe vazio.
+7. Adicione as variáveis de ambiente se já tiver os CSVs das abas.
+8. Clique em **Deploy**.
 
-A versão funciona por nome de aba, mas você pode sobrescrever por GID ou URL:
+Depois disso, cada alteração enviada ao GitHub gera novo deploy automático. As mudanças na planilha não precisam de deploy: o site lê os CSVs publicados ao carregar.
 
-```txt
-SHEET_ID
-SHEET_RANKING_GID
-SHEET_JOGOS_GID
-SHEET_PALPITES_GID
-SHEET_DESEMPENHO_DIA_GID
-SHEET_DESEMPENHO_RODADA_GID
-SHEET_CAMPEOES_GID
-```
+## Observações importantes
 
-Ou por nome:
+- Não coloque senhas, tokens ou dados privados dentro da planilha publicada como CSV.
+- O Google pode aplicar cache no CSV por alguns minutos.
+- O Vercel também tem cache curto na função para evitar excesso de chamadas.
+- Se o ge mudar a estrutura da página, o bloco de notícias pode cair para o fallback local até ajustarmos o parser.
 
-```txt
-SHEET_RANKING_NAME
-SHEET_JOGOS_NAME
-SHEET_PALPITES_NAME
-SHEET_DESEMPENHO_DIA_NAME
-SHEET_DESEMPENHO_RODADA_NAME
-SHEET_CAMPEOES_NAME
-```
 
-Ou URL direta:
+## Ajustes finais
 
-```txt
-SHEET_RANKING_URL
-SHEET_JOGOS_URL
-SHEET_PALPITES_URL
-SHEET_DESEMPENHO_DIA_URL
-SHEET_DESEMPENHO_RODADA_URL
-SHEET_CAMPEOES_URL
-```
+- O HTML destaca o último jogo com resultado preenchido antes da classificação.
+- Os palpites dos jogos mostram cravada/acerto de resultado e pontos por participante. Quando houver coluna/aba de pontos publicada, o painel usa a pontuação oficial da planilha; quando não houver, mostra uma prévia simples e marcada como “prévia”.
 
-## Modo debug
 
-Abra:
+## Ajustes desta versão
 
-```txt
-/?debug=1
-```
-
-O debug mostra:
-
-- status da API;
-- versão do app;
-- quantidade de linhas carregadas por aba;
-- quantidade de registros parseados;
-- último jogo detectado;
-- quantidade de palpites com pontos oficiais;
-- erros por aba;
-- origem dos dados;
-- status do service worker.
-
-## Regras importantes implementadas
-
-- CSV robusto, sem `split(',')` ingênuo.
-- Preserva colunas vazias.
-- Suporta aspas, vírgulas dentro de aspas e quebras de linha.
-- Reconhece `IA` somente quando a célula inteira normalizada é exatamente `ia`.
-- Pontuação oficial vem da aba `Palpites`.
-- Se uma aba falhar, o JSON continua saindo com erro registrado em `debug.erros`.
-- Notícias são secundárias e não quebram o painel.
-- O site nunca deve ficar em branco; erros são exibidos em tela.
-
-## Teste local simples
-
-A pasta não usa dependências. Para validar sintaxe:
-
-```bash
-node -c api/bolao.js
-```
-
-Para testar a API localmente, use a Vercel CLI:
-
-```bash
-npx vercel dev
-```
-
-Depois abra:
-
-```txt
-http://localhost:3000/?debug=1
-```
-
-## Observação sobre abas da planilha
-
-Se a planilha pública mudar nomes de abas ou estruturas, ajuste as variáveis de ambiente de nome/GID. A API foi feita para aceitar variações de cabeçalho, mas depende da aba continuar pública.
-
-## Correção Vercel Runtime
-
-Este pacote não define `runtime` em `vercel.json`. A Vercel detecta automaticamente a função Node.js em `api/bolao.js`.
-Caso apareça o erro `Function Runtimes must have a valid version`, confirme que o `vercel.json` não contém `"runtime": "nodejs20.x"`.
+- O botão **Instalar como app** fica visível dentro da página.
+- A logo da Copa 2026 aparece no cabeçalho.
+- O ícone do site usa a imagem indicada.
+- O desempenho por dia e por rodada fica em blocos empilhados, sem tabela lado a lado.
+- A pontuação por jogo e por rodada usa dados oficiais quando você configurar `CSV_PONTUACAO_URL`, `CSV_DESEMPENHO_DIA_URL` e `CSV_DESEMPENHO_RODADA_URL` no Vercel. Sem esses CSVs, o site mostra que está aguardando a planilha oficial em vez de inventar pontuação.
