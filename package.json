@@ -1,0 +1,13 @@
+{
+  "name": "bolao-nexa-2026",
+  "version": "2026.06.22-final-v1",
+  "private": true,
+  "description": "Painel PWA do Bolão Copa do Mundo NEXA 2026 para Vercel.",
+  "scripts": {
+    "check": "node -c api/bolao.js",
+    "dev": "vercel dev"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

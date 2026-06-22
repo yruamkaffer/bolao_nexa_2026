@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a1830" />
+  <meta name="description" content="Painel do Bolão Copa do Mundo NEXA 2026 com dados oficiais da planilha." />
+  <title>Bolão Copa do Mundo NEXA 2026</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --navy:#0a1830;--navy2:#0f2444;--navy3:#16345c;--navy4:#07111f;
+      --babyblue:#8ecdf0;--babyblue2:#bfe6fb;--orange:#ff7a29;--orange2:#ffa564;
+      --white:#f4f8fc;--text:#eaf2fa;--muted:#7895b4;--muted2:#9fc1de;
+      --red:#ff7070;--green:#64d49b;--yellow:#ffd166;
+      --border:rgba(142,205,240,.14);--border2:rgba(142,205,240,.28);--border3:rgba(255,122,41,.45);
+      --shadow:0 18px 50px rgba(0,0,0,.22)
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--navy)}
+    body{background:var(--navy);color:var(--text);font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(142,205,240,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(142,205,240,.032) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+    body::after{content:'';position:fixed;top:0;left:0;right:0;height:500px;background:radial-gradient(ellipse 80% 360px at 50% -120px,rgba(255,122,41,.13),transparent),radial-gradient(ellipse 50% 320px at 100% 10%,rgba(142,205,240,.10),transparent);pointer-events:none;z-index:0}
+    a{color:inherit;text-decoration:none}.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 80px}
+    header{padding:34px 0 26px;border-bottom:1px solid var(--border2);margin-bottom:28px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:end}
+    .brand{display:flex;gap:16px;align-items:center;min-width:0}.logo{width:70px;height:70px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(142,205,240,.18));flex:0 0 auto}
+    .brand h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,64px);line-height:.9;letter-spacing:2px;color:var(--babyblue);text-shadow:0 0 60px rgba(142,205,240,.25)}
+    .brand h1 em{color:var(--orange);font-style:normal}.subtitle{margin-top:8px;color:var(--muted2);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+    .header-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;align-items:center}.stamp{display:flex;align-items:center;gap:8px;background:rgba(15,36,68,.86);border:1px solid var(--border2);border-radius:999px;padding:9px 14px;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted2);white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);animation:blink 2s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    button,.button{appearance:none;border:1px solid var(--border2);background:rgba(15,36,68,.9);color:var(--text);border-radius:999px;padding:9px 14px;font:600 12px 'DM Sans',sans-serif;cursor:pointer;transition:transform .18s,border-color .18s,background .18s;display:inline-flex;align-items:center;gap:7px}.button:hover,button:hover{border-color:var(--border3);transform:translateY(-1px)}button.primary{background:linear-gradient(135deg,var(--orange),#e85e10);border-color:rgba(255,122,41,.75);color:#fff}.button.hide,button.hide{display:none!important}
+    .status{margin-bottom:18px;min-height:36px}.status-card{background:rgba(15,36,68,.9);border:1px solid var(--border);border-radius:14px;padding:12px 14px;color:var(--muted2);font-size:13px;display:flex;gap:10px;align-items:flex-start}.status-card.ok{border-color:rgba(100,212,155,.22)}.status-card.error{border-color:rgba(255,112,112,.35);background:rgba(255,112,112,.06)}.spinner{width:14px;height:14px;border-radius:50%;border:2px solid rgba(142,205,240,.25);border-top-color:var(--orange);animation:spin 1s linear infinite;flex:0 0 auto;margin-top:1px}@keyframes spin{to{transform:rotate(360deg)}}
+    .section{margin:0 0 34px}.stitle{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--muted2);margin-bottom:14px;display:flex;align-items:center;gap:12px;text-transform:uppercase}.stitle::after{content:'';height:1px;background:var(--border);flex:1}.stitle small{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:none}
+    .grid{display:grid;gap:12px}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{background:linear-gradient(180deg,rgba(15,36,68,.96),rgba(12,28,53,.96));border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(142,205,240,.25),transparent)}
+    .hero-last{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.last-score{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}.last-team{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px}.last-team.r{flex-direction:row-reverse;text-align:right}.bigscore{font-family:'Bebas Neue',sans-serif;font-size:50px;color:var(--orange);line-height:1;white-space:nowrap}.meta{font:12px 'DM Mono',monospace;color:var(--muted2);margin-top:8px}.hint{font-size:12px;color:var(--muted2);line-height:1.55}.last-points{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px;margin-top:10px}.mini{border:1px solid var(--border);background:rgba(10,24,48,.65);border-radius:12px;padding:10px}.mini b{display:block;color:var(--white);font-size:13px;margin-bottom:5px}.mini span{display:block;color:var(--muted2);font:11px 'DM Mono',monospace;line-height:1.55}.mini .pts{color:var(--orange);font-weight:700}
+    .ranking-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(315px,1fr));gap:10px}.pcard{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:15px 18px;display:flex;align-items:center;gap:13px;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}.pcard:hover{border-color:var(--border2);transform:translateY(-2px)}.pcard.p1{border-color:rgba(255,122,41,.55);background:linear-gradient(135deg,#0f2444,#2a1808)}.pcard.p2{border-color:rgba(191,230,251,.35);background:linear-gradient(135deg,#0f2444,#173a5c)}.pcard.p3{border-color:rgba(255,165,100,.35);background:linear-gradient(135deg,#0f2444,#241608)}.pcard.plast{border-color:rgba(255,112,112,.22)}.medal{font-family:'Bebas Neue',sans-serif;font-size:34px;min-width:46px;text-align:center;line-height:1;color:var(--muted)}.p1 .medal{color:var(--orange);text-shadow:0 0 20px rgba(255,122,41,.5)}.p2 .medal{color:var(--babyblue2)}.p3 .medal{color:var(--orange2)}.pinfo{flex:1;min-width:0}.pname{font-size:16px;font-weight:700;color:var(--white);display:flex;gap:7px;align-items:center}.ia-tag{font-size:9px;font-family:'DM Mono',monospace;background:rgba(142,205,240,.12);color:var(--babyblue);border:1px solid rgba(142,205,240,.3);padding:2px 6px;border-radius:4px;letter-spacing:1px}.pstats{display:flex;gap:12px;margin-top:7px;font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;flex-wrap:wrap}.pstats b{display:block;color:var(--text);font-size:13px;font-weight:600}.ppts{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--babyblue);line-height:1;min-width:72px;text-align:right}.p1 .ppts{color:var(--orange)}.diff{font:10px 'DM Mono',monospace;color:var(--muted2);display:block;margin-top:2px}
+    .chips-inline{display:flex;gap:8px;flex-wrap:wrap}.champ{background:rgba(255,122,41,.08);border:1px solid rgba(255,122,41,.25);border-radius:10px;padding:8px 12px;font:12px 'DM Mono',monospace;color:var(--orange2)}.champ span{color:var(--muted2);margin-right:4px}.champ.fallback{border-style:dashed;opacity:.9}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}.stat-card{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:14px;min-height:102px;display:flex;flex-direction:column;justify-content:space-between}.slabel{font:10px 'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--muted2)}.sval{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--babyblue);line-height:1.1;word-break:break-word}.sdesc{font-size:11px;color:var(--muted2);line-height:1.35}
+    .table-inner{background:var(--navy2);border:1px solid var(--border);border-radius:14px;overflow:hidden;overflow-x:auto;-webkit-overflow-scrolling:touch}table{width:100%;border-collapse:collapse;font-size:13px}th{font:10px 'DM Mono',monospace;letter-spacing:1px;color:var(--muted2);padding:10px 12px;text-align:center;border-bottom:1px solid var(--border2);white-space:nowrap;text-transform:uppercase}td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);font:13px 'DM Mono',monospace;color:var(--muted2);white-space:nowrap}td.name,th.name{text-align:left;color:var(--white);font-family:'DM Sans',sans-serif;font-weight:700}tbody tr:hover td{background:rgba(142,205,240,.04)}.pts-best{color:var(--orange);font-weight:700}.empty{padding:18px;color:var(--muted2);font-size:13px;border:1px dashed var(--border2);border-radius:14px;background:rgba(15,36,68,.45)}
+    .group-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.group-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--orange);letter-spacing:2px;margin-bottom:10px}.group-table td,.group-table th{padding:7px 8px;font-size:11px}.group-table td.name{font-size:12px}
+    .tabs{display:flex;gap:5px;flex-wrap:wrap;background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:12px}.tab{padding:7px 13px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--muted2);transition:all .18s}.tab.on{background:var(--navy3);color:var(--babyblue);border-color:var(--border2)}.games{display:flex;flex-direction:column;gap:8px}.game{background:var(--navy2);border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:border-color .2s}.game:hover{border-color:var(--border2)}.game.expanded{border-color:var(--border3)}.gmain{display:grid;grid-template-columns:76px 1fr 100px 1fr 92px;align-items:center;gap:10px;padding:13px 15px;cursor:pointer}.gnum{font:10px 'DM Mono',monospace;color:var(--muted);line-height:1.5}.team{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--white);min-width:0}.team.r{justify-content:flex-end;flex-direction:row-reverse;text-align:right}.team span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.flag{width:24px;height:16px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.12);flex:0 0 auto}.score{display:flex;align-items:center;justify-content:center;gap:5px;font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange)}.score.pending{font:11px 'DM Mono',monospace;color:var(--muted2);text-transform:uppercase}.phase{font:10px 'DM Mono',monospace;color:var(--muted);text-align:right;line-height:1.5}.arrow{font-size:12px;color:var(--muted2);transition:transform .2s;display:block}.game.expanded .arrow{transform:rotate(180deg)}.palpites{display:none;padding:14px 15px 16px;border-top:1px solid var(--border);background:var(--navy3)}.game.expanded .palpites{display:block}.palpite-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:8px}.bet.exact{border-color:var(--orange);background:rgba(255,122,41,.08)}.bet.hit{border-color:rgba(100,212,155,.32);background:rgba(100,212,155,.06)}.bet.miss{border-color:rgba(255,112,112,.22)}.bet.pending{border-color:var(--border)}.badge{font:8px 'DM Mono',monospace;letter-spacing:1px;margin-top:4px;color:var(--muted2);text-transform:uppercase}.bet.exact .badge{color:var(--orange)}.bet.hit .badge{color:var(--green)}.bet.miss .badge{color:var(--red)}
+    .news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.news{display:block;background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:14px;min-height:118px}.news:hover{border-color:var(--border3)}.news b{display:block;font-size:14px;line-height:1.35;color:var(--white);margin-bottom:8px}.news span{font:10px 'DM Mono',monospace;color:var(--orange2);text-transform:uppercase}.ney{display:grid;grid-template-columns:220px 1fr;gap:14px;align-items:stretch}.ney-img{width:100%;height:100%;min-height:230px;object-fit:cover;border-radius:15px;border:1px solid var(--border2);background:#fff}.links{display:flex;flex-wrap:wrap;gap:10px}.links .button{border-radius:12px;background:rgba(142,205,240,.08)}
+    details.debug{margin-top:28px;background:rgba(7,17,31,.9);border:1px solid var(--border2);border-radius:14px;padding:14px}details.debug summary{cursor:pointer;color:var(--orange);font-weight:700}pre{margin-top:12px;white-space:pre-wrap;word-break:break-word;color:#d8e8f6;font:11px/1.45 'DM Mono',monospace;background:#050b14;border-radius:10px;padding:12px;max-height:520px;overflow:auto}.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:820px){header{grid-template-columns:1fr;align-items:start}.header-actions{justify-content:flex-start}.hero-last,.ney{grid-template-columns:1fr}.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr}.gmain{grid-template-columns:58px 1fr 78px 1fr 42px;gap:6px;padding:12px}.team{font-size:11px}.flag{width:22px;height:15px}.score{font-size:22px}.phase{font-size:9px}.last-score{align-items:flex-start}.bigscore{font-size:42px}.brand{align-items:flex-start}.logo{width:54px;height:54px}.wrap{padding-inline:14px}.ranking-grid{grid-template-columns:1fr}.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:460px){.stat-grid{grid-template-columns:1fr}.last-points{grid-template-columns:repeat(2,minmax(0,1fr))}.header-actions button,.header-actions .button{width:100%;justify-content:center}.stamp{width:100%;justify-content:center}.ppts{font-size:34px;min-width:54px}.pcard{padding:13px}.medal{min-width:34px}.gmain{grid-template-columns:46px 1fr 62px 1fr 28px}.team span{max-width:92px}.score{font-size:20px}.score.pending{font-size:9px}.phase{display:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img class="logo" src="https://assets.football-logos.cc/logos/tournaments/700x700/fifa-world-cup-2026--white.9ba8a004.png" alt="Copa do Mundo 2026" loading="eager" />
+        <div>
+          <h1>BOLÃO COPA DO<br />MUNDO <em>NEXA 2026</em></h1>
+          <div class="subtitle" id="subtitle">Carregando dados oficiais da planilha...</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="stamp"><span class="dot"></span><span id="stampText">Aguardando API</span></div>
+        <button class="primary" id="refreshBtn" type="button">Atualizar dados</button>
+        <button id="installBtn" class="hide" type="button">Instalar como app</button>
+        <button id="shareBtn" type="button">Compartilhar link</button>
+        <button id="clearCacheBtn" type="button">Limpar cache</button>
+      </div>
+    </header>
+
+    <div id="status" class="status"></div>
+    <main id="app" aria-live="polite"></main>
+  </div>
+
+  <script>
+    const APP_VERSION = '2026.06.22-final-v1';
+    const DEBUG = new URLSearchParams(location.search).get('debug') === '1';
+    const PLANILHA_URL = 'https://docs.google.com/spreadsheets/d/1DVLPCm8xLxRFsadiEW_89_H3GE9cv5YAyNY5CI3jrzM/edit';
+    const CAZE_URL = 'https://www.youtube.com/@CazeTV';
+    const PARTICIPANTES = ['Junin','Binho','Carlos','Jean','Matheus','Yruam','Rodrigo','Rapha','IA'];
+    const FLAG_MAP = {
+      'México':'mx','Mexico':'mx','Africa do Sul':'za','África do Sul':'za','Coreia do Sul':'kr','Coréia do Sul':'kr','Tchéquia':'cz','Tchequia':'cz','Estados Unidos':'us','Paraguai':'py','Austrália':'au','Australia':'au','Turquia':'tr','Brasil':'br','Haiti':'ht','Escócia':'gb-sct','Escocia':'gb-sct','Marrocos':'ma','Panamá':'pa','Panama':'pa','Gana':'gh','Croácia':'hr','Croacia':'hr','Inglaterra':'gb-eng','Argentina':'ar','Portugal':'pt','Espanha':'es','França':'fr','Franca':'fr','Alemanha':'de','Holanda':'nl','Países Baixos':'nl','Paises Baixos':'nl','Japão':'jp','Japao':'jp','Suécia':'se','Suecia':'se','Canadá':'ca','Canada':'ca','Bósnia':'ba','Bosnia':'ba','Catar':'qa','Qatar':'qa','Suíça':'ch','Suica':'ch','Costa do Marfim':'ci','Equador':'ec','Curaçao':'cw','Curacao':'cw','Tunísia':'tn','Tunisia':'tn','Cabo Verde':'cv','Bélgica':'be','Belgica':'be','Egito':'eg','Arábia Saudita':'sa','Arabia Saudita':'sa','Uruguai':'uy','Irã':'ir','Ira':'ir','Nova Zelândia':'nz','Nova Zelandia':'nz','Senegal':'sn','Iraque':'iq','Noruega':'no','Argélia':'dz','Argelia':'dz','Áustria':'at','Austria':'at','Jordânia':'jo','Jordania':'jo','RD Congo':'cd','Congo':'cd','Colômbia':'co','Colombia':'co','Uzbequistão':'uz','Uzbequistao':'uz'};
+
+    const state = { data: null, filter: 'todos', expanded: new Set(), deferredPrompt: null, swStatus: 'não registrado' };
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+    function escapeHTML(value){
+      return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    }
+    function normalizeText(value){return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim().toLowerCase()}
+    function fmtDate(iso){
+      if(!iso) return 'sem data';
+      try{return new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(iso))}
+      catch{return iso}
+    }
+    function flagCode(team){return FLAG_MAP[team] || FLAG_MAP[team?.normalize('NFD').replace(/[\u0300-\u036f]/g,'')] || ''}
+    function flagImg(team){
+      const code = flagCode(team);
+      const fallback = `<span class="flag" aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;background:rgba(142,205,240,.08);font-size:10px">⚑</span>`;
+      if(!code) return fallback;
+      return `<img class="flag" src="https://flagcdn.com/w40/${code}.png" alt="${escapeHTML(team)}" loading="lazy" onerror="this.outerHTML='${fallback.replace(/'/g,'\\&#39;')}'" />`;
+    }
+    function setStatus(type, text){
+      const icon = type === 'loading' ? '<span class="spinner"></span>' : type === 'error' ? '⚠️' : '✅';
+      $('#status').innerHTML = `<div class="status-card ${type === 'error' ? 'error' : type === 'ok' ? 'ok' : ''}">${icon}<div>${escapeHTML(text)}</div></div>`;
+    }
+    function clearStatus(){ $('#status').innerHTML = ''; }
+
+    async function loadData(force = false){
+      setStatus('loading', force ? 'Atualizando dados frescos da planilha...' : 'Carregando painel...');
+      const url = `/api/bolao?_=${Date.now()}${DEBUG ? '&debug=1' : ''}`;
+      const response = await fetch(url, { cache:'no-store', headers:{ 'Accept':'application/json', 'Cache-Control':'no-cache' } });
+      const text = await response.text();
+      let payload;
+      try { payload = JSON.parse(text); }
+      catch { throw new Error('A API não retornou JSON válido. Resposta inicial: ' + text.slice(0, 160)); }
+      if(!response.ok || !payload.ok) throw new Error(payload.erro || `Erro HTTP ${response.status}`);
+      state.data = payload;
+      $('#stampText').textContent = `Atualizado em ${fmtDate(payload.atualizadoEm)}`;
+      $('#subtitle').textContent = `${payload.ranking?.length || 0} participantes · ${payload.estatisticas?.jogosDisputados || 0} jogos disputados · dados oficiais via planilha`;
+      render();
+      setStatus('ok', 'Painel carregado. Pontos oficiais lidos da aba Palpites quando disponíveis.');
+      setTimeout(clearStatus, 3500);
+    }
+
+    function render(){
+      const d = state.data;
+      const app = $('#app');
+      app.innerHTML = [
+        renderLinks(),
+        renderLastGame(d),
+        renderRanking(d.ranking || []),
+        renderChampions(d.campeoes || []),
+        renderStats(d.estatisticas || {}),
+        renderGroups(d.grupos || {}),
+        renderMatrix('Desempenho por dia', d.desempenhoDia || []),
+        renderMatrix('Desempenho por rodada', d.desempenhoRodada || []),
+        renderGames(d.jogos || [], d.palpitesPorJogo || {}),
+        renderNews('Notícias da Copa', d.noticias || []),
+        renderNews('Brasil na Copa', d.noticiasBrasil || []),
+        renderNey(d.centralNey || {}, d.noticiasNeymar || []),
+        DEBUG ? renderDebug(d) : ''
+      ].join('');
+      bindDynamicEvents();
+    }
+
+    function renderLinks(){
+      return `<section class="section"><div class="links">
+        <a class="button" href="${PLANILHA_URL}" target="_blank" rel="noopener">Ver planilha oficial</a>
+        <a class="button" href="${CAZE_URL}" target="_blank" rel="noopener">Assistir jogos na CazéTV</a>
+        <a class="button" href="?debug=1">Abrir modo debug</a>
+      </div></section>`;
+    }
+
+    function renderLastGame(d){
+      const jogo = d.ultimoJogo;
+      if(!jogo) return `<section class="section"><div class="empty">Nenhum jogo finalizado encontrado na aba Jogos.</div></section>`;
+      const bets = (d.palpitesPorJogo || {})[String(jogo.num)] || [];
+      const byParticipant = PARTICIPANTES.map(nome => bets.find(p => p.participante === nome) || { participante:nome, palpite:'—', pontos:null });
+      return `<section class="section hero-last">
+        <div class="card">
+          <div class="stitle">Último jogo atualizado</div>
+          <div class="last-score">
+            <div class="last-team">${flagImg(jogo.time1)}<span>${escapeHTML(jogo.time1)}</span></div>
+            <div class="bigscore">${jogo.gols1}<span style="color:var(--muted)">x</span>${jogo.gols2}</div>
+            <div class="last-team r">${flagImg(jogo.time2)}<span>${escapeHTML(jogo.time2)}</span></div>
+          </div>
+          <div class="meta">${escapeHTML(jogo.rodada || '')}${jogo.grupo ? ` — Grupo ${escapeHTML(jogo.grupo)}` : ''} — ${escapeHTML(jogo.data || '')} — ${escapeHTML(jogo.hora || '')}</div>
+          <p class="hint" style="margin-top:14px">Este card usa o último jogo finalizado encontrado na aba Jogos. A pontuação abaixo vem da aba Palpites, sem cálculo oficial no HTML.</p>
+        </div>
+        <div class="card">
+          <div class="stitle">Pontuação neste jogo</div>
+          <div class="last-points">${byParticipant.map(p => `<div class="mini"><b>${escapeHTML(p.participante)}</b><span>Palpite: ${escapeHTML(p.palpite || '—')}</span><span class="pts">Pontos: ${p.pontos ?? '—'}</span></div>`).join('')}</div>
+        </div>
+      </section>`;
+    }
+
+    function renderRanking(ranking){
+      if(!ranking.length) return `<section class="section"><div class="stitle">Classificação</div><div class="empty">Classificação indisponível. Confira a planilha ou abra ?debug=1.</div></section>`;
+      const leaderPts = ranking[0]?.pontos || 0;
+      const lastIndex = ranking.length - 1;
+      return `<section class="section"><div class="stitle">Classificação geral <small>diferença para o líder</small></div><div class="ranking-grid">
+        ${ranking.map((p, idx) => {
+          const cls = idx === 0 ? 'p1' : idx === 1 ? 'p2' : idx === 2 ? 'p3' : idx === lastIndex ? 'plast' : '';
+          const diff = (p.pontos || 0) - leaderPts;
+          return `<article class="pcard ${cls}">
+            <div class="medal">${idx < 3 ? ['1º','2º','3º'][idx] : `${p.posicao || idx + 1}º`}</div>
+            <div class="pinfo"><div class="pname">${escapeHTML(p.nome)}${p.nome === 'IA' ? '<span class="ia-tag">IA</span>' : ''}</div>
+              <div class="pstats"><span><b>${p.cravadas ?? 0}</b>cravadas</span><span><b>${p.corretos ?? 0}</b>corretos</span><span><b>${p.faseGrupos ?? p.pontos ?? 0}</b>fase grupos</span><span><b>${p.mataMata ?? 0}</b>mata-mata</span></div></div>
+            <div class="ppts">${p.pontos ?? 0}<span class="diff">${diff === 0 ? 'líder' : `${diff} pts do líder`}</span></div>
+          </article>`;
+        }).join('')}
+      </div></section>`;
+    }
+
+    function renderChampions(campeoes){
+      if(!campeoes.length) return '';
+      return `<section class="section"><div class="stitle">Palpites de campeão</div><div class="card"><div class="chips-inline">
+        ${campeoes.map(c => `<div class="champ ${c.origem === 'fallback-local' ? 'fallback' : ''}"><span>${escapeHTML(c.nome)} —</span>${escapeHTML(c.palpite)}</div>`).join('')}
+      </div>${campeoes.some(c => c.origem === 'fallback-local') ? '<p class="hint" style="margin-top:10px">Fallback local usado apenas nesta seção porque a aba de campeões não foi localizada.</p>' : ''}</div></section>`;
+    }
+
+    function renderStats(s){
+      const stats = [
+        ['Participantes', s.totalParticipantes, 'total no bolão'], ['Jogos disputados', s.jogosDisputados, 'com placar preenchido'], ['Jogos pendentes', s.jogosPendentes, 'aguardando resultado'], ['Total de gols', s.totalGols, 'somente finalizados'],
+        ['Média de gols', s.mediaGolsPorJogo, 'por jogo finalizado'], ['Líder atual', s.liderAtual, '1º colocado'], ['Perseguidor', s.perseguidor, '2º colocado'], ['Maior pontuação', s.maiorPontuacaoGeral, 'ranking geral'],
+        ['Menor pontuação', s.menorPontuacaoGeral, 'ranking geral'], ['Jogo mais goleador', s.jogoMaisGoleador, 'maior soma de gols'], ['Placar mais comum', s.placarMaisComum, 'entre finalizados'], ['Melhor último jogo', s.participanteMaiorPontuacaoUltimoJogo, 'pontos oficiais'],
+        ['Melhor dia', s.melhorDiaDesempenho, 'desempenho diário'], ['Melhor rodada', s.melhorRodadaDesempenho, 'desempenho por rodada'], ['Mais cravadas', s.maiorCravadas, 'ranking'], ['Mais corretos', s.maiorCorretos, 'ranking'], ['Média de pontos', s.mediaPontosParticipante, 'por participante']
+      ].filter(item => item[1] !== null && item[1] !== undefined && item[1] !== '');
+      if(!stats.length) return '';
+      return `<section class="section"><div class="stitle">Estatísticas do bolão</div><div class="stat-grid">${stats.map(([label, value, desc]) => `<div class="stat-card"><div class="slabel">${escapeHTML(label)}</div><div class="sval">${escapeHTML(value)}</div><div class="sdesc">${escapeHTML(desc)}</div></div>`).join('')}</div></section>`;
+    }
+
+    function renderGroups(groups){
+      const entries = Object.entries(groups).sort(([a],[b]) => a.localeCompare(b,'pt-BR'));
+      if(!entries.length) return `<section class="section"><div class="stitle">Classificação dos grupos da Copa</div><div class="empty">Sem grupos suficientes para calcular classificação. Verifique se a aba Jogos possui a coluna Grupo.</div></section>`;
+      return `<section class="section"><div class="stitle">Classificação dos grupos da Copa</div><div class="group-grid">${entries.map(([grupo, teams]) => `<div class="card"><div class="group-title">Grupo ${escapeHTML(grupo)}</div><div class="table-inner"><table class="group-table"><thead><tr><th class="name">Seleção</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th><th>Pts</th></tr></thead><tbody>${teams.map(t => `<tr><td class="name">${flagImg(t.time)} ${escapeHTML(t.time)}</td><td>${t.jogos}</td><td>${t.vitorias}</td><td>${t.empates}</td><td>${t.derrotas}</td><td>${t.gp}</td><td>${t.gc}</td><td>${t.saldo}</td><td class="pts-best">${t.pontos}</td></tr>`).join('')}</tbody></table></div></div>`).join('')}</div></section>`;
+    }
+
+    function renderMatrix(title, rows){
+      if(!rows.length) return `<section class="section"><div class="stitle">${escapeHTML(title)}</div><div class="empty">Tabela indisponível ou vazia.</div></section>`;
+      const periods = [...new Set(rows.flatMap(r => Object.keys(r.valores || {})))];
+      if(!periods.length) return `<section class="section"><div class="stitle">${escapeHTML(title)}</div><div class="empty">Nenhuma coluna de desempenho encontrada.</div></section>`;
+      return `<section class="section"><div class="stitle">${escapeHTML(title)}</div><div class="table-inner"><table><thead><tr><th class="name">Participante</th>${periods.map(p => `<th>${escapeHTML(p)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr><td class="name">${escapeHTML(r.participante)}</td>${periods.map(p => `<td>${r.valores?.[p] ?? '—'}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
+    }
+
+    function renderGames(jogos, palpitesPorJogo){
+      if(!jogos.length) return `<section class="section"><div class="stitle">Jogos e palpites</div><div class="empty">Nenhum jogo carregado.</div></section>`;
+      const filtered = jogos.filter(j => {
+        if(state.filter === 'todos') return true;
+        if(state.filter === 'finalizados') return j.status === 'finalizado';
+        if(state.filter === 'pendentes') return j.status !== 'finalizado';
+        return normalizeText(j.rodada).includes(normalizeText(state.filter));
+      });
+      const tabs = [['todos','Todos'],['1ª rodada','1ª rodada'],['2ª rodada','2ª rodada'],['3ª rodada','3ª rodada'],['finalizados','Finalizados'],['pendentes','Pendentes']];
+      return `<section class="section"><div class="stitle">Jogos e palpites</div><div class="tabs">${tabs.map(([key,label]) => `<button class="tab ${state.filter === key ? 'on' : ''}" data-filter="${escapeHTML(key)}" type="button">${escapeHTML(label)}</button>`).join('')}</div><div class="games">
+        ${filtered.map(j => renderGame(j, palpitesPorJogo[String(j.num)] || [])).join('') || '<div class="empty">Nenhum jogo neste filtro.</div>'}
+      </div></section>`;
+    }
+
+    function renderGame(j, bets){
+      const expanded = state.expanded.has(String(j.num));
+      const score = j.status === 'finalizado' ? `<div class="score"><span>${j.gols1}</span><span style="color:var(--muted)">x</span><span>${j.gols2}</span></div>` : `<div class="score pending">pendente</div>`;
+      const ordered = PARTICIPANTES.map(nome => bets.find(p => p.participante === nome)).filter(Boolean);
+      return `<article class="game ${expanded ? 'expanded' : ''}" data-game="${j.num}"><div class="gmain" role="button" tabindex="0" aria-expanded="${expanded}">
+        <div class="gnum">#${j.num}<br>${escapeHTML(j.data || '')}<br>${escapeHTML(j.hora || '')}</div>
+        <div class="team">${flagImg(j.time1)}<span>${escapeHTML(j.time1)}</span></div>${score}
+        <div class="team r">${flagImg(j.time2)}<span>${escapeHTML(j.time2)}</span></div>
+        <div class="phase">${escapeHTML(j.rodada || '')}${j.grupo ? `<br>Grupo ${escapeHTML(j.grupo)}` : ''}<span class="arrow">⌄</span></div>
+      </div><div class="palpites"><div class="palpite-grid">${ordered.length ? ordered.map(p => renderBet(p, j)).join('') : '<div class="empty">Palpites não encontrados para este jogo.</div>'}</div></div></article>`;
+    }
+
+    function renderBet(p, j){
+      const cls = betClass(p, j);
+      const label = cls === 'exact' ? 'cravada visual' : cls === 'hit' ? 'resultado visual' : cls === 'miss' ? 'errou visual' : 'aguardando';
+      return `<div class="mini bet ${cls}"><b>${escapeHTML(p.participante)}</b><span>Palpite: ${escapeHTML(p.palpite || '—')}</span><span class="pts">Pontos: ${p.pontos ?? '—'}</span><div class="badge">${label}</div></div>`;
+    }
+
+    function betClass(p, j){
+      if(j.status !== 'finalizado' || p.g1 === null || p.g2 === null) return 'pending';
+      if(p.g1 === j.gols1 && p.g2 === j.gols2) return 'exact';
+      const betRes = Math.sign(p.g1 - p.g2), realRes = Math.sign(j.gols1 - j.gols2);
+      return betRes === realRes ? 'hit' : 'miss';
+    }
+
+    function renderNewsCards(news){
+      if(!news.length) return '<div class="empty">Notícias indisponíveis no momento. O painel principal continua funcionando.</div>';
+      return `<div class="news-grid">${news.map(n => `<a class="news" href="${escapeHTML(n.link)}" target="_blank" rel="noopener"><b>${escapeHTML(n.titulo)}</b><span>${escapeHTML(n.fonte || 'ge')}</span></a>`).join('')}</div>`;
+    }
+
+    function renderNews(title, news){
+      return `<section class="section"><div class="stitle">${escapeHTML(title)}</div>${renderNewsCards(news)}</section>`;
+    }
+
+    function renderNey(central, news){
+      return `<section class="section"><div class="stitle">Central Ney</div><div class="ney"><img class="ney-img" src="${escapeHTML(central.imagem || '')}" alt="Central Ney" loading="lazy" /><div>${renderNewsCards(news)}</div></div><p class="hint" style="margin-top:10px"><a class="button" href="${escapeHTML(central.link || '#')}" target="_blank" rel="noopener">Ver página do Neymar no ge</a></p></section>`;
+    }
+
+    function renderDebug(d){
+      const debug = { ...d.debug, frontend: { appVersion: APP_VERSION, debug: DEBUG, filter: state.filter, expanded: [...state.expanded], serviceWorker: state.swStatus, standalone: matchMedia('(display-mode: standalone)').matches || navigator.standalone === true } };
+      return `<details class="debug" open><summary>Modo debug</summary><pre>${escapeHTML(JSON.stringify(debug,null,2))}</pre></details>`;
+    }
+
+    function bindDynamicEvents(){
+      $$('.tab').forEach(btn => btn.addEventListener('click', () => { state.filter = btn.dataset.filter; render(); }));
+      $$('.game .gmain').forEach(row => {
+        const toggle = () => { const num = row.closest('.game').dataset.game; state.expanded.has(num) ? state.expanded.delete(num) : state.expanded.add(num); render(); };
+        row.addEventListener('click', toggle);
+        row.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
+      });
+    }
+
+    async function clearCachesAndReload(){
+      if('caches' in window){
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+      if('serviceWorker' in navigator){
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.update()));
+      }
+      await loadData(true);
+    }
+
+    function setupPWA(){
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        state.deferredPrompt = event;
+        $('#installBtn').classList.remove('hide');
+      });
+      $('#installBtn').addEventListener('click', async () => {
+        if(!state.deferredPrompt) return;
+        state.deferredPrompt.prompt();
+        await state.deferredPrompt.userChoice;
+        state.deferredPrompt = null;
+        $('#installBtn').classList.add('hide');
+      });
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => { state.swStatus = `registrado (${reg.scope})`; })
+          .catch(err => { state.swStatus = `erro: ${err.message}`; });
+      }
+    }
+
+    $('#refreshBtn').addEventListener('click', () => loadData(true).catch(showFatalError));
+    $('#clearCacheBtn').addEventListener('click', () => clearCachesAndReload().catch(showFatalError));
+    $('#shareBtn').addEventListener('click', async () => {
+      const data = { title: document.title, text:'Bolão Copa do Mundo NEXA 2026', url: location.href.replace(/[?&]debug=1/,'') };
+      if(navigator.share) await navigator.share(data);
+      else { await navigator.clipboard.writeText(data.url); setStatus('ok','Link copiado.'); setTimeout(clearStatus, 2500); }
+    });
+
+    function showFatalError(err){
+      console.error(err);
+      setStatus('error', `Erro ao carregar o painel: ${err.message}. Detalhe técnico disponível em ?debug=1.`);
+      $('#app').innerHTML = `<section class="section"><div class="card"><div class="stitle">Erro ao carregar o painel</div><p class="hint">O site não ficou em branco. A API falhou ou retornou dados inválidos.</p><p class="hint" style="margin-top:8px">Abra <a class="button" href="?debug=1">?debug=1</a> para ver o diagnóstico.</p></div></section>`;
+    }
+
+    window.addEventListener('error', event => showFatalError(event.error || new Error(event.message)));
+    window.addEventListener('unhandledrejection', event => showFatalError(event.reason instanceof Error ? event.reason : new Error(String(event.reason))));
+    setupPWA();
+    loadData().catch(showFatalError);
+  </script>
+</body>
+</html>
