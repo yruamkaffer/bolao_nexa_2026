@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bolao-nexa-final-v7-bg-distribuicao';
+const CACHE_NAME = 'bolao-nexa-final-bracket-v1';
 
 self.addEventListener('install', event => {
   event.waitUntil(self.skipWaiting());
